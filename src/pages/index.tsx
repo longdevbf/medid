@@ -2,7 +2,6 @@ import React from 'react';
 import { useWallet } from '@meshsdk/react';
 import styles from '../styles/index.module.css';
 
-// Component Header
 const Header: React.FC = () => {
   return (
     <header className={styles.header}>
@@ -19,14 +18,13 @@ const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+}
 
-// Component Hero
 const Hero: React.FC = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
-        <h1>Smart Healthcare on Blockchain</h1>
+        <h1 className={styles.title}>Smart Healthcare on Blockchain</h1>
         <div className={styles.heroContent}>
           <div className={styles.heroText}>
             <p>Combining cutting-edge technology with blockchain to deliver secure and intelligent healthcare services</p>
@@ -54,12 +52,11 @@ const Hero: React.FC = () => {
   );
 };
 
-// Component Applications
 const Applications: React.FC = () => {
   return (
     <section className={styles.applications}>
       <div className={styles.container}>
-        <h2>Blockchain Applications in Healthcare</h2>
+        <h2 className={styles.subtitle}>Blockchain Applications in Healthcare</h2>
         <div className={styles.appGrid}>
           <div className={styles.appCard}>
             <div className={`${styles.appIcon} ${styles.positive}`}>+</div>
@@ -83,7 +80,6 @@ const Applications: React.FC = () => {
   );
 };
 
-// Component WalletSection với MeshJS
 const WalletSection: React.FC = () => {
   const { connect, disconnect, wallet, connected } = useWallet();
 
@@ -97,7 +93,7 @@ const WalletSection: React.FC = () => {
   return (
     <section className={styles.walletSection}>
       <div className={styles.container}>
-        <h2>Connect Your Blockchain Wallet</h2>
+        <h2 className={styles.subtitle}>Connect Your Blockchain Wallet</h2>
         <p style={{ textAlign: 'center', marginBottom: '30px' }}>
           Connect your wallet to securely provide medical records and use centralized services
         </p>
@@ -129,7 +125,6 @@ const WalletSection: React.FC = () => {
   );
 };
 
-// Trang chính
 const HomePage: React.FC = () => {
   return (
     <div>

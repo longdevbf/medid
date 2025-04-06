@@ -1,283 +1,305 @@
 .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .headerContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #0a9396;
-  }
-  
-  .navigation {
-    display: flex;
-    align-items: center;
-  }
-  
-  .navLinks {
-    display: flex;
-    list-style: none;
-    justify-content: center;
-  }
-  
-  .navLinks li {
-    margin: 0 15px;
-  }
-  
-  .navLinks a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-  
-  .navLinks a:hover {
-    color: #0a9396;
-  }
-  
-  .connectBtn {
-    background-color: #0a9396;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-  }
-  
-  .hero {
-    background-color: #0077b6;
-    color: white;
-    padding: 60px 0;
-  }
-  
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0a9396;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+}
+
+.navLinks li {
+  margin: 0 15px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLinks a:hover {
+  color: #0a9396;
+}
+
+.connectBtn {
+  background-color: #0a9396;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.hero {
+  background-color: #0077b6;
+  color: white;
+  padding: 60px 0;
+}
+
+.heroContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heroText {
+  width: 50%;
+}
+
+.heroImage {
+  width: 40%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.heroText p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.primaryBtn {
+  background-color: white;
+  color: #0077b6;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.secondaryBtn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.blockchainVisual {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.block {
+  background-color: #0a9396;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+  width: 22%;
+}
+
+.arrow {
+  font-size: 24px;
+  color: #0a9396;
+}
+
+.infoText {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #444;
+}
+
+.applications {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.appGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.appCard {
+  background-color: white;
+  width: 45%;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+}
+
+.appIcon {
+  margin-right: 15px;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.positive {
+  color: #0a9396;
+}
+
+.negative {
+  color: #e76f51;
+}
+
+.walletSection {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+}
+
+.walletContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.walletOptions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.walletCard {
+  width: 48%;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.walletCard:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.walletIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.metaIcon {
+  background-color: #f6851b;
+  color: white;
+}
+
+.walletConnectIcon {
+  background-color: #3b99fc;
+  color: white;
+}
+
+.coinbaseIcon {
+  background-color: #0052ff;
+  color: white;
+}
+
+.medicoinIcon {
+  background-color: #0a9396;
+  color: white;
+}
+
+.walletNote {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #777;
+}
+
+.disconnectBtn {
+  background-color: #e76f51;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+/* Thêm style cho h1 và h2 */
+.title {
+  font-size: 40px; /* To hơn, khớp với giao diện ảnh */
+  font-weight: 700; /* Đậm */
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 32px; /* Nhỏ hơn h1 nhưng vẫn nổi bật */
+  font-weight: 600; /* Đậm vừa phải */
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
   .heroContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
   }
   
-  .heroText {
-    width: 50%;
+  .heroText,
+  .heroImage {
+    width: 100%;
   }
   
   .heroImage {
-    width: 40%;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  .heroText p {
-    font-size: 18px;
-    margin-bottom: 30px;
-    line-height: 1.5;
-  }
-  
-  .buttons {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .primaryBtn {
-    background-color: white;
-    color: #0077b6;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  
-  .secondaryBtn {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid white;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  
-  .blockchainVisual {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .block {
-    background-color: #0a9396;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-    width: 22%;
-  }
-  
-  .arrow {
-    font-size: 24px;
-    color: #0a9396;
-  }
-  
-  .infoText {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #444;
-  }
-  
-  .applications {
-    padding: 60px 0;
-    text-align: center;
-  }
-  
-  .appGrid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .appCard {
-    background-color: white;
-    width: 45%;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    display: flex;
-    align-items: center;
-  }
-  
-  .appIcon {
-    margin-right: 15px;
-    font-size: 20px;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-  }
-  
-  .positive {
-    color: #0a9396;
-  }
-  
-  .negative {
-    color: #e76f51;
-  }
-  
-  .walletSection {
-    padding: 60px 0;
-    background-color: #f8f9fa;
-  }
-  
-  .walletContainer {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-  }
-  
-  .walletOptions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
     margin-top: 30px;
   }
   
+  .appCard,
   .walletCard {
-    width: 48%;
-    padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    width: 100%;
   }
-  
-  .walletCard:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+  .title {
+    font-size: 36px; /* Giảm kích thước trên mobile */
   }
-  
-  .walletIcon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f1f1f1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    font-weight: bold;
+
+  .subtitle {
+    font-size: 24px; /* Giảm kích thước trên mobile */
   }
-  
-  .metaIcon {
-    background-color: #f6851b;
-    color: white;
-  }
-  
-  .walletConnectIcon {
-    background-color: #3b99fc;
-    color: white;
-  }
-  
-  .coinbaseIcon {
-    background-color: #0052ff;
-    color: white;
-  }
-  
-  .medicoinIcon {
-    background-color: #0a9396;
-    color: white;
-  }
-  
-  .walletNote {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 14px;
-    color: #777;
-  }
-  
-  .disconnectBtn {
-    background-color: #e76f51;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-top: 20px;
-  }
-  
-  @media (max-width: 768px) {
-    .heroContent {
-      flex-direction: column;
-    }
-    
-    .heroText,
-    .heroImage {
-      width: 100%;
-    }
-    
-    .heroImage {
-      margin-top: 30px;
-    }
-    
-    .appCard,
-    .walletCard {
-      width: 100%;
-    }
-  }
+}
