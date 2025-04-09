@@ -1,0 +1,267 @@
+/* DoctorAssetLock.module.css */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.header {
+  background-color: white;
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #07a396;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+}
+
+.navItem {
+  margin-left: 30px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.navLinkActive {
+  color: #07a396;
+  border-bottom: 2px solid #07a396;
+  padding-bottom: 5px;
+}
+
+.connectBtn {
+  background-color: #07a396;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.hero {
+  background-color: #0077b6;
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.heroText {
+  font-size: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.mainContent {
+  padding: 60px 0;
+}
+
+.assetLockContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.sectionSubtitle {
+  text-align: center;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.assetLockForm {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.formTitle {
+  font-size: 22px;
+  margin-bottom: 25px;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 15px;
+}
+
+.formGroup {
+  margin-bottom: 25px;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.formInput {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #07a396;
+}
+
+.formHelp {
+  font-size: 14px;
+  color: #777;
+  margin-top: 6px;
+}
+
+.submitBtn {
+  background-color: #07a396;
+  color: white;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+.submitBtn:hover {
+  background-color: #058b7e;
+}
+
+.processSteps {
+  margin-top: 50px;
+}
+
+.stepsTitle {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.stepsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 35px;
+  right: -40%;
+  width: 80%;
+  height: 2px;
+  background-color: #ddd;
+}
+
+.stepNumber {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #07a396;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto 15px;
+}
+
+.stepTitle {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.stepDescription {
+  font-size: 14px;
+  color: #666;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.transactionHistory {
+  margin-top: 60px;
+}
+
+.historyTitle {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historyTable th,
+.historyTable td {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.historyTable th {
+  font-weight: 600;
+  color: #555;
+}
+
+.historyTableRow:hover {
+  background-color: #f9f9f9;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.statusActive {
+  background-color: #e3fcf7;
+  color: #07a396;
+}
+
+.statusCompleted {
+  background-color: #e3f1fd;
+  color: #2b6cb0;
+}
