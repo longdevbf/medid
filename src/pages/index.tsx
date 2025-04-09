@@ -1,6 +1,7 @@
 import React from 'react';
 import { useWallet } from '@meshsdk/react';
 import styles from '../styles/index.module.css';
+import Link from 'next/link';
 
 const Header: React.FC = () => {
   return (
@@ -10,7 +11,8 @@ const Header: React.FC = () => {
         <div className={styles.navigation}>
           <ul className={styles.navLinks}>
             <li><a href="#">Home</a></li>
-            <li><a href="#">Services</a></li>
+            <li><a href="/hoso">Services</a></li>
+            <Link href="/Hoso"><li>Ho so</li></Link>
             <li><a href="#">Blockchain Health</a></li>
           </ul>
           <button className={styles.connectBtn}>Connect</button>
