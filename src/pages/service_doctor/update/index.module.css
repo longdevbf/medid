@@ -1,10 +1,24 @@
 
-.container {
-  width: 85%;
+.doctorContainer {
   max-width: 1200px;
   margin: 0 auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  color: #333;
+  padding: 0 15px;
+}
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar {
@@ -50,13 +64,21 @@
 .banner {
   background-color: #0082c8;
   color: white;
-  padding: 50px 0;
+  padding: 40px 0;
   text-align: center;
 }
 
 .banner h1 {
-  margin-bottom: 20px;
-  font-size: 2.5rem;
+  
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+
 }
 
 .banner p {
@@ -66,6 +88,7 @@
 }
 
 .card {
+  margin-top: 50px;
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -121,6 +144,8 @@
 .btnSecondary {
   background-color: transparent;
   border: 1px solid #0a9396;
+  padding: 12px 24px;
+  border-radius: 4px;
   color: #0a9396;
 }
 
