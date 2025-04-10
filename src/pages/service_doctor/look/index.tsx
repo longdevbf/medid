@@ -8,23 +8,6 @@ import styles from './index.module.css';
 const DoctorAssetLockPage: React.FC = () => {
   return (
     <div>
-      {/* Header */}
-      <header className={styles.header}>
-        <div className={styles.container}>
-          <div className={styles.headerContent}>
-            <div className={styles.logo}>MediCare Blockchain</div>
-            <nav>
-              <ul className={styles.navList}>
-                <li className={styles.navItem}><a href="#" className={styles.navLink}>Home</a></li>
-                <li className={styles.navItem}><a href="#" className={styles.navLink}>Services</a></li>
-                <li className={styles.navItem}><a href="#" className={styles.navLink}>Blockchain Health</a></li>
-                <li className={styles.navItem}><a href="#" className={`${styles.navLink} ${styles.navLinkActive}`}>Doctor Portal</a></li>
-              </ul>
-            </nav>
-            <button className={styles.connectBtn}>Connect</button>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className={styles.hero}>

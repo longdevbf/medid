@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 //import styles from '../styles/index.module.css';
-import styles from './styles/index.module.css';
+import styles from './index.module.css';
 
 type HistoryRecord = {
   date: string;
@@ -81,20 +81,6 @@ const DoctorUpdateRecord = () => {
 
   return (
     <>
-    
-      <header>
-      <div className={styles.container}>
-        <div className={styles.navbar}>
-          <a href="#" className={styles.logo}>MediCare Blockchain</a>
-          <div className={styles.navLinks}>
-            <a href="#">Home</a>
-            <a href="#" className={styles.active}>Services</a>
-            <a href="#">Blockchain Health</a>
-          </div>
-          <button className={styles.connectBtn}>Connect</button>
-        </div>
-        </div>
-      </header>
       
       <div className={styles.banner}>
         <h1>Doctor Medical Record Update</h1>

@@ -4,22 +4,6 @@
   margin: 0 auto;
   padding: 0 15px;
 }
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.header {
-  background-color: white;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.headerContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .navbar {
   padding: 20px 0;

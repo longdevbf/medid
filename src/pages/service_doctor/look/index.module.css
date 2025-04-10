@@ -6,18 +6,6 @@
   padding: 0 15px;
 }
 
-.header {
-  background-color: white;
-  padding: 20px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.headerContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .logo {
   font-size: 24px;
   font-weight: bold;
