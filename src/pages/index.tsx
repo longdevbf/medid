@@ -1,26 +1,10 @@
 import React from 'react';
 import { useWallet } from '@meshsdk/react';
 import styles from '../styles/index.module.css';
-import Link from 'next/link';
 
-const Header: React.FC = () => {
-  return (
-    <header className={styles.header}>
-      <div className={`${styles.container} ${styles.headerContent}`}>
-        <div className={styles.logo}>MediCare Blockchain</div>
-        <div className={styles.navigation}>
-          <ul className={styles.navLinks}>
-            <li><a href="#">Home</a></li>
-            <li><a href="/hoso">Services</a></li>
-            <Link href="/Hoso"><li>Ho so</li></Link>
-            <li><a href="#">Blockchain Health</a></li>
-          </ul>
-          <button className={styles.connectBtn}>Connect</button>
-        </div>
-      </div>
-    </header>
-  );
-}
+
+
+
 
 const Hero: React.FC = () => {
   return (
@@ -130,7 +114,6 @@ const WalletSection: React.FC = () => {
 const HomePage: React.FC = () => {
   return (
     <div>
-      <Header />
       <Hero />
       <Applications />
       <WalletSection />
