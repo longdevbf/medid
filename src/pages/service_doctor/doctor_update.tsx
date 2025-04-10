@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 //import styles from '../styles/index.module.css';
-import styles from './index.module.css';
+import styles from '../../styles/update.module.css';
 
 type HistoryRecord = {
   date: string;

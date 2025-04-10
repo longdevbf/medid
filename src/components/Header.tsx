@@ -8,7 +8,7 @@ const Header = () => {
                 <div className={styles.logo}>MediCare Blockchain</div>
                 <div className={styles.navigation}>
                     <ul className={styles.navLinks}>
-                        <li><a href="#">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li className={styles.dropdown}>
                             <span className={styles.dropdownToggle}>Services</span>
                             <ul className={styles.dropdownMenu}>
@@ -19,6 +19,13 @@ const Header = () => {
                             </ul>
                         </li>
                         <li><a href="#">Blockchain Health</a></li>
+                        <li className={styles.dropdown}>
+                            <span className={styles.dropdownToggle}>Services</span>
+                            <ul className={styles.dropdownMenu}>
+                                <Link href="/service_doctor/doctor_lock"><li>Lock</li></Link>
+                                <Link href="/service_doctor/doctor_update"><li>Update</li></Link>
+                            </ul>
+                        </li>
                     </ul>
                     <button className={styles.connectBtn}>Connect</button>
                 </div>
