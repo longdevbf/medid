@@ -1,0 +1,80 @@
+{
+    "preamble": {
+      "title": "long/action1",
+      "description": "Aiken contracts for project 'long/action1'",
+      "version": "0.0.0",
+      "plutusVersion": "v3",
+      "compiler": {
+        "name": "Aiken",
+        "version": "v1.1.0+be31a7c"
+      },
+      "license": "Apache-2.0"
+    },
+    "validators": [
+      {
+        "title": "action1.action1.spend",
+        "datum": {
+          "title": "datum_otp",
+          "schema": {
+            "$ref": "#/definitions/action1~1Datum"
+          }
+        },
+        "redeemer": {
+          "title": "redeemer",
+          "schema": {
+            "$ref": "#/definitions/Data"
+          }
+        },
+        "compiledCode": "59010701010032323232323225333002323232323253330073370e900118041baa0011323232533300a3370e900018059baa0011323232533300d3300137586004601e6ea8028dd7180898079baa00314a226464660020026eb0c04cc050c044dd50029129998098008a50132533301133005004375c602a00429444cc00c00c004c054004dd6180118079baa00a22323300100100322533301300114a0264a66602266e3cdd7180a8010020a5113300300300130150012301030113011301130113011301130113011001300e300c37540022c601a601c004601800260126ea800458c028c02c008c024004c024008c01c004c010dd50008a4c26cacae6955ceaab9e5573eae855d101",
+        "hash": "6656e67fdfa24e507e47377971e477dcd95ea7c8c684a0b1a4cca3a1"
+      },
+      {
+        "title": "action1.action1.else",
+        "compiledCode": "59010701010032323232323225333002323232323253330073370e900118041baa0011323232533300a3370e900018059baa0011323232533300d3300137586004601e6ea8028dd7180898079baa00314a226464660020026eb0c04cc050c044dd50029129998098008a50132533301133005004375c602a00429444cc00c00c004c054004dd6180118079baa00a22323300100100322533301300114a0264a66602266e3cdd7180a8010020a5113300300300130150012301030113011301130113011301130113011001300e300c37540022c601a601c004601800260126ea800458c028c02c008c024004c024008c01c004c010dd50008a4c26cacae6955ceaab9e5573eae855d101",
+        "hash": "6656e67fdfa24e507e47377971e477dcd95ea7c8c684a0b1a4cca3a1"
+      }
+    ],
+    "definitions": {
+      "ByteArray": {
+        "dataType": "bytes"
+      },
+      "Data": {
+        "title": "Data",
+        "description": "Any Plutus data."
+      },
+      "List$VerificationKeyHash": {
+        "dataType": "list",
+        "items": {
+          "$ref": "#/definitions/VerificationKeyHash"
+        }
+      },
+      "VerificationKeyHash": {
+        "title": "VerificationKeyHash",
+        "dataType": "bytes"
+      },
+      "action1/Datum": {
+        "title": "Datum",
+        "anyOf": [
+          {
+            "title": "Datum",
+            "dataType": "constructor",
+            "index": 0,
+            "fields": [
+              {
+                "title": "patient",
+                "$ref": "#/definitions/VerificationKeyHash"
+              },
+              {
+                "title": "doctor",
+                "$ref": "#/definitions/List$VerificationKeyHash"
+              },
+              {
+                "title": "unit",
+                "$ref": "#/definitions/ByteArray"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }

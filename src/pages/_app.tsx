@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import "@meshsdk/react/styles.css";
 import type { AppProps } from "next/app";
 import { MeshProvider } from "@meshsdk/react";
 import Header from '../components/Header';
@@ -11,6 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <MeshProvider>
       <Header />
       <Component {...pageProps} />
+      
       <Footer />
     </MeshProvider>
   );

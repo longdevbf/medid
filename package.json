@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@meshsdk/core": "^1.9.0-beta.28",
-    "@meshsdk/react": "^1.9.0-beta.28",
+    "@meshsdk/core": "^1.7.20",
+    "@meshsdk/react": "^1.1.12",
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
     "medid": "file:",
     "next": "15.2.4",
     "react": "^19.1.0",
@@ -20,8 +22,9 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.16",
     "@types/node": "20.17.30",
-    "@types/react": "19.1.0",
+    "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
