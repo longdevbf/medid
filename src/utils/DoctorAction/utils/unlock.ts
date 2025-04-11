@@ -19,6 +19,8 @@ import {
         const utxoFetch = await blockchainProvider.fetchUTxOs(txHashLock);
         const utxo = utxoFetch[0];
         const datum = deserializeDatum(utxo.output.plutusData!);
+        const ada_require = datum.fields[2].int;
+        const cash_paid = (ada_require*1000000).toString();
         const txBuilder = new MeshTxBuilder({
             fetcher: blockchainProvider,
             submitter: blockchainProvider
@@ -40,7 +42,7 @@ import {
             "addr_test1qp32dhvj6nmhn8qjce8vsv3s0x70rrth7udxy32a7lm5yl7vchlp2ahqwyyfpv4l7fszccrngx2vcmmu5x3d3t3cy2uqpd7ewx",
             [{
                 unit: "lovelace",
-                quantity: "20000000"
+                quantity: cash_paid,
             }]
         )//phần này cần cải thiện
         .txInCollateral(

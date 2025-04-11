@@ -82,10 +82,15 @@
     align-items: center;
     padding: 0.75rem;
     border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
 }
 
 .doctor-item:last-child {
     border-bottom: none;
+}
+
+.doctor-item:hover {
+    background-color: #f5f5f5;
 }
 
 .doctor-info {
@@ -111,6 +116,9 @@
     border-radius: 4px;
     cursor: pointer;
     margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .add-doctor-btn {
@@ -123,6 +131,8 @@
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 1.5rem;
+    justify-content: center;
+    gap: 8px;
 }
 
 .add-doctor-btn svg {
@@ -146,10 +156,19 @@
     font-size: 1rem;
     font-weight: 500;
     transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-lock:hover {
     background-color: #098580;
+}
+
+.btn-lock:disabled {
+    background-color: #86cac7;
+    cursor: not-allowed;
 }
 
 .btn-cancel {
@@ -259,3 +278,10 @@
     color: #555;
     margin-bottom: 0.5rem;
 }
+
+/* Container chính */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
