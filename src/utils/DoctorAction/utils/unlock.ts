@@ -39,7 +39,7 @@ import {
         .txInScript(scriptCbor)
         .txOut(walletAddress, [])
         .txOut(
-            "addr_test1qp32dhvj6nmhn8qjce8vsv3s0x70rrth7udxy32a7lm5yl7vchlp2ahqwyyfpv4l7fszccrngx2vcmmu5x3d3t3cy2uqpd7ewx",
+            "addr_test1qqfclu8wed43pauu6q05azc6auphe4unrl2d5y3pxnsrkwkvfk5ezmmvdr6k6aw64htqz2wsws72q7x4m9ldv3aqklyq93fupj",
             [{
                 unit: "lovelace",
                 quantity: cash_paid,
