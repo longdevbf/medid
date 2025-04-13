@@ -9,7 +9,10 @@ SmartContract: Aiken, 3 smartcontract <=> 3 plutus tương tác
 Cách dùng: Người dùng phải sign Data khi kết nối ví để chứng minh quyền sở hữu ví để tiếp tục sử dụng dịch vụ
            Người dùng kết nối ví xong phải xác thực DID mới có quyền sử dụng các dịch vụ liên quan đến y tế nếu fail thì phải
            mint NFT định danh để xác minh lại.
-
+Dowload :
+pinata
+meshjs
+lodash
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
