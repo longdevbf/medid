@@ -1,0 +1,138 @@
+.hero {
+    background-color: #0079a9;
+    color: white;
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .unlockContainer {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .unlockContainer h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .unlockDescription {
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .unlockForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .formGroup label {
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .formGroup input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .formInfo {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+  }
+  
+  .unlockBtn {
+    background-color: #0097b2;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .unlockBtn:hover {
+    background-color: #007a90;
+  }
+  
+  .securityInfo {
+    margin-top: 30px;
+    background-color: #f0f8ff;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #0097b2;
+  }
+  
+  .securityInfo h3 {
+    color: #0097b2;
+    margin-bottom: 10px;
+  }
+  
+  .securityInfo p {
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .blockVisualization {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .blockChain {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .block {
+    background-color: #0097b2;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    min-width: 80px;
+  }
+  
+  .arrow {
+    display: flex;
+    align-items: center;
+    color: #666;
+  }
+  
+  .blockInfo {
+    text-align: center;
+    color: #555;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
