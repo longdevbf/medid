@@ -1,11 +1,10 @@
 import React from "react";
-import styles from '../styles/adapter.module.css'; 
-
+import Link from 'next/link';
+import styles from '../../styles/adapter_doctor.module.css';
 
 const DoctorServices: React.FC = () => {
   return (
     <>
-
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.container}>
@@ -40,79 +39,39 @@ const DoctorServices: React.FC = () => {
           <div className={styles.servicesGrid}>
             {[
               {
-                title: 'Appointment Management',
-                text: 'Schedule, view and manage your patient appointments efficiently. Get notifications and sync with your personal calendar.',
-                btn: 'Access Calendar',
+                title: 'Lock Patient Record',
+                desc: 'Securely lock patient medical records on the blockchain to ensure only authorized access.',
+                alt: 'Lock record',
+                link: '/service_doctor/doctor_lock',
               },
               {
-                title: 'Telemedicine Services',
-                text: 'Conduct secure video consultations with patients from anywhere. Access medical records during the session.',
-                btn: 'Start Consultation',
+                title: 'Unlock Patient Record',
+                desc: 'Safely unlock patient records with blockchain verification for viewing or updating.',
+                alt: 'Unlock record',
+                link: '/service_doctor/doctor_update',
               },
               {
-                title: 'Patient Record Access',
-                text: 'View complete patient medical history, test results, and previous treatments with secure blockchain verification.',
-                btn: 'View Records',
-              },
-              {
-                title: 'Lock Medical Records',
-                text: 'Securely lock patient medical records after completion to prevent unauthorized alterations and ensure data integrity.',
-                btn: 'Lock Records',
-                extraClass: styles.lockBtn,
-              },
-              {
-                title: 'Unlock Medical Records',
-                text: 'Temporarily unlock patient records for authorized modifications. Contains verification and audit trail functionality.',
-                btn: 'Unlock Records',
-                extraClass: styles.unlockBtn,
-              },
-              {
-                title: 'Update Medical Records',
-                text: 'Make changes to patient records with complete version history. All updates are securely timestamped on the blockchain.',
-                btn: 'Update Records',
-              },
-              {
-                title: 'Billing & Payments',
-                text: 'Generate and send medical bills with payment instructions securely through blockchain transactions.',
-                btn: 'Billing Center',
-              },
-              {
-                title: 'Prescriptions & Lab Orders',
-                text: 'Write prescriptions and order lab tests digitally with secure verification and pharmacy integration.',
-                btn: 'Write Prescription',
-              },
-              {
-                title: 'Preventive Care',
-                text: 'Schedule and manage preventive screenings and early disease detection programs for your patients.',
-                btn: 'Screening Tools',
-              },
-              {
-                title: 'Remote Patient Monitoring',
-                text: 'Track patient vitals and health metrics remotely for continuous care between appointments.',
-                btn: 'Monitor Patients',
-              },
-              {
-                title: 'Reports & Analytics',
-                text: 'Generate performance reports, patient statistics, and practice analytics to optimize your medical services.',
-                btn: 'View Reports',
+                title: 'Update Patient Record',
+                desc: 'Update patient medical history, diagnoses, or treatments with secure blockchain integration.',
+                alt: 'Update record',
+                link: '/service_doctor/doctor_unlock',
               },
             ].map((service, index) => (
-              <div className={styles.serviceCard} key={index}>
-                <div className={styles.serviceIcon}>
-                  <img src="/api/placeholder/100/80" alt={service.title} />
+              <Link key={index} href={service.link}>
+                <div className={styles.serviceCard}>
+                  <div className={styles.serviceIcon}>
+                    <img src="/api/placeholder/100/80" alt={service.alt} />
+                  </div>
+                  <div className={styles.serviceContent}>
+                    <h3 className={styles.sectionTitle}>{service.title}</h3>
+                    <p className={styles.serviceText}>{service.desc}</p>
+                  </div>
                 </div>
-                <div className={styles.serviceContent}>
-                  <h3>{service.title}</h3>
-                  <p>{service.text}</p>
-                  <a href="#" className={`${styles.btn} ${service.extraClass || ''}`}>{service.btn}</a>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
-
-      
     </>
   );
 };

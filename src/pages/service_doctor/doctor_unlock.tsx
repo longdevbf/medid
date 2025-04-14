@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/unlock.module.css';
+import styles from '../../styles/unlock.module.css';
 
 const DoctorUnlock = () => {
   return (

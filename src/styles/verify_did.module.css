@@ -1,0 +1,271 @@
+    .hero {
+    padding: 2.5rem 0;
+    background-color: var(--primary);
+    color: white;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .hero p {
+    font-size: 1.125rem;
+    max-width: 700px;
+    margin: 0 auto 1.875rem;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .mainContent {
+    padding: 2.5rem 0;
+    background-color: #f5f5f5;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.875rem;
+  }
+  
+  .cardHeader {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.9375rem;
+    margin-bottom: 1.25rem;
+    padding: 0 1.5rem;
+  }
+  
+  .cardHeader h2 {
+    font-size: 1.5rem;
+    color: var(--dark);
+    margin: 0;
+  }
+  
+  .cardBody {
+    padding: 0.625rem 1.5rem;
+  }
+  
+  .infoBox {
+    background-color: #e8f4f8;
+    border-left: 4px solid var(--primary);
+    padding: 0.9375rem;
+    margin-bottom: 1.25rem;
+    border-radius: 4px;
+  }
+  
+  .infoBox h3 {
+    margin-bottom: 0.625rem;
+    color: var(--primary);
+    font-size: 1.3rem;
+  }
+  
+  .infoBox p {
+    font-size: 0.95rem;
+    color: #475569;
+  }
+  
+  .verifyButtonWrapper {
+    text-align: center;
+    padding: 1.875rem 0;
+  }
+  
+  .btnPrimary {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .btnPrimary:hover {
+    background-color: #006b9a;
+  }
+  
+  .verifyNote {
+    margin-top: 0.9375rem;
+    color: #666;
+    font-size: 0.875rem;
+  }
+  
+  .splitLayout {
+    display: flex;
+    gap: 1.875rem;
+  }
+  
+  .formSection {
+    flex: 1;
+  }
+  
+  .dropArea {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 1.875rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.25rem;
+  }
+  
+  .dropArea.dragActive {
+    border-color: var(--primary);
+    background-color: #f0f9ff;
+  }
+  
+  .dropArea p {
+    color: #777;
+    margin-bottom: 0.625rem;
+  }
+  
+  .btnOutline {
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    background-color: transparent;
+    padding: 0.625rem 1.25rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  
+  .btnOutline:hover {
+    background-color: #f0f9ff;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.25rem;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: var(--dark);
+  }
+  
+  .formControl {
+    width: 100%;
+    padding: 0.75rem 0.9375rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .formControl:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 5px rgba(0, 136, 194, 0.3);
+  }
+  
+  .cipInfo {
+    margin-top: 1.25rem;
+    padding: 0.9375rem;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+  }
+  
+  .cipInfo h4 {
+    margin-bottom: 0.625rem;
+    font-size: 1.1rem;
+    color: var(--dark);
+  }
+  
+  .cipInfo p {
+    font-size: 0.875rem;
+    color: #475569;
+  }
+  
+  .cipBadge {
+    display: inline-block;
+    background-color: var(--primary);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-bottom: 0.625rem;
+  }
+  
+  .previewSection {
+    flex: 1;
+  }
+  
+  .previewSection h3 {
+    margin-bottom: 0.9375rem;
+    font-size: 1.1rem;
+    color: var(--dark);
+  }
+  
+  .nftPreview {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .nftImagePreview {
+    width: 100%;
+    height: 15.625rem;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-bottom: 0.9375rem;
+  }
+  
+  .nftImagePreview p {
+    color: #666;
+    margin: 0;
+  }
+  
+  .previewOwner {
+    color: #666;
+    font-size: 0.875rem;
+  }
+  
+  .metadataPreview {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-family: monospace;
+    white-space: pre-wrap;
+    font-size: 0.875rem;
+    overflow-x: auto;
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+    color: var(--dark);
+    margin: 2.5rem 0 1.25rem;
+    text-align: center;
+  }
+  
+  .applicationsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .appItem {
+    display: flex;
+    align-items: center;
+  }
+  
+  .appItem h3 {
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin: 0;
+  }
