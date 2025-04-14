@@ -95,7 +95,7 @@ const Header: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/did/verifyyourdid" className={styles.navLink}>
+              <Link href="/service/adapter" className={styles.navLink}>
                 Services
               </Link>
             </li>
