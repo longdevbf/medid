@@ -2,17 +2,19 @@
 Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
 Ngôn ngữ sử dụng : Typescript, Javascript<br>
 FrameWork: Nextjs, React, Meshjs<br>
-DataBase: PorsỨng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano
-Ngôn ngữ sử dụng : Typescript, Javascript
-FrameWork: Nextjs, React, Meshjs, Pinata
-DataBase: Postgresql
-SmartContract: Aiken, 3 smartcontract <=> 3 plutus tương tác
-Cách dùng: Người dùng phải sign Data khi kết nối ví để chứng minh quyền sở hữu ví để tiếp tục sử dụng dịch vụ
-           Người dùng kết nối ví xong phải xác thực DID mới có quyền sử dụng các dịch vụ liên quan đến y tế nếu fail thì phải
-           mint NFT định danh để xác minh lại.
-Dowload :
-pinata
+DataBase: PorsỨng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
+Ngôn ngữ sử dụng : Typescript, Javascript<br>
+FrameWork: Nextjs, React, Meshjs, Pinata<br>
+DataBase: Postgresql<br>
+SmartContract: Aiken, 3 smartcontract <=> 3 plutus tương tác<br>
+Cách dùng: Người dùng phải sign Data khi kết nối ví để chứng minh quyền sở hữu ví để tiếp tục sử dụng dịch vụ<br>
+           Người dùng kết nối ví xong phải xác thực DID mới có quyền sử dụng các dịch vụ liên quan đến y tế nếu fail thì phải<br>
+           mint NFT định danh để xác minh lại.<br>
+Dowload :<br>
+pinata<br>
+pinata<br>
 meshjs
+pinata<br>
 lodash
 
 
