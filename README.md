@@ -1,3 +1,4 @@
+Hackathon
 Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano
 Ngôn ngữ sử dụng : Typescript, Javascript
 FrameWork: Nextjs, React, Meshjs
