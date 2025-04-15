@@ -13,8 +13,8 @@ Cách dùng: Người dùng phải sign Data khi kết nối ví để chứng m
 Dowload :<br>
 pinata<br>
 pinata<br>
-meshjs
-pinata<br>
+meshjs: npm install @meshsdk/core @meshsdk/react
+pinata: npm i pinata<br>
 lodash
 
 
