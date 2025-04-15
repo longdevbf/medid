@@ -8,7 +8,7 @@ import { deserializeAddress } from '@meshsdk/core';
 import { encryptData } from '../../secret/encryptAndDecrypt';
 import mintNFT from '../../utils/DidAction/mint';
 import axios from 'axios';
-import  {PinataSDK}  from "pinata"; // Import PinataSDK from official package
+import { PinataSDK } from "pinata";
 
 const Mint: React.FC = () => {
   // Wallet connection
@@ -45,8 +45,8 @@ const Mint: React.FC = () => {
   "iZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzN" +
   "lYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI" +
   "0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
-  const pinataGateway = "emerald-managing-koala-687.mypinata.cloud"; // Cấu hình gateway giống file index.tsx
-  const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway }); // Khởi tạo instance Pinata
+  const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
+  const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
 
   // Handle file upload
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -88,8 +88,8 @@ const Mint: React.FC = () => {
     }
   };
 
-  // Upload image to Pinata using PinataSDK (giống index.tsx)
-  const uploadToPinata = async (): Promise<string> => {
+  // Upload image to Pinata using PinataSDK
+  const uploadToPinata = async (): Promise<{ ipfsUrl: string, fileType: string }> => {
     if (!file) throw new Error("No file selected for upload.");
 
     try {
@@ -98,8 +98,9 @@ const Mint: React.FC = () => {
         throw new Error("Upload failed");
       }
       const ipfsUrl = `ipfs://${uploadResult.cid}`;
+      const fileType = file.type; // Get the file's MIME type
 
-      return ipfsUrl;
+      return { ipfsUrl, fileType };
     } catch (error) {
       console.error("Error uploading to Pinata:", error);
       throw new Error("Failed to upload image to IPFS.");
@@ -141,11 +142,11 @@ const Mint: React.FC = () => {
     try {
       // 1. Get wallet address and pubKeyHash
       const userAddress = await wallet.getChangeAddress();
-      const { pubKeyHash: userPubKey} = deserializeAddress(userAddress);
+      const { pubKeyHash: userPubKey } = deserializeAddress(userAddress);
       
       // 2. Upload image to Pinata
       setTxStatus('Uploading image to IPFS...');
-      const ipfsUrl = await uploadToPinata();
+      const { ipfsUrl, fileType } = await uploadToPinata();
       
       // 3. Encrypt identity information
       setTxStatus('Encrypting your identity information...');
@@ -156,22 +157,27 @@ const Mint: React.FC = () => {
         email
       };
       
+      // Encrypt the identity data
       const encryptedIdentity = encryptData(JSON.stringify(identityData), encryptionKey);
       console.log('Encrypted Identity:', encryptedIdentity);
-      // 4. Prepare metadata with pubKeyHash
+      
+      // 4. Prepare metadata with pubKeyHash and encrypted data
       const metadata = {
+        _pk: userPubKey,
         name: nftName,
         description: "CIP68 Medical Identity Token",
-        image: ipfsUrl,
-        mediaType: file.type,
-        _pk: userPubKey, // Include pubKeyHash as required
-        data: encryptedIdentity
+        image: ipfsUrl, // Use the actual IPFS URL from upload
+        mediaType: fileType, // Add the file's media type
+        encryptedData: encryptedIdentity, // Add encrypted identity data 
+      
       };
+      
       console.log('Metadata:', metadata);
       console.log('IPFS URL:', ipfsUrl);
+      
       // 5. Mint the NFT
       setTxStatus('Minting your Medical ID NFT on the blockchain...');
-      const result = await mintNFT(wallet, nftName, metadata);
+      const result = await mintNFT(wallet, nftName, metadata, {});
       
       // 6. Update UI with success
       setTxHash(result);
@@ -205,20 +211,7 @@ const Mint: React.FC = () => {
   const metadataPreview = {
     name: nftName,
     description: 'CIP68 Medical Identity Token',
-    standard: 'CIP68',
-    version: '1.0',
-    identity: {
-      fullName: fullName ? '******' : '',
-      dateOfBirth: dob ? '******' : '',
-      idNumber: idNumber ? '******' : '',
-      email: email ? '******' : '',
-      verified: false,
-    },
-    access: {
-      publicInfo: 'name, verification status',
-      privateInfo: 'encrypted, requires wallet auth and encryption key',
-    },
-    _pk: connected ? '(your wallet pubKeyHash)' : '(connect wallet to view)',
+    
   };
 
   return (
