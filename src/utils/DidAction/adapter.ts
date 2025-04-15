@@ -8,7 +8,7 @@ import {
     ,resolvePlutusScriptAddress
   } from "@meshsdk/core";
   import { applyParamsToScript } from "@meshsdk/core-csl";
-  import blueprint from "../contract/plutus.json";
+  import blueprint from "./plutus.json";
   import { Script } from "node:vm";
    
   export const blockchainProvider = new BlockfrostProvider("preprod2DQWsQjqnzLW9swoBQujfKBIFyYILBiL");

@@ -5,12 +5,12 @@ import {
     deserializeAddress,
     deserializeDatum,
   } from "@meshsdk/core";
-  import { blockchainProvider } from "../components/adapter";
+  import { blockchainProvider } from "./adapter";
   import {
     convertHexToString,
     decryptData,
     encryptData,
-  } from "../../../secret/encryptAndDecrypt";
+  } from "../../secret/encryptAndDecrypt";
   
   interface ParsedAsset {
     unit: string;

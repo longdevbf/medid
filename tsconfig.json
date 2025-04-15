@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs", "db.js", "test.js", "src/Data/Postgresql/db.js", "src/Data/Postgresql/schema.js", "src/Data/Postgresql/test.js"],
   "exclude": ["node_modules"]
 }

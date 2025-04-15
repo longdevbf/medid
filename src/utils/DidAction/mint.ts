@@ -12,11 +12,11 @@ import {
     serializePlutusScript,
     scriptAddress
   } from "@meshsdk/core";
-  import plutus from '../contract/plutus.json';
-  import { getWalletInfoForTx, blockchainProvider } from '../components/adapter';
+  import plutus from './plutus.json';
+  import { getWalletInfoForTx, blockchainProvider } from './adapter';
   
   // Constants
-  const NETWORK_ID = 0;
+  const NETWORK_ID = 0; 
   const PLATFORM_FEE = '1000000';
   const DEFAULT_EXCHANGE_ADDRESS = "addr_test1qqwkave5e46pelgysvg6mx0st5zhte7gn79srscs8wv2qp5qkfvca3f7kpx3v3rssm4j97f63v5whrj8yvsx6dac9xrqyqqef6";
   
@@ -45,18 +45,19 @@ import {
     options?: {
       platformFee?: string,
       exchangeAddress?: string
+      txFee?: string
     }
   ): Promise<string> {
     try {
       // Settings
       const platformFee = options?.platformFee || PLATFORM_FEE;
       const exChange = options?.exchangeAddress || DEFAULT_EXCHANGE_ADDRESS;
-      
+      console.log("Exchange address:", exChange);
       // Setup
       const { utxos, walletAddress, collateral } = await getWalletInfoForTx(wallet);
       const { pubKeyHash: userPubKeyHash } = deserializeAddress(walletAddress);
       const pubkeyExchange = deserializeAddress(exChange).pubKeyHash;
-      
+      console.log("User public key hash:", userPubKeyHash);
       // Get validator scripts
       const mintCompilecode = readValidator("mint.mint.mint");
       const storeCompilecode = readValidator("store.store.spend");
@@ -80,7 +81,8 @@ import {
       // Create transaction builder
       const txBuilder = new MeshTxBuilder({
         fetcher: blockchainProvider,
-        submitter: blockchainProvider
+        submitter: blockchainProvider,
+        
       });
       
       // Calculate script hashes and policy ID
@@ -100,7 +102,7 @@ import {
       const unsignedTx = txBuilder.mintPlutusScriptV3();
       
       // Build the transaction
-      unsignedTx
+      await unsignedTx
         // Mint user token (CIP68_222)
         .mint("1", policyId, CIP68_222(hexAssetName))
         .mintingScript(mintScriptCbor)
@@ -133,7 +135,7 @@ import {
         .txOut(exChange, [
           {
             unit: "lovelace",
-            quantity: platformFee
+            quantity: "1000000"
           }
         ])
         .changeAddress(walletAddress)
@@ -147,7 +149,7 @@ import {
         )
         .setNetwork("preprod")
         .addUtxosFromSelection();
-      
+        
       // Complete, sign, and submit
       const completedTx = await unsignedTx.complete();
       const signedTx = await wallet.signTx(completedTx, true);
