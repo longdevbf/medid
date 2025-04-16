@@ -11,6 +11,8 @@ SmartContract: Aiken, 3 smartcontract <=> 3 plutus tương tác<br>
 Cách dùng: Người dùng phải sign Data khi kết nối ví để chứng minh quyền sở hữu ví để tiếp tục sử dụng dịch vụ<br>
            Người dùng kết nối ví xong phải xác thực DID mới có quyền sử dụng các dịch vụ liên quan đến y tế nếu fail thì phải<br>
            mint NFT định danh để xác minh lại.<br>
+Dịch vụ Y Tế: Ngưới dùng có thể tạo hồ sơ bệnh nhân bằng cách mint NFT hồ sơ (theo chuẩn CIP68 của Cardano), với những thông tin và <br>
+           dữ liệu được mã hóa AES được lưu trữ trong metadata.<br>
 Dowload :<br>
 pinata<br>
 pinata<br>
