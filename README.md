@@ -20,7 +20,7 @@ Dịch vụ Y Tế: Ngưới dùng có thể tạo hồ sơ bệnh nhân bằng 
            Bác sĩ sau khi update xong dữ liệu mới có thể chuyển NFT tới bệnh nhân với số tiền được setup -> Người bệnh nhân chỉ có thể <br>
            unlock được tài sản khi có đủ tiền trong ví <br>
            .
-           
+           .
 Dowload :<br>
 pinata<br>
 pinata<br>
