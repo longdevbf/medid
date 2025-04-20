@@ -31,6 +31,7 @@ next: npm i next <br>
 meshjs: npm install @meshsdk/core @meshsdk/react<br>
 pinata: npm i pinata<br>
 lodash
+.
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
