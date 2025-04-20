@@ -5,7 +5,7 @@ FrameWork: Nextjs, React, Meshjs<br>
 DataBase: Porsgresql <br>
 Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
 Ngôn ngữ sử dụng : Typescript, Javascript<br>
-SmartContract: Aiken<br>
+SmartContract: Aiken<br>x
 FrameWork: Nextjs, React, Meshjs, Pinata<br>
 DataBase: Postgresql<br>
 SmartContract: Aiken, 3 smartcontract <=> 3 plutus tương tác<br>
