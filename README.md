@@ -1,20 +1,35 @@
-<h3>Hackathon</h3>
+<h3>Hackathon</h3>.
 Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
 Ngôn ngữ sử dụng : Typescript, Javascript<br>
 FrameWork: Nextjs, React, Meshjs<br>
-DataBase: PorsỨng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
+DataBase: Porsgresql <br>
+Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
 Ngôn ngữ sử dụng : Typescript, Javascript<br>
+SmartContract: Aiken<br>x
 FrameWork: Nextjs, React, Meshjs, Pinata<br>
 DataBase: Postgresql<br>
 SmartContract: Aiken, 3 smartcontract <=> 3 plutus tương tác<br>
 Cách dùng: Người dùng phải sign Data khi kết nối ví để chứng minh quyền sở hữu ví để tiếp tục sử dụng dịch vụ<br>
            Người dùng kết nối ví xong phải xác thực DID mới có quyền sử dụng các dịch vụ liên quan đến y tế nếu fail thì phải<br>
            mint NFT định danh để xác minh lại.<br>
+Dịch vụ Y Tế: Ngưới dùng có thể tạo hồ sơ bệnh nhân bằng cách mint NFT hồ sơ (theo chuẩn CIP68 của Cardano), với những thông tin và <br>
+           dữ liệu được mã hóa AES được lưu trữ trong metadata.<br>
+           Người dùng còn có thể đặt lịch hẹn với những bác sĩ được đề xuất trên app và có thể ủy quyền những bác sĩ có thể truy cập vào được <br>
+           NFT hồ sơ của bệnh nhân và có thể update dữ liệu NFT.<br>
+           Người dùng còn có thể update dữ liệu (bác sĩ ủy quyền truy cập NFT của mình) - update trực tiếp vào datum smartcontract<br>
+           Bác sĩ sau khi update xong dữ liệu mới có thể chuyển NFT tới bệnh nhân với số tiền được setup -> Người bệnh nhân chỉ có thể <br>
+           unlock được tài sản khi có đủ tiền trong ví <br>
+           .
+           .
+           .
+           ..  
+           .
 Dowload :<br>
 pinata<br>
 pinata<br>
-meshjs
-pinata<br>
+next: npm i next <br>
+meshjs: npm install @meshsdk/core @meshsdk/react<br>
+pinata: npm i pinata<br>
 lodash
 
 
