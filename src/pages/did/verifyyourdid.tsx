@@ -9,6 +9,8 @@ import { encryptData } from '../../secret/encryptAndDecrypt';
 import mintNFT from '../../utils/DidAction/mint';
 import axios from 'axios';
 import { PinataSDK } from "pinata";
+import { checkUserInDatabase, saveUserToDatabase } from '../../service/userService';
+import { verify_did } from '../../utils/DidAction/verify';
 
 const Mint: React.FC = () => {
   // Wallet connection
@@ -34,9 +36,15 @@ const Mint: React.FC = () => {
   const [txStatus, setTxStatus] = useState<string>('');
   const [txHash, setTxHash] = useState<string>('');
   const [mintHistory, setMintHistory] = useState<any[]>([]);
+  
+  // Verification state
+  const [isVerifying, setIsVerifying] = useState<boolean>(false);
+  const [verificationResult, setVerificationResult] = useState<any>(null);
+  const [didNumber, setDidNumber] = useState<string | null>(null);
+  const [hasValidNft, setHasValidNft] = useState<boolean>(false);
 
   // Pinata configuration
-  const JWT =  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzd" +
+  const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzd" +
   "iZC1kMWY2LTQyMWUtOGY2MC01OTgwZTMyOTdhOTEiLCJlbWFpbCI6Imxvbmd0ZC5hNWs0OGd0YkBnbWF" +
   "pbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXN" +
   "pcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3V" +
@@ -44,9 +52,89 @@ const Mint: React.FC = () => {
   "iOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5Ijo" +
   "iZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzN" +
   "lYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI" +
-  "0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
+  "0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc"; // JWT key đã được rút gọn
   const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
   const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
+
+  // Key để mã hóa DID là cố định
+  const DID_ENCRYPTION_KEY = "00000000";
+
+  // Xử lý xác thực danh tính
+  const handleVerify = async () => {
+    if (!connected || !wallet) {
+      setTxStatus('Vui lòng kết nối ví trước');
+      return;
+    }
+
+    setIsVerifying(true);
+    setTxStatus('Đang xác thực danh tính...');
+    
+    try {
+      // Lấy địa chỉ ví
+      const userAddress = await wallet.getChangeAddress();
+      const { pubKeyHash: userPubKey } = deserializeAddress(userAddress);
+      
+      // Mã hóa địa chỉ ví để tạo DID
+      const encryptedAddress = encryptData(userAddress, DID_ENCRYPTION_KEY);
+      
+      // Kiểm tra xem người dùng đã có trong database chưa
+      const storedDid = await checkUserInDatabase(userAddress, userPubKey);
+      
+      if (storedDid) {
+        setTxStatus('Đang kiểm tra NFT danh tính trong ví của bạn...');
+        setDidNumber(storedDid);
+        
+        // Sử dụng hàm verify_did để kiểm tra NFT trong ví
+        const nftVerified = await verify_did(wallet, DID_ENCRYPTION_KEY, storedDid);
+        
+        if (nftVerified) {
+          // NFT tồn tại và DID khớp với database
+          setVerificationResult({
+            verified: true,
+            didNumber: storedDid,
+            hasNft: true
+          });
+          setHasValidNft(true);
+          setTxStatus(`Xác thực thành công! NFT danh tính hợp lệ. DID: ${storedDid}`);
+        } else {
+          // DID tồn tại trong database nhưng không có NFT hoặc NFT không khớp
+          setVerificationResult({
+            verified: true,
+            didNumber: storedDid,
+            hasNft: false
+          });
+          setHasValidNft(false);
+          setTxStatus('Bạn đã được xác thực, nhưng NFT danh tính không hợp lệ hoặc không tồn tại. Vui lòng tạo NFT mới.');
+        }
+      } else {
+        // Người dùng chưa có trong database
+        setDidNumber(encryptedAddress);
+        setVerificationResult({
+          verified: false,
+          didNumber: null,
+          hasNft: false
+        });
+        setHasValidNft(false);
+        setTxStatus('Bạn chưa có định danh. Vui lòng tạo NFT định danh mới.');
+        
+        // Tự động lưu DID mới vào database
+        try {
+          await saveUserToDatabase(userAddress, userPubKey, encryptedAddress);
+          setDidNumber(encryptedAddress);
+          setTxStatus('Đã tạo định danh mới. Vui lòng tạo NFT định danh.');
+        } catch (saveError) {
+          console.error("Lỗi khi lưu định danh mới:", saveError);
+          setTxStatus('Lỗi khi tạo định danh mới. Vui lòng thử lại sau.');
+        }
+      }
+    } catch (error) {
+      console.error('Lỗi xác thực:', error);
+      setTxStatus(`Lỗi: ${error instanceof Error ? error.message : 'Đã xảy ra lỗi không xác định'}`);
+      setVerificationResult(null);
+    } finally {
+      setIsVerifying(false);
+    }
+  };
 
   // Handle file upload
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -90,20 +178,20 @@ const Mint: React.FC = () => {
 
   // Upload image to Pinata using PinataSDK
   const uploadToPinata = async (): Promise<{ ipfsUrl: string, fileType: string }> => {
-    if (!file) throw new Error("No file selected for upload.");
+    if (!file) throw new Error("Không có file được chọn");
 
     try {
       const uploadResult = await pinata.upload.public.file(file);
       if (!uploadResult || !uploadResult.cid) {
-        throw new Error("Upload failed");
+        throw new Error("Upload thất bại");
       }
       const ipfsUrl = `ipfs://${uploadResult.cid}`;
       const fileType = file.type; // Get the file's MIME type
 
       return { ipfsUrl, fileType };
     } catch (error) {
-      console.error("Error uploading to Pinata:", error);
-      throw new Error("Failed to upload image to IPFS.");
+      console.error("Lỗi khi upload lên Pinata:", error);
+      throw new Error("Không thể tải ảnh lên IPFS");
     }
   };
 
@@ -112,83 +200,93 @@ const Mint: React.FC = () => {
     e.preventDefault();
     
     if (!connected) {
-      setTxStatus('Please connect your wallet first');
+      setTxStatus('Vui lòng kết nối ví trước');
       return;
     }
     
     if (!file) {
-      setTxStatus('Please upload an image for your Medical ID NFT');
+      setTxStatus('Vui lòng tải lên ảnh cho NFT danh tính');
       return;
     }
     
     if (!fullName || !dob || !idNumber || !email) {
-      setTxStatus('Please fill in all required identity information');
+      setTxStatus('Vui lòng điền đầy đủ thông tin danh tính');
       return;
     }
     
     if (!encryptionKey) {
-      setTxStatus('Please enter an encryption key to secure your information');
+      setTxStatus('Vui lòng nhập khóa mã hóa để bảo vệ thông tin của bạn');
       return;
     }
     
     if (encryptionKey !== confirmEncryptionKey) {
-      setTxStatus('Encryption keys do not match');
+      setTxStatus('Khóa mã hóa không khớp');
+      return;
+    }
+
+    if (!didNumber) {
+      setTxStatus('Không tìm thấy định danh. Vui lòng xác thực danh tính trước.');
       return;
     }
 
     setIsLoading(true);
-    setTxStatus('Processing your request...');
+    setTxStatus('Đang xử lý yêu cầu của bạn...');
     
     try {
-      // 1. Get wallet address and pubKeyHash
+      // Lấy địa chỉ ví và pubKeyHash
       const userAddress = await wallet.getChangeAddress();
       const { pubKeyHash: userPubKey } = deserializeAddress(userAddress);
       
-      // 2. Upload image to Pinata
-      setTxStatus('Uploading image to IPFS...');
+      // Tải ảnh lên Pinata
+      setTxStatus('Đang tải ảnh lên IPFS...');
       const { ipfsUrl, fileType } = await uploadToPinata();
       
-      // 3. Encrypt identity information
-      setTxStatus('Encrypting your identity information...');
+      // Mã hóa thông tin danh tính
+      setTxStatus('Đang mã hóa thông tin danh tính của bạn...');
       const identityData = {
         fullName,
         dateOfBirth: dob,
         idNumber,
-        email
+        email,
+        did_number: didNumber
       };
       
-      // Encrypt the identity data
+      // Mã hóa dữ liệu danh tính
       const encryptedIdentity = encryptData(JSON.stringify(identityData), encryptionKey);
-      console.log('Encrypted Identity:', encryptedIdentity);
+      console.log('Dữ liệu danh tính đã mã hóa:', encryptedIdentity);
       
-      // 4. Prepare metadata with pubKeyHash and encrypted data
+      // Chuẩn bị metadata với pubKeyHash và dữ liệu đã mã hóa
       const metadata = {
         _pk: userPubKey,
         name: nftName,
         description: "CIP68 Medical Identity Token",
-        image: ipfsUrl, // Use the actual IPFS URL from upload
-        mediaType: fileType, // Add the file's media type
-        encryptedData: encryptedIdentity, // Add encrypted identity data 
-      
+        image: ipfsUrl,
+        mediaType: fileType,
+        encryptedData: encryptedIdentity,
+        did_number: didNumber, // Thêm DID vào metadata của NFT
+        fingerprint: `medid-${userAddress.substring(0, 8)}`,
+        totalSupply: "1"
       };
       
       console.log('Metadata:', metadata);
       console.log('IPFS URL:', ipfsUrl);
       
-      // 5. Mint the NFT
-      setTxStatus('Minting your Medical ID NFT on the blockchain...');
+      // Tạo NFT
+      setTxStatus('Đang tạo NFT danh tính y tế trên blockchain...');
       const result = await mintNFT(wallet, nftName, metadata, {});
       
-      // 6. Update UI with success
+      // Cập nhật UI khi thành công
       setTxHash(result);
-      setTxStatus('Medical ID NFT minted successfully!');
+      setTxStatus('NFT danh tính y tế đã được tạo thành công!');
       
-      // Reset form if desired
-      // clearForm();
+      // Tự động xác thực lại sau khi mint
+      setTimeout(() => {
+        handleVerify();
+      }, 3000);
       
     } catch (error) {
-      console.error('Error minting NFT:', error);
-      setTxStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+      console.error('Lỗi khi tạo NFT:', error);
+      setTxStatus(`Lỗi: ${error instanceof Error ? error.message : 'Đã xảy ra lỗi không xác định'}`);
     } finally {
       setIsLoading(false);
     }
@@ -207,11 +305,15 @@ const Mint: React.FC = () => {
     setConfirmEncryptionKey('');
   };
 
+  // Tính toán trạng thái hiển thị UI
+  const showVerificationSection = !verificationResult || !verificationResult.hasNft;
+  const showMintForm = verificationResult && !verificationResult.hasNft && didNumber;
+
   // Calculate metadata preview
   const metadataPreview = {
     name: nftName,
     description: 'CIP68 Medical Identity Token',
-    
+    did_number: didNumber || '[Chưa có]'
   };
 
   return (
@@ -219,10 +321,10 @@ const Mint: React.FC = () => {
       {/* Hero Section */}
       <div className={styles.hero}>
         <div className={styles.container}>
-          <h1>Smart Healthcare on Blockchain</h1>
+          <h1>Xác thực danh tính sức khỏe trên Blockchain</h1>
           <p>
-            Combining cutting-edge technology with blockchain to deliver secure and
-            intelligent healthcare services
+            Kết hợp công nghệ tiên tiến với blockchain để mang lại dịch vụ chăm sóc sức khỏe
+            thông minh và an toàn
           </p>
         </div>
       </div>
@@ -231,240 +333,229 @@ const Mint: React.FC = () => {
       <div className={styles.mainContent}>
         <div className={styles.container}>
           {/* Identity Verification Card */}
-          <div className={styles.card}>
-            <div className={styles.cardHeader}>
-              <h2>Identity Verification</h2>
-            </div>
-            <div className={styles.cardBody}>
-              <div className={styles.infoBox}>
-                <h3>Verify Your Medical Identity</h3>
-                <p>
-                  Securely verify your identity to access blockchain-based healthcare
-                  services. Your data remains encrypted and only accessible with your
-                  permission.
-                </p>
+          {showVerificationSection && (
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <h2>Xác thực danh tính</h2>
               </div>
-              <div className={styles.verifyButtonWrapper}>
-                <Link href="/verify">
-                  <button className={styles.btnPrimary}>Verify My Identity</button>
-                </Link>
-                <p className={styles.verifyNote}>
-                  If verification fails, you&apos;ll need to mint a Medical Identity NFT.
-                </p>
+              <div className={styles.cardBody}>
+                <div className={styles.infoBox}>
+                  <h3>Xác thực danh tính y tế của bạn</h3>
+                  <p>
+                    Xác thực danh tính của bạn một cách an toàn để truy cập các dịch vụ chăm sóc
+                    sức khỏe trên blockchain. Dữ liệu của bạn được mã hóa và chỉ có thể truy cập
+                    khi có sự cho phép của bạn.
+                  </p>
+                </div>
+                <div className={styles.verifyButtonWrapper}>
+                  <button 
+                    className={styles.btnPrimary} 
+                    onClick={handleVerify}
+                    disabled={isVerifying || !connected}
+                  >
+                    {isVerifying ? 'Đang xác thực...' : 'Xác thực danh tính của tôi'}
+                  </button>
+                  {txStatus && <p className={styles.verifyNote}>{txStatus}</p>}
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Verification Result Display */}
+          {verificationResult && verificationResult.hasNft && (
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <h2>Xác thực thành công!</h2>
+              </div>
+              <div className={styles.cardBody}>
+                <div className={styles.successMessage}>
+                  <div className={styles.successIcon}>✓</div>
+                  <h3>Danh tính của bạn đã được xác thực</h3>
+                  <p>DID: {verificationResult.didNumber}</p>
+                  <p>NFT danh tính hợp lệ đã được tìm thấy trong ví của bạn.</p>
+                  <p>Bạn đã có thể truy cập đầy đủ vào các dịch vụ chăm sóc sức khỏe trên blockchain.</p>
+                  <div className={styles.nextSteps}>
+                    <Link href="/service/adapter">
+                      <button className={styles.btnPrimary}>Truy cập dịch vụ</button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* NFT Minting Card */}
-          <div className={styles.card}>
-            <div className={styles.cardHeader}>
-              <h2>Mint Medical Identity NFT</h2>
-              {!connected && (
-                <div className={styles.walletWarning}>
-                  <p>Please connect your wallet to mint an NFT</p>
-                </div>
-              )}
-            </div>
-            <div className={styles.cardBody}>
-              <div className={styles.infoBox}>
-                <h3>
-                  Medical Identity NFT <span className={styles.cipBadge}>CIP68</span>
-                </h3>
-                <p>
-                  Create a secure, non-transferable NFT that contains your verified medical
-                  identity. This CIP68-compliant token enables secure access to your
-                  medical records while maintaining privacy.
-                </p>
+          {showMintForm && (
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <h2>Tạo NFT danh tính y tế</h2>
+                {!connected && (
+                  <div className={styles.walletWarning}>
+                    <p>Vui lòng kết nối ví để tạo NFT</p>
+                  </div>
+                )}
               </div>
-              <form onSubmit={handleMint}>
-                <div className={styles.splitLayout}>
-                  <div className={styles.formSection}>
+              <div className={styles.cardBody}>
+                <div className={styles.infoBox}>
+                  <h3>
+                    NFT danh tính y tế <span className={styles.cipBadge}>CIP68</span>
+                  </h3>
+                  <p>
+                    Tạo NFT không thể chuyển nhượng chứa danh tính y tế đã được xác minh của bạn.
+                    Token CIP68 này cho phép truy cập an toàn vào hồ sơ y tế của bạn đồng thời
+                    duy trì quyền riêng tư.
+                  </p>
+                  {didNumber && (
+                    <div className={styles.didInfo}>
+                      <p><strong>DID của bạn:</strong> {didNumber}</p>
+                    </div>
+                  )}
+                </div>
+                <form onSubmit={handleMint}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="nftName">Tên NFT</label>
                     <input
-                      type="file"
-                      id="file-upload"
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      accept="image/*"
-                      className={styles.hiddenFileInput}
+                      type="text"
+                      id="nftName"
+                      value={nftName}
+                      onChange={(e) => setNftName(e.target.value)}
+                      required
                     />
-                    <div
-                      className={`${styles.dropArea} ${isDragging ? styles.dragActive : ''}`}
-                      onDragEnter={(e) => handleDrag(e, true)}
-                      onDragOver={(e) => handleDrag(e, true)}
-                      onDragLeave={(e) => handleDrag(e, false)}
-                      onDrop={handleDrop}
-                      onClick={() => fileInputRef.current?.click()}
-                    >
-                      {imageUrl ? (
-                        <div className={styles.imagePreview}>
-                          <img src={imageUrl} alt="Preview" />
-                        </div>
-                      ) : (
-                        <>
-                          <p>Drag and drop your image or click to browse</p>
-                          <button type="button" className={styles.btnOutline}>
-                            Choose File
-                          </button>
-                        </>
-                      )}
-                    </div>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="fullName">Họ và tên</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className={styles.formRow}>
                     <div className={styles.formGroup}>
-                      <label htmlFor="nft-name">NFT Name</label>
-                      <input
-                        type="text"
-                        id="nft-name"
-                        className={styles.formControl}
-                        placeholder="Enter a name for your Medical ID NFT"
-                        value={nftName}
-                        onChange={(e) => setNftName(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="full-name">Full Name</label>
-                      <input
-                        type="text"
-                        id="full-name"
-                        className={styles.formControl}
-                        placeholder="Enter your full name"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="dob">Date of Birth</label>
+                      <label htmlFor="dob">Ngày sinh</label>
                       <input
                         type="date"
                         id="dob"
-                        className={styles.formControl}
                         value={dob}
                         onChange={(e) => setDob(e.target.value)}
                         required
                       />
                     </div>
                     <div className={styles.formGroup}>
-                      <label htmlFor="id-number">ID Number</label>
+                      <label htmlFor="idNumber">Số CMND/CCCD</label>
                       <input
                         type="text"
-                        id="id-number"
-                        className={styles.formControl}
-                        placeholder="National ID / Passport Number"
+                        id="idNumber"
                         value={idNumber}
                         onChange={(e) => setIdNumber(e.target.value)}
                         required
                       />
                     </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="email">Email Address</label>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label>Ảnh đại diện</label>
+                    <div
+                      className={`${styles.dropArea} ${isDragging ? styles.dragging : ''}`}
+                      onDragOver={(e) => handleDrag(e, true)}
+                      onDragEnter={(e) => handleDrag(e, true)}
+                      onDragLeave={(e) => handleDrag(e, false)}
+                      onDrop={handleDrop}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      {imageUrl ? (
+                        <img src={imageUrl} alt="Preview" className={styles.preview} />
+                      ) : (
+                        <>
+                          <p>Kéo thả hoặc click để chọn ảnh</p>
+                          <span className={styles.browseLink}>Chọn file</span>
+                        </>
+                      )}
                       <input
-                        type="email"
-                        id="email"
-                        className={styles.formControl}
-                        placeholder="Your email address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        style={{ display: 'none' }}
                       />
                     </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="encryption-key">Encryption Key (Password)</label>
-                      <input
-                        type="password"
-                        id="encryption-key"
-                        className={styles.formControl}
-                        placeholder="Create a strong encryption key"
-                        value={encryptionKey}
-                        onChange={(e) => setEncryptionKey(e.target.value)}
-                        required
-                      />
-                      <small className={styles.formHelp}>
-                        This key will be used to encrypt your identity data. Keep it safe - you'll need it to decrypt your information.
-                      </small>
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="confirm-encryption-key">Confirm Encryption Key</label>
-                      <input
-                        type="password"
-                        id="confirm-encryption-key"
-                        className={styles.formControl}
-                        placeholder="Confirm your encryption key"
-                        value={confirmEncryptionKey}
-                        onChange={(e) => setConfirmEncryptionKey(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className={styles.cipInfo}>
-                      <h4>About CIP68 Standard</h4>
-                      <p>
-                        CIP68 is a Cardano Improvement Proposal that defines a standard for
-                        NFTs with reference scripts, enabling advanced functionality for
-                        digital assets on the Cardano blockchain.
-                      </p>
-                    </div>
-                    <button 
-                      type="submit" 
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="encryptionKey">Khóa mã hóa</label>
+                    <input
+                      type="password"
+                      id="encryptionKey"
+                      value={encryptionKey}
+                      onChange={(e) => setEncryptionKey(e.target.value)}
+                      required
+                    />
+                    <p className={styles.formHelp}>
+                      Lưu ý: Hãy lưu giữ khóa mã hóa này cẩn thận. Bạn sẽ cần nó để truy cập dữ liệu y tế.
+                    </p>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="confirmEncryptionKey">Xác nhận khóa mã hóa</label>
+                    <input
+                      type="password"
+                      id="confirmEncryptionKey"
+                      value={confirmEncryptionKey}
+                      onChange={(e) => setConfirmEncryptionKey(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className={styles.formActions}>
+                    <button
+                      type="submit"
                       className={styles.btnPrimary}
                       disabled={isLoading || !connected}
                     >
-                      {isLoading ? 'Processing...' : 'Mint Medical NFT'}
+                      {isLoading ? 'Đang xử lý...' : 'Tạo NFT danh tính'}
                     </button>
-                    
-                    {txStatus && (
-                      <div className={`${styles.txStatus} ${txHash ? styles.success : ''}`}>
-                        <p>{txStatus}</p>
-                        {txHash && (
-                          <div className={styles.txHashContainer}>
-                            <p><strong>Transaction Hash:</strong></p>
-                            <a 
-                              href={`https://preprod.cardanoscan.io/transaction/${txHash}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={styles.txHashLink}
-                            >
-                              {txHash}
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    <button
+                      type="button"
+                      className={styles.btnSecondary}
+                      onClick={clearForm}
+                      disabled={isLoading}
+                    >
+                      Xóa form
+                    </button>
                   </div>
-                  <div className={styles.previewSection}>
-                    <h3>NFT Preview</h3>
-                    <div className={styles.nftPreview}>
-                      <div className={styles.nftImagePreview}>
-                        {imageUrl ? (
-                          <img src={imageUrl} alt="Preview" />
-                        ) : (
-                          <p>Image preview will appear here</p>
-                        )}
-                      </div>
-                      <h4 id="preview-name">{nftName}</h4>
-                      <p className={styles.previewOwner}>
-                        Owned by: {connected ? 'Your Wallet' : '[Connect Wallet]'}
-                      </p>
-                    </div>
-                    <h3>Metadata</h3>
-                    <div className={styles.metadataPreview}>
-                      <pre>{JSON.stringify(metadataPreview, null, 2)}</pre>
-                    </div>
-                    <div className={styles.securityInfo}>
-                      <h4>Data Security</h4>
-                      <p>
-                        <strong>Encryption:</strong> Your personal information is encrypted using AES-256 before being stored on the blockchain
-                      </p>
-                      <p>
-                        <strong>Key Security:</strong> Only you have access to your encryption key - keep it secure
-                      </p>
-                      <p>
-                        <strong>Blockchain Protection:</strong> Your identity is linked to your wallet's pubKeyHash for additional security
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </form>
+                </form>
+
+                {txStatus && <p className={styles.txStatus}>{txStatus}</p>}
+                {txHash && (
+                  <p className={styles.txHash}>
+                    Transaction Hash:{' '}
+                    <a
+                      href={`https://preprod.cexplorer.io/tx/${txHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {txHash}
+                    </a>
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>

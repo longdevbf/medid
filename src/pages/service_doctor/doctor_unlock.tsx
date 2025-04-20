@@ -1,7 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useWallet } from '@meshsdk/react';
 import styles from '../../styles/unlock.module.css';
+import unlockPortfolio from '../../utils/PatientAction/utils/unlock';
 
 const DoctorUnlock = () => {
+  // Wallet connection
+  const { wallet, connected } = useWallet();
+  
+  // State variables
+  const [txHash, setTxHash] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [unlockResult, setUnlockResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  // Handle form submission
+  const handleUnlock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!connected) {
+      setError('Please connect your wallet first');
+      return;
+    }
+    
+    if (!txHash || txHash.trim() === '') {
+      setError('Transaction hash is required');
+      return;
+    }
+    
+    setIsLoading(true);
+    setError(null);
+    setUnlockResult(null);
+    setIsSuccess(false);
+    
+    try {
+      // Call the unlock function with wallet and transaction hash
+      const result = await unlockPortfolio(wallet, txHash);
+      
+      setUnlockResult(result);
+      setIsSuccess(true);
+      setError(null);
+    } catch (err) {
+      console.error('Error unlocking records:', err);
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setIsSuccess(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <section className={styles.hero}>
@@ -25,7 +72,13 @@ const DoctorUnlock = () => {
           </p>
         </div>
 
-        <form className={styles.unlockForm}>
+        {!connected && (
+          <div className={styles.walletWarning}>
+            <p>Please connect your wallet to unlock patient records</p>
+          </div>
+        )}
+
+        <form className={styles.unlockForm} onSubmit={handleUnlock}>
           <div className={styles.formGroup}>
             <label htmlFor="txhash">Transaction Hash (txhash)</label>
             <input
@@ -33,7 +86,10 @@ const DoctorUnlock = () => {
               id="txhash"
               name="txhash"
               placeholder="Enter transaction hash here..."
+              value={txHash}
+              onChange={(e) => setTxHash(e.target.value)}
               required
+              disabled={isLoading}
             />
             <span className={styles.formInfo}>
               The transaction hash serves as a unique identifier on the
@@ -41,10 +97,29 @@ const DoctorUnlock = () => {
             </span>
           </div>
 
-          <button type="submit" className={styles.unlockBtn}>
-            Unlock Medical Records
+          <button 
+            type="submit" 
+            className={styles.unlockBtn}
+            disabled={isLoading || !connected}
+          >
+            {isLoading ? 'Processing...' : 'Unlock Medical Records'}
           </button>
         </form>
+
+        {error && (
+          <div className={styles.errorMessage}>
+            <h3>Error</h3>
+            <p>{error}</p>
+          </div>
+        )}
+
+        {isSuccess && unlockResult && (
+          <div className={styles.successMessage}>
+            <h3>Records Unlocked Successfully</h3>
+            <p>Transaction ID: {unlockResult}</p>
+            <p>You can now view the patient's medical records</p>
+          </div>
+        )}
 
         <div className={styles.securityInfo}>
           <h3>Security Information</h3>
