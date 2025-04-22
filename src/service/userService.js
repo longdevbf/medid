@@ -1,5 +1,5 @@
 // Helper function to handle API responses
-async function fetchAPI(endpoint, method = 'GET', data = null) {
+export async function fetchAPI(endpoint, method = 'GET', data = null) {
   const options = {
     method,
     headers: {
@@ -84,18 +84,14 @@ export async function saveUserToDatabase(walletAddress, pubKey, didNumber) {
  */
 export async function getUserByWallet(walletAddress) {
   try {
-    return await fetchAPI(`users?walletAddress=${walletAddress}`);
+    // Sử dụng endpoint hiện có
+    return await fetchAPI(`users?walletAddress=${encodeURIComponent(walletAddress)}`, 'GET');
   } catch (error) {
-    if (error.message.includes('404') || error.message.includes('not found')) {
-      return null;
-    }
-    throw error;
+    console.error("Lỗi khi lấy thông tin người dùng:", error);
+    return null;
   }
 }
 
-/**
- * Cập nhật thông tin người dùng
- */
 export async function updateUser(userId, userData) {
   return await fetchAPI(`users/${userId}`, 'PUT', userData);
 }

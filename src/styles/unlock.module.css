@@ -135,4 +135,79 @@
     max-width: 400px;
     margin: 0 auto;
   }
+
+  .recordsList {
+    margin: 1.5rem 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
   
+  .recordsList h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .recordsTable {
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  .recordsTable table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .recordsTable th,
+  .recordsTable td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .recordsTable th {
+    font-weight: 600;
+    color: #4a5568;
+    background-color: #edf2f7;
+  }
+  
+  .recordItem:hover {
+    background-color: #f7fafc;
+  }
+  
+  .address, .unitId {
+    font-family: monospace;
+    font-size: 0.9rem;
+  }
+  
+  .unlockItemBtn {
+    padding: 8px 12px;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+  }
+  
+  .unlockItemBtn:hover {
+    background-color: #3182ce;
+  }
+  
+  .unlockItemBtn:disabled {
+    background-color: #cbd5e0;
+    cursor: not-allowed;
+  }
+  
+  .noRecords, .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    color: #718096;
+    text-align: center;
+    background-color: #fff;
+    border: 1px dashed #e2e8f0;
+    border-radius: 4px;
+  }

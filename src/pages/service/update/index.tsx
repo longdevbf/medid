@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useWallet } from '@meshsdk/react';
 import styles from './Update.module.css';
 import updatePortfolio from "../../../utils/PatientAction/utils/update";
+import { getUpdateEligibleTransactions, getTransactionsByAddress, saveTransaction, updateTransactionPermissions } from "../../../service/transactionService";
+import { getUserByWallet } from "../../../service/userService";
 
 interface ActionResult {
   message: string;
   type: "success" | "error" | "loading" | "";
-  txHash?: string;
+  txhash?: string;
+}
+
+interface Transaction {
+  id: number;
+  txhash: string;
+  amount: number;
+  from_address: string;
+  to_address: string[];
+  unit: string;
+  transaction_type: string;
+  current_type: string;
+  create_at: string;
 }
 
 // Định nghĩa các lý do cập nhật
@@ -19,7 +33,6 @@ type UpdateReason = {
 
 const Update: React.FC = () => {
   const { wallet, connected } = useWallet();
-  const [txHash, setTxHash] = useState<string>("");
   const [doctorAddresses, setDoctorAddresses] = useState<string[]>([""]);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [selectedReason, setSelectedReason] = useState<string>("");
@@ -28,6 +41,12 @@ const Update: React.FC = () => {
     type: "",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [updateHistory, setUpdateHistory] = useState<Transaction[]>([]);
+  const [loadingTx, setLoadingTx] = useState<boolean>(false);
+  const [loadingHistory, setLoadingHistory] = useState<boolean>(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [userInfo, setUserInfo] = useState<any>(null);
 
   // Danh sách các lý do cập nhật
   const updateReasons: UpdateReason[] = [
@@ -63,6 +82,46 @@ const Update: React.FC = () => {
     }
   ];
 
+  // Lấy danh sách giao dịch hợp lệ khi kết nối ví
+  useEffect(() => {
+    async function fetchData() {
+      if (!connected || !wallet) return;
+      
+      try {
+        setLoadingTx(true);
+        setLoadingHistory(true);
+        setError("");
+        const patientAddress = await wallet.getChangeAddress();
+        console.log("Fetching transactions for patient address:", patientAddress);
+        
+        // Lấy thông tin bệnh nhân
+        const user = await getUserByWallet(patientAddress);
+        if (user) {
+          setUserInfo(user);
+          console.log("User info loaded:", user.id);
+        }
+        
+        // Lấy danh sách giao dịch có thể cập nhật quyền truy cập
+        const txs = await getUpdateEligibleTransactions(patientAddress);
+        console.log("Found eligible transactions:", txs.length);
+        setTransactions(txs);
+
+        // Lấy lịch sử cập nhật
+        const history = await getTransactionsByAddress(patientAddress, 'patient_update');
+        console.log("Found update history:", history.length);
+        setUpdateHistory(history);
+      } catch (err) {
+        console.error('Error fetching transactions:', err);
+        setError('Failed to load transaction data. Please try again.');
+      } finally {
+        setLoadingTx(false);
+        setLoadingHistory(false);
+      }
+    }
+    
+    fetchData();
+  }, [connected, wallet]);
+
   const handleDoctorChange = (index: number, value: string) => {
     const updated = [...doctorAddresses];
     updated[index] = value;
@@ -82,12 +141,35 @@ const Update: React.FC = () => {
   };
 
   const resetForm = () => {
-    setTxHash("");
     setDoctorAddresses([""]);
     setConfirmed(false);
     setSelectedReason("");
     setActionResult({ message: "", type: "" });
+    setSelectedTransaction(null);
   };
+
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  };
+
+  // Xử lý chọn một giao dịch để cập nhật
+  const handleSelectTransaction = (tx: Transaction) => {
+    setSelectedTransaction(tx);
+    // Nạp danh sách bác sĩ hiện tại từ to_address của giao dịch
+    setDoctorAddresses(tx.to_address.length > 0 ? [...tx.to_address] : [""]);
+    setError("");
+  };
+
+  // Thiết lập state lỗi
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,9 +185,9 @@ const Update: React.FC = () => {
       return;
     }
 
-    if (txHash.trim() === "" || txHash.length < 64) {
+    if (!selectedTransaction) {
       setActionResult({ 
-        message: "Vui lòng nhập mã giao dịch (Transaction Hash) hợp lệ", 
+        message: "Vui lòng chọn một giao dịch để cập nhật", 
         type: "error" 
       });
       return;
@@ -151,19 +233,54 @@ const Update: React.FC = () => {
         type: "loading",
       });
 
-      // Gọi hàm updatePortfolio từ smart contract
-      const result = await updatePortfolio(wallet, validDoctors, txHash);
+      // 1. Gọi hàm updatePortfolio từ smart contract
+      const result = await updatePortfolio(wallet, validDoctors, selectedTransaction.txhash);
 
-      // Hiển thị kết quả thành công
+      // 2. Cập nhật to_address của giao dịch gốc
+      await updateTransactionPermissions(selectedTransaction.id, validDoctors);
+
+      // 3. Lấy địa chỉ ví hiện tại
+      const patientAddress = await wallet.getChangeAddress();
+
+      // 4. Lưu giao dịch mới với transaction_type là "patient_update"
+      await saveTransaction({
+        userId: userInfo?.id || null,
+        txHash: result,
+        amount: selectedTransaction.amount || 1,
+        fromAddress: patientAddress,
+        toAddress: validDoctors,
+        unit: selectedTransaction.unit,
+        transactionType: 'patient_update',
+        currentType: 'update'
+      });
+
+      // 5. Cập nhật UI
       setActionResult({
         message: "Cập nhật quyền truy cập thành công! Giao dịch đã được ghi lên blockchain.",
         type: "success",
-        txHash: result
+        txhash: result
       });
+
+      // 6. Thêm vào lịch sử cập nhật
+      setUpdateHistory(prevHistory => [{
+        id: Date.now(), // Temporary ID until refresh
+        txhash: result,
+        amount: selectedTransaction.amount || 1,
+        from_address: patientAddress,
+        to_address: validDoctors,
+        unit: selectedTransaction.unit,
+        transaction_type: 'patient_update',
+        current_type: 'update',
+        create_at: new Date().toISOString()
+      }, ...prevHistory]);
+
+      // Làm mới danh sách giao dịch có thể update
+      const updatedTxs = await getUpdateEligibleTransactions(patientAddress);
+      setTransactions(updatedTxs);
 
       // Log kết quả
       console.log({
-        txHash,
+        originalTxHash: selectedTransaction.txhash,
         doctorAddresses: validDoctors,
         updateReason: selectedReason,
         resultTxHash: result
@@ -190,8 +307,7 @@ const Update: React.FC = () => {
           <div className={styles["info-text"]}>
             <div className={styles["info-icon"]}>ℹ️</div>
             <div>
-              Trang này cho phép bạn cập nhật quyền truy cập cho hồ sơ y tế điện tử của bạn được lưu trữ trên blockchain.
-              Nhập mã giao dịch (txHash) và địa chỉ ví của các bác sĩ mà bạn muốn cấp quyền truy cập.
+              Chọn một hồ sơ y tế đã khóa từ danh sách và cập nhật quyền truy cập cho các bác sĩ bạn muốn.
             </div>
           </div>
 
@@ -206,129 +322,283 @@ const Update: React.FC = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit}>
-            <div className={styles["form-group"]}>
-              <label className={styles.label} htmlFor="txHash">Mã Giao Dịch (Transaction Hash):</label>
-              <input className={styles.input}
-                type="text"
-                id="txHash"
-                name="txHash"
-                placeholder="Nhập mã giao dịch khóa hồ sơ"
-                required
-                value={txHash}
-                onChange={(e) => setTxHash(e.target.value)}
-                disabled={isLoading}
-              />
-              <small className={styles.helpText}>
-                Nhập mã giao dịch ban đầu khi bạn đã khóa hồ sơ y tế trên blockchain
-              </small>
-            </div>
-
-            <div className={styles["form-group"]}>
-              <label className={styles.label}>Địa Chỉ Ví Bác Sĩ:</label>
-              <div id="doctorAddresses">
-                {doctorAddresses.map((addr, index) => (
-                  <div className={styles["doctor-entry"]} key={index}>
-                    <input
-                      className={styles.input}
-                      type="text"
-                      name="doctorAddress"
-                      placeholder="Nhập địa chỉ ví Cardano của bác sĩ (bắt đầu bằng addr...)"
-                      required
-                      value={addr}
-                      onChange={(e) => handleDoctorChange(index, e.target.value)}
-                      disabled={isLoading}
-                    />
-                    <button 
-                      type="button" 
-                      className={styles.removeBtn} 
-                      onClick={() => removeDoctor(index)}
-                      disabled={doctorAddresses.length <= 1 || isLoading}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </button>
+          {connected && (
+            <>
+              {/* Phần lựa chọn giao dịch để cập nhật */}
+              <div className={styles["transactions-section"]}>
+                <h3>Chọn Hồ Sơ Y Tế để Cập Nhật</h3>
+                
+                {loadingTx ? (
+                  <div className={styles.loading}>
+                    <div className={styles.spinner}></div>
+                    <p>Đang tải danh sách giao dịch...</p>
                   </div>
-                ))}
+                ) : transactions.length > 0 ? (
+                  <div className={styles["transactions-list"]}>
+                    <table className={styles["transactions-table"]}>
+                      <thead>
+                        <tr>
+                          <th>Ngày Tạo</th>
+                          <th>ID Giao Dịch</th>
+                          <th>Số Lượng Bác Sĩ</th>
+                          <th>Mã Hồ Sơ</th>
+                          <th>Hành Động</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {transactions.map(tx => (
+                          <tr key={tx.id} className={`${styles["transaction-item"]} ${selectedTransaction?.id === tx.id ? styles["selected-tx"] : ""}`}>
+                            <td>{formatDate(tx.create_at)}</td>
+                            <td className={styles.txhash}>
+                              {tx.txhash}...{tx.txhash}
+                            </td>
+                            <td>{tx.to_address.length}</td>
+                            <td className={styles.unitId}>
+                              {tx.unit.substring(0, 10)}...
+                            </td>
+                            <td>
+                              <button
+                                onClick={() => handleSelectTransaction(tx)}
+                                disabled={isLoading}
+                                className={styles["select-tx-btn"]}
+                              >
+                                {selectedTransaction?.id === tx.id ? 'Đã chọn' : 'Chọn để cập nhật'}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className={styles["no-records"]}>
+                    <p>Không tìm thấy giao dịch nào có thể cập nhật. Bạn cần khóa hồ sơ y tế trước khi có thể cập nhật quyền truy cập.</p>
+                  </div>
+                )}
               </div>
-              <button 
-                type="button" 
-                className={styles["add-doctor-btn"]} 
-                onClick={addDoctor}
-                disabled={isLoading}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg> 
-                Thêm Bác Sĩ
-              </button>
-            </div>
 
-            {/* Phần chọn lý do cập nhật */}
-            <div className={styles["form-group"]}>
-              <label className={styles.label}>Lý Do Cập Nhật:</label>
-              <div className={styles["reason-cards"]}>
-                {updateReasons.map((reason) => (
-                  <div 
-                    key={reason.id} 
-                    className={`${styles["reason-card"]} ${selectedReason === reason.id ? styles["reason-selected"] : ""}`}
-                    onClick={() => !isLoading && setSelectedReason(reason.id)}
-                  >
-                    <div className={styles["reason-icon"]}>{reason.icon}</div>
-                    <h4>{reason.title}</h4>
-                    <p>{reason.description}</p>
-                    {selectedReason === reason.id && (
-                      <div className={styles["selected-indicator"]}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+              {selectedTransaction && (
+                <form onSubmit={handleSubmit}>
+                  <div className={styles["selected-transaction-info"]}>
+                    <h3>Thông Tin Giao Dịch Đã Chọn</h3>
+                    <div className={styles["tx-details-grid"]}>
+                      <div className={styles["tx-detail-item"]}>
+                        <span className={styles["tx-detail-label"]}>Mã giao dịch:</span>
+                        <span className={styles["tx-detail-value"]}>
+                          <a 
+                            href={`https://preprod.cardanoscan.io/transaction/${selectedTransaction.txhash}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles["tx-link"]}
+                          >
+                            {selectedTransaction.txhash}...{selectedTransaction.txhash}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                              <polyline points="15 3 21 3 21 9"></polyline>
+                              <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                          </a>
+                        </span>
                       </div>
+                      <div className={styles["tx-detail-item"]}>
+                        <span className={styles["tx-detail-label"]}>Ngày tạo:</span>
+                        <span className={styles["tx-detail-value"]}>{formatDate(selectedTransaction.create_at)}</span>
+                      </div>
+                      <div className={styles["tx-detail-item"]}>
+                        <span className={styles["tx-detail-label"]}>Mã hồ sơ:</span>
+                        <span className={styles["tx-detail-value"]} title={selectedTransaction.unit}>{selectedTransaction.unit.substring(0, 15)}...</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={styles["form-group"]}>
+                    <label className={styles.label}>Danh Sách Bác Sĩ Hiện Tại:</label>
+                    {selectedTransaction.to_address.length > 0 ? (
+                      <div className={styles["current-doctors"]}>
+                        {selectedTransaction.to_address.map((addr, idx) => (
+                          <div key={idx} className={styles["current-doctor-item"]}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                              <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span title={addr}>{addr.substring(0, 8)}...{addr.substring(addr.length - 8)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className={styles["no-doctors"]}>Không có bác sĩ nào được cấp quyền truy cập</p>
                     )}
                   </div>
-                ))}
+
+                  <div className={styles["form-group"]}>
+                    <label className={styles.label}>Danh Sách Bác Sĩ Mới:</label>
+                    <div id="doctorAddresses">
+                      {doctorAddresses.map((addr, index) => (
+                        <div className={styles["doctor-entry"]} key={index}>
+                          <input
+                            className={styles.input}
+                            type="text"
+                            name="doctorAddress"
+                            placeholder="Nhập địa chỉ ví Cardano của bác sĩ (bắt đầu bằng addr...)"
+                            required
+                            value={addr}
+                            onChange={(e) => handleDoctorChange(index, e.target.value)}
+                            disabled={isLoading}
+                          />
+                          <button 
+                            type="button" 
+                            className={styles.removeBtn} 
+                            onClick={() => removeDoctor(index)}
+                            disabled={doctorAddresses.length <= 1 || isLoading}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <line x1="18" y1="6" x2="6" y2="18"></line>
+                              <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <button 
+                      type="button" 
+                      className={styles["add-doctor-btn"]} 
+                      onClick={addDoctor}
+                      disabled={isLoading}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg> 
+                      Thêm Bác Sĩ
+                    </button>
+                  </div>
+
+                  {/* Phần chọn lý do cập nhật */}
+                  <div className={styles["form-group"]}>
+                    <label className={styles.label}>Lý Do Cập Nhật:</label>
+                    <div className={styles["reason-cards"]}>
+                      {updateReasons.map((reason) => (
+                        <div 
+                          key={reason.id} 
+                          className={`${styles["reason-card"]} ${selectedReason === reason.id ? styles["reason-selected"] : ""}`}
+                          onClick={() => !isLoading && setSelectedReason(reason.id)}
+                        >
+                          <div className={styles["reason-icon"]}>{reason.icon}</div>
+                          <h4>{reason.title}</h4>
+                          <p>{reason.description}</p>
+                          {selectedReason === reason.id && (
+                            <div className={styles["selected-indicator"]}>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className={styles["form-group"] + " " + styles["checkbox-group"]}>
+                    <input className={styles.checkbox}
+                      type="checkbox"
+                      id="confirmCheck"
+                      checked={confirmed}
+                      onChange={(e) => setConfirmed(e.target.checked)}
+                      required
+                      disabled={isLoading}
+                    />
+                    <label htmlFor="confirmCheck" className={styles.checkboxLabel}>
+                      Tôi xác nhận rằng tôi đang cập nhật quyền truy cập cho các bác sĩ được liệt kê
+                    </label>
+                  </div>
+
+                  <div className={styles["btn-group"]}>
+                    <button 
+                      type="button" 
+                      className={styles["btn"] + " " + styles["btn-secondary"]} 
+                      onClick={resetForm}
+                      disabled={isLoading}
+                    >
+                      Hủy
+                    </button>
+                    <button 
+                      type="submit" 
+                      className={styles.btn + " " + styles["btn-primary"]}
+                      disabled={isLoading || !connected}
+                    >
+                      {isLoading ? (
+                        <>
+                          <span className={styles.spinner}></span>
+                          Đang Xử Lý...
+                        </>
+                      ) : "Cập Nhật Quyền Truy Cập"}
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* Phần hiển thị lịch sử cập nhật */}
+              <div className={styles["history-section"]}>
+                <h3>Lịch Sử Cập Nhật Quyền Truy Cập</h3>
+                
+                {loadingHistory ? (
+                  <div className={styles.loading}>
+                    <div className={styles.spinner}></div>
+                    <p>Đang tải lịch sử cập nhật...</p>
+                  </div>
+                ) : updateHistory.length > 0 ? (
+                  <div className={styles["history-list"]}>
+                    <table className={styles["transactions-table"]}>
+                      <thead>
+                        <tr>
+                          <th>Ngày Cập Nhật</th>
+                          <th>Mã Giao Dịch</th>
+                          <th>Số Lượng Bác Sĩ</th>
+                          <th>Mã Hồ Sơ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {updateHistory.map(tx => (
+                          <tr key={tx.id} className={styles["history-item"]}>
+                            <td>{formatDate(tx.create_at)}</td>
+                            <td className={styles.txHash}>
+                              <a 
+                                href={`https://preprod.cardanoscan.io/transaction/${tx.txhash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles["tx-link"]}
+                              >
+                                {tx.txhash}...{tx.txhash}
+                              </a>
+                            </td>
+                            <td>{tx.to_address.length}</td>
+                            <td className={styles.unitId} title={tx.unit}>
+                              {tx.unit.substring(0, 10)}...
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className={styles["no-records"]}>
+                    <p>Không có lịch sử cập nhật. Sau khi bạn cập nhật quyền truy cập, các giao dịch sẽ hiển thị ở đây.</p>
+                  </div>
+                )}
               </div>
-            </div>
+            </>
+          )}
 
-            <div className={styles["form-group"] + " " + styles["checkbox-group"]}>
-              <input className={styles.checkbox}
-                type="checkbox"
-                id="confirmCheck"
-                checked={confirmed}
-                onChange={(e) => setConfirmed(e.target.checked)}
-                required
-                disabled={isLoading}
-              />
-              <label htmlFor="confirmCheck" className={styles.checkboxLabel}>
-                Tôi xác nhận rằng tôi đang ủy quyền cho các bác sĩ này truy cập hồ sơ y tế của tôi
-              </label>
+          {error && (
+            <div className={styles["error-message"]}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{error}</span>
             </div>
-
-            <div className={styles["btn-group"]}>
-              <button 
-                type="button" 
-                className={styles["btn"] + " " + styles["btn-secondary"]} 
-                onClick={resetForm}
-                disabled={isLoading}
-              >
-                Làm Mới
-              </button>
-              <button 
-                type="submit" 
-                className={styles.btn + " " + styles["btn-primary"]}
-                disabled={isLoading || !connected}
-              >
-                {isLoading ? (
-                  <>
-                    <span className={styles.spinner}></span>
-                    Đang Xử Lý...
-                  </>
-                ) : "Cập Nhật Quyền Truy Cập"}
-              </button>
-            </div>
-          </form>
+          )}
 
           {actionResult.message && (
             <div
@@ -354,16 +624,16 @@ const Update: React.FC = () => {
                 <div className={styles["result-message"]}>
                   {actionResult.message}
                   
-                  {actionResult.txHash && (
+                  {actionResult.txhash && (
                     <div className={styles["tx-details"]}>
                       <p><strong>Mã Giao Dịch:</strong></p>
                       <a 
-                        href={`https://preprod.cardanoscan.io/transaction/${actionResult.txHash}`}
+                        href={`https://preprod.cardanoscan.io/transaction/${actionResult.txhash}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles["tx-link"]}
                       >
-                        {actionResult.txHash}
+                        {actionResult.txhash}
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                           <polyline points="15 3 21 3 21 9"></polyline>

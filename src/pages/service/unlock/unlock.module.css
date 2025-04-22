@@ -327,3 +327,86 @@
   margin: 0;
   color: #666;
 }
+
+/* Thêm vào file e:\medid\src\pages\service\unlock\Unlock.module.css */
+
+.transactions-section {
+  margin: 1.5rem 0;
+}
+
+.transactions-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.transactions-list {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.transactions-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+}
+
+.transactions-table td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.transaction-item:hover {
+  background-color: #f8f9fa;
+}
+
+.unlock-tx-btn {
+  padding: 8px 12px;
+  background-color: #0079a9;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unlock-tx-btn:hover {
+  background-color: #005d83;
+}
+
+.unlock-tx-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.unlock-tx-btn svg {
+  margin-right: 6px;
+}
+
+.address, .unitId {
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.no-records {
+  padding: 2rem;
+  text-align: center;
+  color: #6c757d;
+  border: 1px dashed #ced4da;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  margin-bottom: 1.5rem;
+}

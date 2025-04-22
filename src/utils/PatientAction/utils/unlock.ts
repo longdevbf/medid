@@ -11,8 +11,15 @@ import {
     getWalletInfoForTx,
   } from "../components/spend/common";
 
-  export async function unlockPortfolio(wallet: any, txHashLock: string){
-    try{
+  const unlockPortfolio = async (wallet: any, txHashLock: string) => {
+    try {
+        // Kiểm tra txHash hợp lệ
+        if (!txHashLock) {
+            throw new Error("Transaction hash is required for unlocking");
+        }
+        
+        console.log("Unlock called with txHash:", txHashLock);
+        console.log("Unlocking portfolio...");
         const {utxos, walletAddress, collateral} = await getWalletInfoForTx(wallet);
         const {pubKeyHash: userPubKeyHash} = deserializeAddress(walletAddress);     
         const {scriptAddr, scriptCbor} = getScript(); 
@@ -57,4 +64,3 @@ import {
     }
   }
 export default unlockPortfolio;
-  

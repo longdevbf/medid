@@ -33,7 +33,7 @@ async function createTransactionTable() {
             amount DECIMAL(10, 2),
             from_address VARCHAR(255) NOT NULL,
             to_address VARCHAR(255)[] NOT NULL,
-            unit VARCHAR(50),
+            unit VARCHAR(255),
             transaction_type VARCHAR(50) NOT NULL,
             current_type VARCHAR(50) NOT NULL,
             create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -1,51 +1,142 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useWallet } from '@meshsdk/react';
 import styles from '../../styles/unlock.module.css';
 import unlockPortfolio from '../../utils/PatientAction/utils/unlock';
+import { getDoctorTransactions, saveTransaction, updateTransaction } from '../../service/transactionService';
+import { getUserByWallet } from '../../service/userService';
+interface Transaction {
+  id: number;
+  txHash: string;
+  amount: number;
+  from_address: string;
+  to_address: string[];
+  unit: string;
+  transaction_type: string;
+  current_type: string;
+  create_at: string;
+}
 
 const DoctorUnlock = () => {
   // Wallet connection
   const { wallet, connected } = useWallet();
   
   // State variables
-  const [txHash, setTxHash] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [unlockResult, setUnlockResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loadingTx, setLoadingTx] = useState(false);
+  const [processingTx, setProcessingTx] = useState<string | null>(null);
 
-  // Handle form submission
-  const handleUnlock = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Fetch eligible transactions when wallet connects
+  useEffect(() => {
+    async function fetchTransactions() {
+      if (!connected || !wallet) return;
+      
+      try {
+        setLoadingTx(true);
+        setError(null);
+        const address = await wallet.getChangeAddress();
+        console.log("Fetching transactions for doctor address:", address);
+        const txs = await getDoctorTransactions(address);
+        console.log("Found eligible transactions:", txs.length);
+        
+        // Thêm log để kiểm tra dữ liệu từng transaction
+        if (txs.length > 0) {
+          console.log("Sample transaction:", txs[0]);
+          console.log("txHash available:", txs.map(tx => !!tx.txHash));
+        }
+        
+        setTransactions(txs);
+      } catch (err) {
+        console.error('Error fetching transactions:', err);
+        setError('Failed to load eligible records. Please try again.');
+      } finally {
+        setLoadingTx(false);
+      }
+    }
     
+    fetchTransactions();
+  }, [connected, wallet]);
+
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  };
+
+  // Handle unlock for a specific transaction
+  const handleUnlock = async (tx: Transaction) => {
     if (!connected) {
       setError('Please connect your wallet first');
       return;
     }
-    
-    if (!txHash || txHash.trim() === '') {
-      setError('Transaction hash is required');
+
+    if (!tx.txHash) {
+      setError('Transaction hash is missing or invalid');
       return;
     }
     
+    console.log("Attempting to unlock transaction with hash:", tx.txHash);
+    
     setIsLoading(true);
+    setProcessingTx(tx.txHash);
     setError(null);
     setUnlockResult(null);
     setIsSuccess(false);
     
     try {
-      // Call the unlock function with wallet and transaction hash
-      const result = await unlockPortfolio(wallet, txHash);
+      // 1. Call the unlock function with wallet and transaction hash
+      const result = await unlockPortfolio(wallet, tx.txHash);
       
+      // 2. Lấy thông tin user của bác sĩ từ địa chỉ ví
+      const doctorAddress = await wallet.getChangeAddress();
+      const doctorInfo = await getUserByWallet(doctorAddress);
+      
+      // Kiểm tra bác sĩ đã được đăng ký trong hệ thống chưa
+      if (!doctorInfo || !doctorInfo.id) {
+        setError('Bạn cần đăng ký tài khoản trước khi mở khóa hồ sơ');
+        setIsLoading(false);
+        setProcessingTx(null);
+        return;
+      }
+      
+      // 3. Record the unlock transaction với userId của bác sĩ
+      await saveTransaction({
+        userId: doctorInfo.id, // Sử dụng ID của bác sĩ
+        txHash: result,
+        amount: 1,
+        fromAddress: doctorAddress,
+        toAddress: [tx.from_address],
+        unit: tx.unit,
+        transactionType: 'doctor_unlock',
+        currentType: 'unlock'
+      });
+      
+      // 4. Update the original lock transaction
+      await updateTransaction(tx.id, 'unlocked');
+      
+      // 5. Update the UI
       setUnlockResult(result);
       setIsSuccess(true);
-      setError(null);
+      
+      // 6. Remove the unlocked transaction from the list
+      setTransactions(transactions.filter(t => t.id !== tx.id));
+      
     } catch (err) {
       console.error('Error unlocking records:', err);
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
       setIsSuccess(false);
     } finally {
       setIsLoading(false);
+      setProcessingTx(null);
     }
   };
 
@@ -64,11 +155,9 @@ const DoctorUnlock = () => {
         <div className={styles.unlockDescription}>
           <p>
             As a healthcare provider, you can access patient medical records
-            securely through our blockchain-based system. Enter the transaction
-            hash (txhash) provided by the patient or system to unlock and
-            decrypt the medical records. This ensures that only authorized
-            personnel can access sensitive healthcare information while
-            maintaining a transparent audit trail.
+            securely through our blockchain-based system. The system automatically
+            shows you records where you have been granted access. Select a record
+            to unlock and decrypt the medical information.
           </p>
         </div>
 
@@ -78,38 +167,78 @@ const DoctorUnlock = () => {
           </div>
         )}
 
-        <form className={styles.unlockForm} onSubmit={handleUnlock}>
-          <div className={styles.formGroup}>
-            <label htmlFor="txhash">Transaction Hash (txhash)</label>
-            <input
-              type="text"
-              id="txhash"
-              name="txhash"
-              placeholder="Enter transaction hash here..."
-              value={txHash}
-              onChange={(e) => setTxHash(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-            <span className={styles.formInfo}>
-              The transaction hash serves as a unique identifier on the
-              blockchain for the specific medical record
-            </span>
-          </div>
-
-          <button 
-            type="submit" 
-            className={styles.unlockBtn}
-            disabled={isLoading || !connected}
-          >
-            {isLoading ? 'Processing...' : 'Unlock Medical Records'}
-          </button>
-        </form>
+        <div className={styles.recordsList}>
+          <h3>Available Medical Records</h3>
+          
+          {loadingTx && (
+            <div className={styles.loading}>
+              <p>Loading available records...</p>
+            </div>
+          )}
+          
+          {!loadingTx && transactions.length === 0 && (
+            <div className={styles.noRecords}>
+              <p>No available records found. Patients must grant you access to their medical records first.</p>
+            </div>
+          )}
+          
+          {!loadingTx && transactions.length > 0 && (
+            <div className={styles.recordsTable}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Patient Address</th>
+                    <th>Record ID</th>
+                    <th>TxHash</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map(tx => (
+                    <tr key={tx.id} className={styles.recordItem}>
+                      <td>{formatDate(tx.create_at)}</td>
+                      <td className={styles.address}>
+                        {tx.from_address.substring(0, 8)}...{tx.from_address.substring(tx.from_address.length - 8)}
+                      </td>
+                      <td className={styles.unitId}>
+                        {tx.unit.substring(0, 10)}...
+                      </td>
+                      <td className={styles.txHash}>
+                        {/* Hiển thị TxHash để debug */}
+                        <span title={tx.txHash}>{tx.txHash ? `${tx.txHash.substring(0, 6)}...` : 'Missing'}</span>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => handleUnlock(tx)}
+                          disabled={isLoading || processingTx === tx.txHash || !tx.txHash}
+                          className={styles.unlockItemBtn}
+                        >
+                          {processingTx === tx.txHash ? 'Processing...' : 'Unlock Record'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
 
         {error && (
           <div className={styles.errorMessage}>
             <h3>Error</h3>
             <p>{error}</p>
+            {error.includes('đăng ký tài khoản') && (
+              <div className={styles.errorHint}>
+                <p>Để sử dụng chức năng này, bạn cần:</p>
+                <ol>
+                  <li>Đăng ký làm người dùng trong hệ thống</li>
+                  <li>Sử dụng cùng địa chỉ ví khi đăng nhập</li>
+                </ol>
+                <a href="/register" className={styles.registerBtn}>Đăng ký ngay</a>
+              </div>
+            )}
           </div>
         )}
 
