@@ -19,11 +19,13 @@ Dịch vụ Y Tế: Ngưới dùng có thể tạo hồ sơ bệnh nhân bằng 
            Người dùng còn có thể update dữ liệu (bác sĩ ủy quyền truy cập NFT của mình) - update trực tiếp vào datum smartcontract<br>
            Bác sĩ sau khi update xong dữ liệu mới có thể chuyển NFT tới bệnh nhân với số tiền được setup -> Người bệnh nhân chỉ có thể <br>
            unlock được tài sản khi có đủ tiền trong ví <br>
-           .
-           .
-           .
-           ..  
-           .
+           
+           
+           
+           
+           
+           
+           
 Dowload :<br>
 pinata<br>
 pinata<br>
@@ -31,7 +33,10 @@ next: npm i next <br>
 meshjs: npm install @meshsdk/core @meshsdk/react<br>
 pinata: npm i pinata<br>
 lodash
+.
+.
 
+.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
