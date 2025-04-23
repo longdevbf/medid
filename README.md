@@ -1,4 +1,4 @@
-<h3>Hackathon</h3>.
+<h3>Hackathon</h3>..
 Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
 Ngôn ngữ sử dụng : Typescript, Javascript<br>
 FrameWork: Nextjs, React, Meshjs<br>
@@ -35,7 +35,7 @@ pinata: npm i pinata<br>
 lodash
 .
 .
-
+.
 .
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).

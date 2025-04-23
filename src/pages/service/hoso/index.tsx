@@ -44,17 +44,26 @@ const Hoso: React.FC = () => {
   const [encryptionKey, setEncryptionKey] = useState<string>('');
   const [confirmEncryptionKey, setConfirmEncryptionKey] = useState<string>('');
   
-  // File handling state
-  const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // File handling state - NFT Cover Image
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [coverImageUrl, setCoverImageUrl] = useState<string>('');
+  const [isDraggingCover, setIsDraggingCover] = useState<boolean>(false);
+  const coverFileInputRef = useRef<HTMLInputElement>(null);
+  
+  // File handling state - Multiple Medical Images
+  const [medicalFiles, setMedicalFiles] = useState<File[]>([]);
+  const [medicalImageUrls, setMedicalImageUrls] = useState<string[]>([]);
+  const [isDraggingMedical, setIsDraggingMedical] = useState<boolean>(false);
+  const medicalFilesInputRef = useRef<HTMLInputElement>(null);
   
   // Transaction state
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [txStatus, setTxStatus] = useState<string>('');
   const [txHash, setTxHash] = useState<string>('');
   const [nftName, setNftName] = useState<string>('Medical Record NFT');
+  
+  // Process states
+  const [processingStep, setProcessingStep] = useState<string>('');
   
   // Pinata configuration
   const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzd" +
@@ -69,62 +78,186 @@ const Hoso: React.FC = () => {
   const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
   const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
   
-  // Handle file upload
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  // Handle cover image upload
+  const handleCoverFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      setFile(selectedFile);
+      setCoverFile(selectedFile);
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target && typeof event.target.result === 'string') {
-          setImageUrl(event.target.result);
+          setCoverImageUrl(event.target.result);
         }
       };
       reader.readAsDataURL(selectedFile);
     }
   };
 
-  const handleDrag = (e: DragEvent<HTMLDivElement>, isDragging: boolean) => {
+  const handleCoverDrag = (e: DragEvent<HTMLDivElement>, isDragging: boolean) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(isDragging);
+    setIsDraggingCover(isDragging);
   };
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+  const handleCoverDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);
+    setIsDraggingCover(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
-      setFile(droppedFile);
+      setCoverFile(droppedFile);
 
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target && typeof event.target.result === 'string') {
-          setImageUrl(event.target.result);
+          setCoverImageUrl(event.target.result);
         }
       };
       reader.readAsDataURL(droppedFile);
     }
   };
 
-  // Upload image to Pinata
-  const uploadToPinata = async (): Promise<string> => {
-    if (!file) throw new Error("No file selected for upload.");
-
-    try {
-      const uploadResult = await pinata.upload.public.file(file);
-      if (!uploadResult || !uploadResult.cid) {
-        throw new Error("Upload failed");
-      }
-      const ipfsUrl = `ipfs://${uploadResult.cid}`;
-      return ipfsUrl;
-    } catch (error) {
-      console.error("Error uploading to Pinata:", error);
-      throw new Error("Failed to upload image to IPFS.");
+  // Handle multiple medical files upload
+  const handleMedicalFilesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFiles = Array.from(e.target.files);
+      setMedicalFiles(selectedFiles);
+      
+      const newUrls: string[] = [];
+      selectedFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target && typeof event.target.result === 'string') {
+            newUrls.push(event.target.result);
+            if (newUrls.length === selectedFiles.length) {
+              setMedicalImageUrls(newUrls);
+            }
+          }
+        };
+        reader.readAsDataURL(file);
+      });
     }
   };
+
+  const handleMedicalDrag = (e: DragEvent<HTMLDivElement>, isDragging: boolean) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingMedical(isDragging);
+  };
+
+  const handleMedicalDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingMedical(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const droppedFiles = Array.from(e.dataTransfer.files);
+      setMedicalFiles(droppedFiles);
+
+      const newUrls: string[] = [];
+      droppedFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target && typeof event.target.result === 'string') {
+            newUrls.push(event.target.result);
+            if (newUrls.length === droppedFiles.length) {
+              setMedicalImageUrls(newUrls);
+            }
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeMedicalFile = (index: number) => {
+    const updatedFiles = [...medicalFiles];
+    updatedFiles.splice(index, 1);
+    setMedicalFiles(updatedFiles);
+
+    const updatedUrls = [...medicalImageUrls];
+    updatedUrls.splice(index, 1);
+    setMedicalImageUrls(updatedUrls);
+  };
+  
+  // Upload cover image to Pinata
+  const uploadCoverToPinata = async (): Promise<string> => {
+    if (!coverFile) throw new Error("No cover image selected.");
+
+    try {
+      const uploadResult = await pinata.upload.public.file(coverFile);
+      if (!uploadResult || !uploadResult.cid) {
+        throw new Error("Cover image upload failed");
+      }
+      return `ipfs://${uploadResult.cid}`;
+    } catch (error) {
+      console.error("Error uploading cover to Pinata:", error);
+      throw new Error("Failed to upload cover image.");
+    }
+  };
+  
+  // Sửa hàm uploadMedicalFilesToPinata để trả về URL gateway thay vì ipfs://CID
+const uploadMedicalFilesToPinata = async (): Promise<string[]> => {
+  if (!medicalFiles.length) throw new Error("No medical files selected.");
+
+  try {
+    const urlArray: string[] = [];
+    setProcessingStep('Uploading medical files to IPFS (0/' + medicalFiles.length + ')...');
+    
+    // Tải từng file lên riêng lẻ
+    for (let i = 0; i < medicalFiles.length; i++) {
+      const file = medicalFiles[i];
+      setProcessingStep(`Uploading medical file ${i+1}/${medicalFiles.length} to IPFS...`);
+      
+      // Thêm metadata cho file cụ thể
+      const metadata = {
+        name: `medical_image_${i+1}_${Date.now()}`,
+        keyvalues: {
+          type: 'medical_record_image',
+          index: i.toString(),
+          timestamp: Date.now().toString()
+        }
+      };
+      
+      // Upload file hiện tại lên Pinata
+      const uploadResult = await pinata.upload.public.file(file);
+      
+      if (!uploadResult || !uploadResult.cid) {
+        throw new Error(`Medical file ${i+1} upload failed`);
+      }
+      
+      // Lưu URL gateway thay vì ipfs://CID
+      urlArray.push(`https://${pinataGateway}/ipfs/${uploadResult.cid}`);
+    }
+    
+    return urlArray;
+  } catch (error) {
+    console.error("Error uploading medical files to Pinata:", error);
+    throw new Error("Failed to upload medical files.");
+  }
+};
+  
+  // Upload encrypted data to Pinata và trả về URL gateway thay vì ipfs://CID
+const uploadEncryptedDataToPinata = async (encryptedData: string): Promise<string> => {
+  try {
+    // Create a blob with the encrypted data
+    const encryptedBlob = new Blob([encryptedData], { type: 'application/json' });
+    const encryptedFile = new File([encryptedBlob], 'encrypted_medical_data.json', { type: 'application/json' });
+    
+    // Upload the encrypted file to Pinata
+    const uploadResult = await pinata.upload.public.file(encryptedFile);
+    if (!uploadResult || !uploadResult.cid) {
+      throw new Error("Encrypted data upload failed");
+    }
+    
+    // Trả về URL gateway thay vì ipfs://CID
+    return `https://${pinataGateway}/ipfs/${uploadResult.cid}`;
+  } catch (error) {
+    console.error("Error uploading encrypted data to Pinata:", error);
+    throw new Error("Failed to upload encrypted data.");
+  }
+};
 
   // Handle form submission
   const handleMint = async (e: React.FormEvent) => {
@@ -135,8 +268,13 @@ const Hoso: React.FC = () => {
       return;
     }
     
-    if (!file) {
-      setTxStatus('Please upload an image for your Medical Record NFT');
+    if (!coverFile) {
+      setTxStatus('Please upload a cover image for your Medical Record NFT');
+      return;
+    }
+    
+    if (!medicalFiles.length) {
+      setTxStatus('Please upload at least one medical image/document');
       return;
     }
     
@@ -155,15 +293,20 @@ const Hoso: React.FC = () => {
     
     try {
       // 1. Get wallet address and pubKeyHash
+      setProcessingStep('Preparing wallet credentials...');
       const userAddress = await wallet.getChangeAddress();
       const { pubKeyHash: userPubKey } = deserializeAddress(userAddress);
       
-      // 2. Upload image to Pinata
-      setTxStatus('Uploading medical document to IPFS...');
-      const ipfsUrl = await uploadToPinata();
+      // 2. Upload cover image to Pinata
+      setProcessingStep('Uploading cover image to IPFS...');
+      const coverImageCid = await uploadCoverToPinata();
       
-      // 3. Collect and encrypt medical data
-      setTxStatus('Encrypting medical information...');
+      // 3. Upload multiple medical files to Pinata - nhận về mảng CID
+      setProcessingStep('Uploading medical documents to IPFS...');
+      const medicalFileCids = await uploadMedicalFilesToPinata();
+      
+      // 4. Collect medical data
+      setProcessingStep('Preparing medical data...');
       
       // Create structured medical record using HL7 FHIR concepts
       const medicalRecord = {
@@ -201,40 +344,54 @@ const Hoso: React.FC = () => {
           consentStatus: consentStatus,
           recordExpiry: recordExpiry,
           additionalNotes: additionalNotes
-        }
+        },
+        // Include array of CIDs for medical images instead of a single CID
+        medicalImages: medicalFileCids
       };
       
-      // Encrypt the medical record
+      // 5. Encrypt the combined medical record data
+      setProcessingStep('Encrypting medical information...');
       const encryptedMedicalData = encryptData(JSON.stringify(medicalRecord), encryptionKey);
-      console.log('Encrypted Medical Data:', encryptedMedicalData);
+      console.log('Data encrypted successfully');
       
-      // 4. Prepare metadata with pubKeyHash and encrypted data
+      // 6. Upload encrypted data to Pinata to get a URL
+      setProcessingStep('Uploading encrypted data to IPFS...');
+      const encryptedDataUrl = await uploadEncryptedDataToPinata(encryptedMedicalData);
+      console.log('Encrypted data uploaded, URL:', encryptedDataUrl);
+
+      // 7. Mã hóa thêm một lớp cho URL
+      setProcessingStep('Adding additional security layer...');
+      const doubleEncryptedUrl = encryptData(encryptedDataUrl, encryptionKey);
+      console.log('URL additionally encrypted for metadata');
+      
+      // 8. Prepare metadata with pubKeyHash and link to encrypted data
       const metadata = {
         _pk: userPubKey,
         name: nftName,
-        description: "CIP68 Medical Record Token",
-        image: ipfsUrl,
-        mediaType: file.type || "image/png",
-        identity: encryptedMedicalData, // Encrypted medical data
+        description: "CIP68 Medical Record Token with Encrypted Data",
+        image: coverImageCid,  // Cover image for NFT display
+        mediaType: coverFile.type || "image/png",
+        encryptedData: doubleEncryptedUrl,  // URL đã được mã hóa hai lần
         version: "1.0",
         standard: "CIP68-FHIR",
         created_at: new Date().toISOString(),
         owner: userAddress
       };
       
-      console.log('Metadata:', metadata);
+      console.log('Metadata prepared with double encryption');
       
-      // 5. Mint the NFT
-      setTxStatus('Minting your Medical Record NFT on the blockchain...');
+      // 9. Mint the NFT
+      setProcessingStep('Minting your Medical Record NFT on the blockchain...');
       const result = await mintNFT(wallet, nftName, metadata, {});
       
-      // 6. Update UI with success
+      // 9. Update UI with success
       setTxHash(result);
       setTxStatus('Medical Record NFT minted successfully!');
       
     } catch (error) {
       console.error('Error minting NFT:', error);
       setTxStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+      setProcessingStep('');
     } finally {
       setIsLoading(false);
     }
@@ -252,35 +409,36 @@ const Hoso: React.FC = () => {
 
         <div className={styles.card}>
           <form id="nft-mint-form" onSubmit={handleMint}>
-            {/* File Upload Section */}
+            {/* NFT Cover Image Upload Section */}
             <div className={styles['form-section']}>
-              <h3>Medical Document Upload</h3>
+              <h3>NFT Cover Image</h3>
+              <p className={styles.sectionDesc}>This image will be visible as the NFT cover in wallets and marketplaces</p>
               <input
                 type="file"
-                id="file-upload"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*,.pdf"
+                id="cover-file-upload"
+                ref={coverFileInputRef}
+                onChange={handleCoverFileChange}
+                accept="image/*"
                 className={styles.hiddenFileInput}
                 style={{ display: 'none' }}
               />
               <div
-                className={`${styles.dropArea} ${isDragging ? styles.dragActive : ''}`}
-                onDragEnter={(e) => handleDrag(e, true)}
-                onDragOver={(e) => handleDrag(e, true)}
-                onDragLeave={(e) => handleDrag(e, false)}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
+                className={`${styles.dropArea} ${isDraggingCover ? styles.dragActive : ''}`}
+                onDragEnter={(e) => handleCoverDrag(e, true)}
+                onDragOver={(e) => handleCoverDrag(e, true)}
+                onDragLeave={(e) => handleCoverDrag(e, false)}
+                onDrop={handleCoverDrop}
+                onClick={() => coverFileInputRef.current?.click()}
               >
-                {imageUrl ? (
+                {coverImageUrl ? (
                   <div className={styles.imagePreview}>
-                    <img src={imageUrl} alt="Preview" />
+                    <img src={coverImageUrl} alt="NFT Cover Preview" />
                   </div>
                 ) : (
                   <>
-                    <p>Drag and drop medical files or click to browse</p>
+                    <p>Drag and drop cover image or click to browse</p>
                     <button type="button" className={styles.btnOutline}>
-                      Choose File
+                      Choose Cover Image
                     </button>
                   </>
                 )}
@@ -296,6 +454,54 @@ const Hoso: React.FC = () => {
                   required
                 />
               </div>
+            </div>
+
+            {/* Medical Documents Upload Section */}
+            <div className={styles['form-section']}>
+              <h3>Medical Documents</h3>
+              <p className={styles.sectionDesc}>Upload multiple medical images or documents to be encrypted and stored</p>
+              <input
+                type="file"
+                id="medical-files-upload"
+                ref={medicalFilesInputRef}
+                onChange={handleMedicalFilesChange}
+                accept="image/*,.pdf"
+                className={styles.hiddenFileInput}
+                style={{ display: 'none' }}
+                multiple
+              />
+              <div
+                className={`${styles.dropArea} ${styles.medicalDropArea} ${isDraggingMedical ? styles.dragActive : ''}`}
+                onDragEnter={(e) => handleMedicalDrag(e, true)}
+                onDragOver={(e) => handleMedicalDrag(e, true)}
+                onDragLeave={(e) => handleMedicalDrag(e, false)}
+                onDrop={handleMedicalDrop}
+                onClick={() => medicalFilesInputRef.current?.click()}
+              >
+                <p>Drag and drop medical files or click to browse</p>
+                <button type="button" className={styles.btnOutline}>
+                  Choose Medical Files
+                </button>
+              </div>
+
+              {/* Display previews of selected medical files */}
+              {medicalImageUrls.length > 0 && (
+                <div className={styles.medicalImagesGrid}>
+                  {medicalImageUrls.map((url, index) => (
+                    <div key={index} className={styles.medicalImageItem}>
+                      <img src={url} alt={`Medical file ${index + 1}`} />
+                      <button 
+                        type="button"
+                        className={styles.removeImageBtn}
+                        onClick={() => removeMedicalFile(index)}
+                      >
+                        ✕
+                      </button>
+                      <span className={styles.imageCounter}>{index + 1}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Encryption Settings */}
@@ -330,10 +536,11 @@ const Hoso: React.FC = () => {
               </div>
             </div>
 
-            {/* Patient Info */}
+            {/* Patient Info - giữ nguyên */}
             <div className={styles['form-section']}>
               <h3>Patient Information</h3>
               <div className={styles['form-grid']}>
+                {/* Patient Info fields giữ nguyên */}
                 <div className={styles['form-group']}>
                   <label htmlFor="patient-id">Patient Identifier</label>
                   <input 
@@ -384,6 +591,7 @@ const Hoso: React.FC = () => {
               </div>
             </div>
 
+            {/* Giữ nguyên các phần còn lại */}
             {/* Encounter */}
             <div className={styles['form-section']}>
               <h3>Encounter Information</h3>
@@ -601,6 +809,12 @@ const Hoso: React.FC = () => {
             {txStatus && (
               <div className={styles.txStatus}>
                 <p>{txStatus}</p>
+                {processingStep && (
+                  <div className={styles.processingStep}>
+                    <div className={styles.spinner}></div>
+                    <p>{processingStep}</p>
+                  </div>
+                )}
                 {txHash && (
                   <div className={styles.txHashContainer}>
                     <p><strong>Transaction Hash:</strong></p>
