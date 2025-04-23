@@ -1,33 +1,11 @@
 import {
-  BlockfrostProvider,
-  CIP68_100,
-  CIP68_222,
   deserializeAddress,
-  deserializeDatum,
+  BrowserWallet
 } from "@meshsdk/core";
 import { blockchainProvider } from "./adapter";
-import {
-  decryptData,
-  encryptData,
-} from "../../secret/encryptAndDecrypt";
-import crypto from 'crypto';
 
-interface ParsedAsset {
-  unit: string;
-  policyId: string;
-  assetName: string;
-  assetNameHex: string;
-  quantity: string;
-}
 
-interface ParsedMetaData {
-  name: string;
-  image: string;
-  _pk: string;
-  fingerprint: string;
-  totalSupply: string;
-  did_number: string;
-}
+
 
 /**
  * Làm sạch và chuẩn hóa chuỗi base64 để so sánh
@@ -60,10 +38,7 @@ function compareBase64Strings(str1: string, str2: string): boolean {
     return false;
   }
   
-  // So sánh bằng MD5 hash (loại bỏ ảnh hưởng của các ký tự đặc biệt)
-  const hash1 = crypto.createHash('md5').update(clean1).digest('hex');
-  const hash2 = crypto.createHash('md5').update(clean2).digest('hex');
-  
+ 
   // So sánh phần chính của chuỗi (bỏ qua các ký tự đặc biệt có thể khác nhau)
   const similarityThreshold = 0.95;
   let matchCount = 0;
@@ -115,7 +90,7 @@ function processMetadataHex(hexString: string): string {
   }
 }
 
-export async function verify_did(wallet: any, key: string, did_number: string) {
+export async function verify_did(wallet: BrowserWallet, key: string, did_number: string) {
   if (!wallet || !key || !did_number) {
     console.error("Missing required parameters for verification");
     return false;
@@ -127,9 +102,9 @@ export async function verify_did(wallet: any, key: string, did_number: string) {
   const assetsInfoWallet = await blockchainProvider.fetchAddressAssets(
     walletAddress,
   );
-  const { pubKeyHash: userPubkeyHash } = deserializeAddress(walletAddress);
 
-  for (const [unit, quantity] of Object.entries(assetsInfoWallet)) {
+
+  for (const [unit] of Object.entries(assetsInfoWallet)) {
     if (unit === "lovelace") {
       continue;
     }
@@ -140,7 +115,7 @@ export async function verify_did(wallet: any, key: string, did_number: string) {
     try {
       // Kiểm tra NFT có đúng định dạng không - loại bỏ kiểm tra này để xem tất cả NFT
       if (assetNameHex.startsWith("000de140")) {
-        let unitAsset = policyId + assetNameHex;
+        const unitAsset = policyId + assetNameHex;
         const metadata = await blockchainProvider.fetchAssetMetadata(
           unitAsset.toString(),
         );

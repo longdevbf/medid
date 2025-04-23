@@ -246,7 +246,7 @@ const DoctorUnlock = () => {
           <div className={styles.successMessage}>
             <h3>Records Unlocked Successfully</h3>
             <p>Transaction ID: {unlockResult}</p>
-            <p>You can now view the patient's medical records</p>
+            <p>You can now view the patient&apos;s medical records</p>
           </div>
         )}
 

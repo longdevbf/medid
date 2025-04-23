@@ -1,9 +1,8 @@
 import {
-    Asset,
     deserializeAddress,
-    deserializeDatum,
     mConStr0,
-    MeshTxBuilder,    
+    MeshTxBuilder,
+    BrowserWallet    
   } from "@meshsdk/core";
   import {
     blockchainProvider,
@@ -11,7 +10,7 @@ import {
     getWalletInfoForTx,
   } from "../components/spend/common";
 
-  const unlockPortfolio = async (wallet: any, txHashLock: string) => {
+  const unlockPortfolio = async (wallet: BrowserWallet, txHashLock: string) => {
     try {
         // Kiểm tra txHash hợp lệ
         if (!txHashLock) {
@@ -25,7 +24,6 @@ import {
         const {scriptAddr, scriptCbor} = getScript(); 
         const utxoFetch = await blockchainProvider.fetchUTxOs(txHashLock);
         const utxo = utxoFetch[0];
-        const datum = deserializeDatum(utxo.output.plutusData!);
         const txBuilder = new MeshTxBuilder({
             fetcher: blockchainProvider,
             submitter: blockchainProvider

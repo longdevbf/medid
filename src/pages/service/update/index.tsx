@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useWallet } from '@meshsdk/react';
 import styles from './Update.module.css';
 import updatePortfolio from "../../../utils/PatientAction/utils/update";
-import { getUpdateEligibleTransactions, getTransactionsByAddress, saveTransaction, updateTransactionPermissions } from "../../../service/transactionService";
+import { getUpdateEligibleTransactions,getTransactionsByAddress, updateTransactionPermissions, updateTransaction } from "../../../service/transactionService";
 import { getUserByWallet } from "../../../service/userService";
 
 interface ActionResult {
@@ -31,6 +31,19 @@ type UpdateReason = {
   icon: string;
 }
 
+// First, add a proper User interface at the top of your file
+interface User {
+  id: number;
+  name?: string;
+  email?: string;
+  wallet_address?: string;
+  public_key?: string;
+  did_number?: string;
+  role?: string;
+  created_at?: string;
+  // Add any other properties that might be returned by getUserByWallet
+}
+
 const Update: React.FC = () => {
   const { wallet, connected } = useWallet();
   const [doctorAddresses, setDoctorAddresses] = useState<string[]>([""]);
@@ -46,8 +59,8 @@ const Update: React.FC = () => {
   const [loadingTx, setLoadingTx] = useState<boolean>(false);
   const [loadingHistory, setLoadingHistory] = useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-  const [userInfo, setUserInfo] = useState<any>(null);
-
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  console.log("User info:", userInfo);
   // Danh sách các lý do cập nhật
   const updateReasons: UpdateReason[] = [
     {
@@ -91,23 +104,24 @@ const Update: React.FC = () => {
         setLoadingTx(true);
         setLoadingHistory(true);
         setError("");
-        const patientAddress = await wallet.getChangeAddress();
-        console.log("Fetching transactions for patient address:", patientAddress);
+        const currentAddress = await wallet.getChangeAddress();
+        console.log("Current address:", currentAddress);
         
-        // Lấy thông tin bệnh nhân
-        const user = await getUserByWallet(patientAddress);
+        // Lấy thông tin người dùng
+        const user = await getUserByWallet(currentAddress);
         if (user) {
           setUserInfo(user);
           console.log("User info loaded:", user.id);
         }
         
-        // Lấy danh sách giao dịch có thể cập nhật quyền truy cập
-        const txs = await getUpdateEligibleTransactions(patientAddress);
+        // CORRECTED: Lấy danh sách giao dịch mà người dùng hiện tại tạo ra (from_address)
+        // thay vì giao dịch mà người dùng có trong to_address
+        const txs = await getUpdateEligibleTransactions(currentAddress);
         console.log("Found eligible transactions:", txs.length);
         setTransactions(txs);
 
         // Lấy lịch sử cập nhật
-        const history = await getTransactionsByAddress(patientAddress, 'patient_update');
+        const history = await getTransactionsByAddress(currentAddress, 'patient_update');
         console.log("Found update history:", history.length);
         setUpdateHistory(history);
       } catch (err) {
@@ -236,37 +250,32 @@ const Update: React.FC = () => {
       // 1. Gọi hàm updatePortfolio từ smart contract
       const result = await updatePortfolio(wallet, validDoctors, selectedTransaction.txhash);
 
-      // 2. Cập nhật to_address của giao dịch gốc
-      await updateTransactionPermissions(selectedTransaction.id, validDoctors);
+      // 2. Cập nhật to_address của giao dịch gốc và cập nhật txHash mới
+      await updateTransactionPermissions(selectedTransaction.id, validDoctors, result);
 
       // 3. Lấy địa chỉ ví hiện tại
-      const patientAddress = await wallet.getChangeAddress();
+      const currentAddress = await wallet.getChangeAddress();
 
-      // 4. Lưu giao dịch mới với transaction_type là "patient_update"
-      await saveTransaction({
-        userId: userInfo?.id || null,
-        txHash: result,
-        amount: selectedTransaction.amount || 1,
-        fromAddress: patientAddress,
-        toAddress: validDoctors,
-        unit: selectedTransaction.unit,
-        transactionType: 'patient_update',
-        currentType: 'update'
-      });
+      // 4. CHANGED: Cập nhật current_type của giao dịch gốc thành "updated"
+      await updateTransaction(selectedTransaction.id, "updated");
 
-      // 5. Cập nhật UI
+      // 5. REMOVED: No longer creating a new transaction record for updates
+      // We're only updating the existing record as done in steps 2 and 4
+
+      // 6. Success message
       setActionResult({
         message: "Cập nhật quyền truy cập thành công! Giao dịch đã được ghi lên blockchain.",
         type: "success",
         txhash: result
       });
 
-      // 6. Thêm vào lịch sử cập nhật
+      // 7. Update the UI with the new transaction for display purposes only
+      // This doesn't touch the database
       setUpdateHistory(prevHistory => [{
-        id: Date.now(), // Temporary ID until refresh
+        id: Date.now(),
         txhash: result,
         amount: selectedTransaction.amount || 1,
-        from_address: patientAddress,
+        from_address: currentAddress,
         to_address: validDoctors,
         unit: selectedTransaction.unit,
         transaction_type: 'patient_update',
@@ -274,17 +283,12 @@ const Update: React.FC = () => {
         create_at: new Date().toISOString()
       }, ...prevHistory]);
 
-      // Làm mới danh sách giao dịch có thể update
-      const updatedTxs = await getUpdateEligibleTransactions(patientAddress);
+      // 8. Refresh transactions list
+      const updatedTxs = await getUpdateEligibleTransactions(currentAddress);
       setTransactions(updatedTxs);
 
-      // Log kết quả
-      console.log({
-        originalTxHash: selectedTransaction.txhash,
-        doctorAddresses: validDoctors,
-        updateReason: selectedReason,
-        resultTxHash: result
-      });
+      // 9. Reset form
+      resetForm();
 
     } catch (error) {
       console.error("Error updating access permissions:", error);

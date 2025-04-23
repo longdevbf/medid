@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-function encryptData(data: any, secretKey: string) {
+function encryptData(data: string, secretKey: string) {
   if (!data) {
     console.error("Cannot encrypt empty or undefined data");
     return "";
@@ -19,7 +19,7 @@ function encryptData(data: any, secretKey: string) {
   return encrypted;
 }
 
-function decryptData(encryptedData: any, secretKey: string) {
+function decryptData(encryptedData: string, secretKey: string) {
   try {
     // Validate input
     if (!encryptedData) {

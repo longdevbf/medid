@@ -10,13 +10,14 @@ import {
   resolveScriptHash,
   serializeAddressObj,
   serializePlutusScript,
-  scriptAddress
+  scriptAddress,
+  BrowserWallet
 } from "@meshsdk/core";
 import plutus from './plutus.json';
 import { getWalletInfoForTx, blockchainProvider } from './adapter';
 
 // Constants
-const NETWORK_ID = 0;
+//const NETWORK_ID = 0;
 const PLATFORM_FEE = '1000000';
 const DEFAULT_EXCHANGE_ADDRESS = "addr_test1qqwkave5e46pelgysvg6mx0st5zhte7gn79srscs8wv2qp5qkfvca3f7kpx3v3rssm4j97f63v5whrj8yvsx6dac9xrqyqqef6";
 
@@ -38,10 +39,21 @@ function readValidator(title: string): string {
  * @param options - Optional parameters (platformFee, exchangeAddress)
  * @returns Transaction hash
  */
+interface NFTMetadata {
+  _pk: string,
+  name: string,
+  description: string,
+  image: string,
+  mediaType: string,
+  encryptedData: string,
+  did_number: string, // Thêm DID vào metadata của NFT
+  fingerprint: string,
+  totalSupply: string// For any additional properties you might need
+}
 export async function mintNFT(
-  wallet: any, 
+  wallet: BrowserWallet, 
   tokenName: string,
-  metadata: any,
+  metadata: NFTMetadata,
   options?: {
     platformFee?: string,
     exchangeAddress?: string
@@ -65,7 +77,7 @@ export async function mintNFT(
     const storeScriptCbor = applyParamsToScript(storeCompilecode, [pubkeyExchange, BigInt(1), userPubKeyHash]);
     const storeScript = {
       code: storeScriptCbor,
-      version: "V3" as "V3",
+      version: "V3" as const,
     };
     
     const storeAddress = serializeAddressObj(

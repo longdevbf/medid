@@ -4,13 +4,14 @@ import {
     deserializeDatum,
     mConStr0,
     MeshTxBuilder, 
+   BrowserWallet
   } from "@meshsdk/core";
   import {
     blockchainProvider,
     getScript,
     getWalletInfoForTx,
   } from "../components/spend/common";
-  async function updatePortfolio(wallet: any, doctorAddresses: string[], txHashLock: string){
+  async function updatePortfolio(wallet: BrowserWallet, doctorAddresses: string[], txHashLock: string){
     try{
         const {utxos, walletAddress, collateral} = await getWalletInfoForTx(wallet);
         const {pubKeyHash: userPubKeyHash} = deserializeAddress(walletAddress);

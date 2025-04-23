@@ -67,7 +67,7 @@ const Applications: React.FC = () => {
 };
 
 const WalletSection: React.FC = () => {
-  const { connect, disconnect, wallet, connected } = useWallet();
+  const { connect, disconnect, connected } = useWallet();
 
   const wallets = [
     { name: 'MetaMask', icon: 'M', id: 'metamask', class: 'metaIcon' },

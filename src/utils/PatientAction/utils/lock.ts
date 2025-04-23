@@ -3,7 +3,8 @@ import {
     BlockfrostProvider,
     deserializeAddress,
     mConStr0,
-    MeshTxBuilder
+    MeshTxBuilder,
+    BrowserWallet
 } from "@meshsdk/core";
 import {
     getScript,
@@ -15,9 +16,9 @@ const blockchainProvider = new BlockfrostProvider("preprod2DQWsQjqnzLW9swoBQujfK
 // Hardcoded pubKeyHash để tránh lỗi deserializeAddress
 
 
-export async function lockPortfolio(wallet: any, assets: any, doctorAddresses: string[], unit: string) {
+export async function lockPortfolio(wallet: BrowserWallet, assets: Asset[], doctorAddresses: string[], unit: string) {
     try {
-        const {utxos, walletAddress, collateral} = await getWalletInfoForTx(wallet);
+        const {utxos, walletAddress} = await getWalletInfoForTx(wallet);
         const {pubKeyHash: patientPubKeyHash} = deserializeAddress(walletAddress);
         
         // Thêm kiểm tra và xử lý lỗi cho từng địa chỉ
@@ -51,7 +52,7 @@ export async function lockPortfolio(wallet: any, assets: any, doctorAddresses: s
         }
 
         const datum = mConStr0([patientPubKeyHash, doctorPubKeyHashes, unit]);
-        const {scriptAddr, scriptCbor} = getScript();
+        const {scriptAddr} = getScript();
         const txBuilder = new MeshTxBuilder({
             fetcher: blockchainProvider,
             submitter: blockchainProvider,

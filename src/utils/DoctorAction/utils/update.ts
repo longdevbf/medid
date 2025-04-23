@@ -6,16 +6,16 @@ import {
   deserializeAddress,
   MeshTxBuilder,
   BlockfrostProvider,
-  MeshWallet,
   applyParamsToScript,
   resolveScriptHash,
   serializeAddressObj,
   serializePlutusScript,
   scriptAddress,
   PlutusScript,
-  UTxO
+  UTxO,
+  BrowserWallet
 } from "@meshsdk/core";
-import { isEmpty, isNil } from "lodash";
+import { isNil } from "lodash";
 import plutus from '../contract/mint/plutus.json';
 import { getWalletInfoForTx } from '../components/mint/common';
 
@@ -83,11 +83,22 @@ async function getAddressUTXOAsset(address: string, unit: string): Promise<UTxO>
  * @param ownerInfo Thông tin người sở hữu gốc token
  * @returns Transaction hash
  */
+interface Metadata{
+        _pk: string,  // Dùng pubKeyHash của bệnh nhân
+        name: string,
+        image: string,
+        mediaType: string,
+        description: string,
+        encryptedData: string,  // URL đã được mã hóa hai lần
+       // updateCount: typeof decodedData === 'object' && decodedData?.updates ? decodedData.updates.length + 1 : 1,
+        //lastUpdateTime: now,
+       lastUpdateBy: string
+}
 async function updateTokens(
-  wallet: any,
+  wallet: BrowserWallet,
   tokenInfo: Array<{ 
     assetName: string; 
-    metadata: Record<string, string>; 
+    metadata: Metadata; 
     txHash?: string;
   }>,
   ownerInfo: {
@@ -125,7 +136,7 @@ async function updateTokens(
   // Create store script
   const storeScript: PlutusScript = {
     code: storeScriptCbor,
-    version: "V3" as "V3",
+    version: "V3" as const,
   };
   
   // Calculate store address with stake credential

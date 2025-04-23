@@ -210,15 +210,7 @@ const uploadMedicalFilesToPinata = async (): Promise<string[]> => {
       const file = medicalFiles[i];
       setProcessingStep(`Uploading medical file ${i+1}/${medicalFiles.length} to IPFS...`);
       
-      // Thêm metadata cho file cụ thể
-      const metadata = {
-        name: `medical_image_${i+1}_${Date.now()}`,
-        keyvalues: {
-          type: 'medical_record_image',
-          index: i.toString(),
-          timestamp: Date.now().toString()
-        }
-      };
+      
       
       // Upload file hiện tại lên Pinata
       const uploadResult = await pinata.upload.public.file(file);
@@ -374,7 +366,6 @@ const uploadEncryptedDataToPinata = async (encryptedData: string): Promise<strin
         encryptedData: doubleEncryptedUrl,  // URL đã được mã hóa hai lần
         version: "1.0",
         standard: "CIP68-FHIR",
-        created_at: new Date().toISOString(),
         owner: userAddress
       };
       
@@ -519,7 +510,7 @@ const uploadEncryptedDataToPinata = async (encryptedData: string): Promise<strin
                     required
                   />
                   <small className={styles.formHelp}>
-                    This key will be used to encrypt your medical data. Keep it safe - you'll need it to decrypt your information.
+                    This key will be used to encrypt your medical data. Keep it safe - you&apso;ll need it to decrypt your information.
                   </small>
                 </div>
                 <div className={styles['form-group']}>

@@ -17,6 +17,19 @@ interface Transaction {
   create_at: string;
 }
 
+// Add this interface after the Transaction interface
+interface User {
+  id: number;
+  name?: string;
+  email?: string;
+  wallet_address?: string;
+  public_key?: string;
+  role?: string;
+  did_number?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 const Unlock: React.FC = () => {
     const { wallet, connected } = useWallet();
     const [error, setError] = useState<string>("");
@@ -27,7 +40,8 @@ const Unlock: React.FC = () => {
     const [loadingTx, setLoadingTx] = useState<boolean>(false);
     const [loadingHistory, setLoadingHistory] = useState<boolean>(false);
     const [processingTx, setProcessingTx] = useState<string | null>(null);
-    const [userInfo, setUserInfo] = useState<any>(null);
+    // Replace any with the User interface
+    const [userInfo, setUserInfo] = useState<User | null>(null);
 
     // Lấy danh sách giao dịch hợp lệ khi kết nối ví
     useEffect(() => {

@@ -116,3 +116,11 @@ export async function updateTransactionPermissions(transactionId, doctorAddresse
     throw error;
   }
 }
+export async function getAccessibleTransactions(currentAddress) {
+  try {
+    return await fetchAPI(`transactions/doctor?doctorAddress=${encodeURIComponent(currentAddress)}`);
+  } catch (error) {
+    console.error("Lỗi khi lấy giao dịch cho địa chỉ:", error);
+    return [];
+  }
+}

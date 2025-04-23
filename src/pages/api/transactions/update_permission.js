@@ -6,28 +6,28 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { id, toAddress } = req.body;
+    const { id, toAddress, newTxHash } = req.body;
 
-    if (!id || !toAddress || !Array.isArray(toAddress)) {
+    if (!id || !toAddress || !Array.isArray(toAddress) || !newTxHash) {
       return res.status(400).json({ message: 'Missing required parameters or invalid format' });
     }
 
-    // Cập nhật danh sách bác sĩ (to_address) của giao dịch
+    // Cập nhật cả to_address và txHash của giao dịch
     const updateQuery = `
       UPDATE transactions 
-      SET to_address = $1
-      WHERE id = $2
-      RETURNING id, to_address
+      SET to_address = $1, txHash = $2
+      WHERE id = $3
+      RETURNING id, txHash AS "txHash", to_address AS "to_address"
     `;
     
-    const result = await query(updateQuery, [toAddress, id]);
+    const result = await query(updateQuery, [toAddress, newTxHash, id]);
     
     if (result.rowCount === 0) {
       return res.status(404).json({ message: 'Transaction not found' });
     }
     
     return res.status(200).json({ 
-      message: 'Doctor permissions updated successfully',
+      message: 'Transaction updated successfully',
       transaction: result.rows[0]
     });
   } catch (error) {

@@ -29,7 +29,7 @@ export async function fetchAPI(endpoint, method = 'GET', data = null) {
             if (errorJson.message) {
               errorMessage = errorJson.message;
             }
-          } catch (jsonError) {
+          } catch  {
             // Nếu không phải JSON, sử dụng text gốc
             errorMessage = `${errorMessage}: ${errorText.substring(0, 100)}...`;
           }

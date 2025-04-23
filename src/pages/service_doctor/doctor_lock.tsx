@@ -199,7 +199,7 @@ const DoctorAssetLockPage: React.FC = () => {
             
             {connected && !doctorInfo && (
               <div className={styles.registrationWarning}>
-                <p>Warning: You aren't registered as a doctor. Your transactions will be recorded but not linked to your account.</p>
+                <p>Warning: You aren&aspo;t registered as a doctor. Your transactions will be recorded but not linked to your account.</p>
                 <a href="/register" className={styles.registerLink}>Register Now</a>
               </div>
             )}

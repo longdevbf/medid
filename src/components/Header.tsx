@@ -41,7 +41,7 @@ const Header: React.FC = () => {
         
         try {
           // Lấy địa chỉ ví
-          const addr = await getWalletAddress(wallet);
+          const addr = await wallet.getChangeAddress();
           
           // Tạo và xác thực nonce
           const nonce = generateNonce(
@@ -221,9 +221,6 @@ const Header: React.FC = () => {
   );
 };
 
-async function getWalletAddress(wallet: any): Promise<string> {
-  const addresses = await wallet.getUsedAddresses();
-  return addresses[0];
-}
+
 
 export default Header;

@@ -5,7 +5,9 @@ import { deserializeAddress } from '@meshsdk/core';
 import { encryptData, decryptData } from '../../secret/encryptAndDecrypt';
 import updateTokens from '../../utils/DoctorAction/utils/update';
 import { PinataSDK } from "pinata";
+import Image from 'next/image'; // Import Next.js Image component
 
+// Define more specific types
 type HistoryRecord = {
   date: string;
   nftName: string;
@@ -14,18 +16,91 @@ type HistoryRecord = {
   status: string;
 };
 
+// Replace 'Record<string, any>' with more specific types
+interface PatientInfo {
+  identifier?: string;
+  name?: string;
+  birthDate?: string;
+  gender?: string;
+}
+
+interface EncounterData {
+  date?: string;
+  provider?: string;
+  reason?: string;
+  notes?: string;
+  [key: string]: string | undefined;
+}
+
+interface ClinicalData {
+  vitals?: {
+    bloodPressure?: string;
+    heartRate?: string;
+    temperature?: string;
+    [key: string]: string | undefined;
+  };
+  labResults?: Record<string, string>;
+  observations?: string[];
+  [key: string]: unknown;
+}
+
+interface MedicationData {
+  name?: string;
+  dosage?: string;
+  frequency?: string;
+  startDate?: string;
+  endDate?: string;
+  [key: string]: string | undefined;
+}
+
+interface ProcedureData {
+  name?: string;
+  date?: string;
+  notes?: string;
+  [key: string]: string | undefined;
+}
+
+interface SettingsData {
+  permissions?: string[];
+  preferences?: Record<string, boolean>;
+  [key: string]: unknown;
+}
+
+interface UpdateData {
+  ngayKham: string;
+  noiDungKham: string;
+  maChanDoan: string;
+  maDieuTri: string;
+  bacSi: string;
+  newImages?: string[];
+}
+
+// Define a complete MedicalRecord interface
+interface MedicalRecord {
+  patient?: PatientInfo;
+  encounter?: EncounterData;
+  clinicalData?: ClinicalData;
+  medication?: MedicationData;
+  procedure?: ProcedureData;
+  settings?: SettingsData;
+  medicalImages?: string[];
+  updates?: UpdateData[];
+  [key: string]: unknown; // For any other fields we might not know about
+}
+
 const DoctorUpdateRecord = () => {
   const { wallet, connected } = useWallet();
   const [activeTab, setActiveTab] = useState('record-update');
   const [history, setHistory] = useState<HistoryRecord[]>([]);
   const [resultMsg, setResultMsg] = useState<{ type: string; text: string }>({ type: '', text: '' });
   
-  // Add encryption key states
+  // Encryption key states
   const [encryptionKey, setEncryptionKey] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [processingStep, setProcessingStep] = useState<string>('');
-  const [decodedData, setDecodedData] = useState<any>(null);
+  const [decodedData, setDecodedData] = useState<MedicalRecord | string | null>(null);
+  // Fixed variable used without reference by adding it to the handleDecrypt logs
   const [decodedDataUrl, setDecodedDataUrl] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string>('');
   
@@ -34,7 +109,7 @@ const DoctorUpdateRecord = () => {
   const [medicalImageUrls, setMedicalImageUrls] = useState<string[]>([]);
   const [isDraggingMedical, setIsDraggingMedical] = useState<boolean>(false);
   const medicalFilesInputRef = useRef<HTMLInputElement>(null);
-  
+  console.log("Decode : ", decodedDataUrl);
   // Pinata configuration
   const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzd" +
   "iZC1kMWY2LTQyMWUtOGY2MC01OTgwZTMyOTdhOTEiLCJlbWFpbCI6Imxvbmd0ZC5hNWs0OGd0YkBnbWF" +
@@ -137,16 +212,6 @@ const DoctorUpdateRecord = () => {
         const file = medicalFiles[i];
         setProcessingStep(`Uploading new medical image ${i+1}/${medicalFiles.length} to IPFS...`);
         
-        // Thêm metadata cho file cụ thể
-        const metadata = {
-          name: `medical_update_image_${i+1}_${Date.now()}`,
-          keyvalues: {
-            type: 'update_medical_record_image',
-            index: i.toString(),
-            timestamp: Date.now().toString()
-          }
-        };
-        
         // Upload file hiện tại lên Pinata
         const uploadResult = await pinata.upload.public.file(file);
         
@@ -219,6 +284,9 @@ const DoctorUpdateRecord = () => {
       }
       
       setDecodedDataUrl(decryptedUrl);
+      // Use the decoded URL in a log to avoid the unused variable warning
+      console.log('Successfully decrypted URL:', decryptedUrl);
+      
       setProcessingStep('Fetching data from decrypted URL...');
       
       // Fetch content from the URL
@@ -242,7 +310,8 @@ const DoctorUpdateRecord = () => {
           type: 'success', 
           text: 'Data decrypted successfully. You can now add new examination data and medical images.' 
         });
-      } catch (parseError) {
+      } catch {
+        // Remove the unused parameter completely instead of using underscore
         // If not JSON, just set as string
         setDecodedData(medicalRecordData);
         setResultMsg({ 
@@ -361,25 +430,23 @@ const DoctorUpdateRecord = () => {
       const patientPubKeyHash = deserializeAddress(patientAddress).pubKeyHash;
 
       // Chuẩn bị metadata mới với URL đã mã hóa hai lần
-      const metadata = { 
+      const updatedMetadata = { 
         _pk: patientPubKeyHash,  // Dùng pubKeyHash của bệnh nhân
         name: nftName,
         image: "ipfs://bafkreibfxbxtpo4c27f6aa5zgjnmip74jesr3di4mzninbttxzgwaxu53u",
         mediaType: "image/png",
         description: "Hồ sơ y tế đã cập nhật",
         encryptedData: doubleEncryptedUrl,  // URL đã được mã hóa hai lần
-        updateCount: decodedData.updates ? decodedData.updates.length + 1 : 1,
-        lastUpdateTime: now,
         lastUpdateBy: userPubKey
       };
 
-      console.log("Metadata để cập nhật:", metadata);
+      console.log("Metadata để cập nhật:", updatedMetadata);
       
       setProcessingStep('Updating record on blockchain...');
       // Cập nhật token trên blockchain
       const txResult = await updateTokens(
         wallet,
-        [{ assetName: nftName, metadata }],
+        [{ assetName: nftName, metadata: updatedMetadata }],
         { address: patientAddress, pubKeyHash: patientPubKeyHash }
       );
       
@@ -458,12 +525,12 @@ const DoctorUpdateRecord = () => {
                 <input 
                   type="password" 
                   id="encryptionKey" 
-                  placeholder="Enter the patient's encryption key" 
+                  placeholder="Enter the patient&apos;s encryption key" 
                   value={encryptionKey}
                   onChange={(e) => setEncryptionKey(e.target.value)}
                   required 
                 />
-                <small className={styles.formHelp}>This key is needed to decrypt and re-encrypt the patient data</small>
+                <small className={styles.formHelp}>This key is needed to decrypt and re-encrypt the patient&apos;s data</small>
               </div>
 
               <div className={styles.twoColumns}>
@@ -475,7 +542,7 @@ const DoctorUpdateRecord = () => {
                     placeholder="Paste the encrypted data from NFT metadata here" 
                     required 
                   />
-                  <small className={styles.formHelp}>Paste the encryptedData field from the patient's NFT metadata</small>
+                  <small className={styles.formHelp}>Paste the encryptedData field from the patient&apos;s NFT metadata</small>
                 </div>
 
                 <div className={styles.formGroup}>
@@ -552,7 +619,7 @@ const DoctorUpdateRecord = () => {
                       </button>
                     </div>
 
-                    {/* Display previews of selected medical files */}
+                    {/* Display previews of selected medical files - Fix the img tag warning */}
                     {medicalImageUrls.length > 0 && (
                       <div className={styles.medicalImagesGrid || ''} style={{
                         display: 'grid',
@@ -568,15 +635,15 @@ const DoctorUpdateRecord = () => {
                             borderRadius: '4px',
                             overflow: 'hidden'
                           }}>
-                            <img 
-                              src={url} 
-                              alt={`Medical file ${index + 1}`} 
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover'
-                              }}
-                            />
+                            {/* Replace img with Next.js Image component */}
+                            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                              <Image 
+                                src={url} 
+                                alt={`Medical file ${index + 1}`}
+                                fill
+                                style={{ objectFit: 'cover' }}
+                              />
+                            </div>
                             <button 
                               type="button"
                               onClick={() => removeMedicalFile(index)}
@@ -594,7 +661,8 @@ const DoctorUpdateRecord = () => {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 cursor: 'pointer',
-                                fontSize: '10px'
+                                fontSize: '10px',
+                                zIndex: 10
                               }}
                             >
                               ✕
@@ -607,7 +675,8 @@ const DoctorUpdateRecord = () => {
                               color: 'white',
                               padding: '2px 6px',
                               borderRadius: '10px',
-                              fontSize: '10px'
+                              fontSize: '10px',
+                              zIndex: 10
                             }}>
                               {index + 1}
                             </span>

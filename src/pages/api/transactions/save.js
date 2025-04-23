@@ -1,6 +1,5 @@
 import { query } from '../sql/db.js';
 
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -18,9 +17,37 @@ export default async function handler(req, res) {
     const checkResult = await query(checkQuery, [txHash]);
 
     if (checkResult.rows.length > 0) {
-      return res.status(409).json({ 
-        message: 'Transaction already exists',
-        id: checkResult.rows[0].id
+      // CHANGE: Thay vì trả về lỗi 409, hãy cập nhật giao dịch hiện có
+      const updateQuery = `
+        UPDATE transactions 
+        SET 
+          user_id = COALESCE($1, user_id),
+          amount = $2,
+          from_address = $3,
+          to_address = $4,
+          unit = $5,
+          transaction_type = $6,
+          current_type = $7,
+          update_at = NOW()
+        WHERE id = $8
+        RETURNING id
+      `;
+      
+      const updateResult = await query(updateQuery, [
+        userId || null,
+        amount || 1,
+        fromAddress,
+        toAddress,
+        unit,
+        transactionType,
+        currentType,
+        checkResult.rows[0].id
+      ]);
+      
+      return res.status(200).json({
+        id: updateResult.rows[0].id,
+        message: 'Transaction updated successfully',
+        updated: true
       });
     }
 
@@ -43,7 +70,8 @@ export default async function handler(req, res) {
 
     return res.status(201).json({ 
       id: insertResult.rows[0].id,
-      message: 'Transaction saved successfully' 
+      message: 'Transaction saved successfully',
+      updated: false
     });
   } catch (error) {
     console.error('Database error:', error);

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Missing doctor address' });
     }
 
-    // Sửa cách truy vấn - thêm alias để đảm bảo tên field đúng
+    // Updated query to match transactions where the current address is in to_address
     const sql = `
       SELECT 
         id, 
@@ -32,15 +32,9 @@ export default async function handler(req, res) {
       ORDER BY create_at DESC
     `;
     
-    console.log("Doctor address:", doctorAddress);
+    console.log("Checking transactions for address:", doctorAddress);
     const result = await query(sql, [doctorAddress]);
     console.log("Found transactions:", result.rows.length);
-    
-    // Thêm log để debug
-    if (result.rows.length > 0) {
-      console.log("First transaction txHash:", result.rows[0].txHash);
-      console.log("Sample transaction:", JSON.stringify(result.rows[0], null, 2));
-    }
     
     return res.status(200).json(result.rows || []);
   } catch (error) {

@@ -1,16 +1,23 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, DragEvent, useRef } from 'react';
+// 1. Remove unused imports
+import React, { useState, ChangeEvent, DragEvent, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../../styles/verify_did.module.css';
 import { useWallet } from '@meshsdk/react';
 import { deserializeAddress } from '@meshsdk/core';
 import { encryptData } from '../../secret/encryptAndDecrypt';
 import mintNFT from '../../utils/DidAction/mint';
-import axios from 'axios';
 import { PinataSDK } from "pinata";
 import { checkUserInDatabase, saveUserToDatabase } from '../../service/userService';
 import { verify_did } from '../../utils/DidAction/verify';
+
+// 2. Define proper interfaces instead of 'any'
+interface VerificationResult {
+  verified: boolean;
+  didNumber: string | null;
+  hasNft: boolean;
+}
 
 const Mint: React.FC = () => {
   // Wallet connection
@@ -35,13 +42,11 @@ const Mint: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [txStatus, setTxStatus] = useState<string>('');
   const [txHash, setTxHash] = useState<string>('');
-  const [mintHistory, setMintHistory] = useState<any[]>([]);
   
   // Verification state
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
-  const [verificationResult, setVerificationResult] = useState<any>(null);
+  const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
   const [didNumber, setDidNumber] = useState<string | null>(null);
-  const [hasValidNft, setHasValidNft] = useState<boolean>(false);
 
   // Pinata configuration
   const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzd" +
@@ -52,7 +57,7 @@ const Mint: React.FC = () => {
   "iOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5Ijo" +
   "iZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzN" +
   "lYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI" +
-  "0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc"; // JWT key đã được rút gọn
+  "0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
   const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
   const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
 
@@ -94,7 +99,6 @@ const Mint: React.FC = () => {
             didNumber: storedDid,
             hasNft: true
           });
-          setHasValidNft(true);
           setTxStatus(`Xác thực thành công! NFT danh tính hợp lệ. DID: ${storedDid}`);
         } else {
           // DID tồn tại trong database nhưng không có NFT hoặc NFT không khớp
@@ -103,7 +107,6 @@ const Mint: React.FC = () => {
             didNumber: storedDid,
             hasNft: false
           });
-          setHasValidNft(false);
           setTxStatus('Bạn đã được xác thực, nhưng NFT danh tính không hợp lệ hoặc không tồn tại. Vui lòng tạo NFT mới.');
         }
       } else {
@@ -114,7 +117,6 @@ const Mint: React.FC = () => {
           didNumber: null,
           hasNft: false
         });
-        setHasValidNft(false);
         setTxStatus('Bạn chưa có định danh. Vui lòng tạo NFT định danh mới.');
         
         // Tự động lưu DID mới vào database
@@ -308,13 +310,6 @@ const Mint: React.FC = () => {
   // Tính toán trạng thái hiển thị UI
   const showVerificationSection = !verificationResult || !verificationResult.hasNft;
   const showMintForm = verificationResult && !verificationResult.hasNft && didNumber;
-
-  // Calculate metadata preview
-  const metadataPreview = {
-    name: nftName,
-    description: 'CIP68 Medical Identity Token',
-    did_number: didNumber || '[Chưa có]'
-  };
 
   return (
     <>
