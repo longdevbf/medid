@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useWallet } from '@meshsdk/react';
-import styles from './Lockhoso.module.css';
+import styles from './lockhoso.module.css';
 import lockPortfolio from '../../../utils/PatientAction/utils/lock';
 import { Asset } from '@meshsdk/core';
 import { getUserByWallet } from '../../../service/userService';

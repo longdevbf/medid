@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useWallet } from '@meshsdk/react';
-import styles from "./Unlock.module.css";
+import styles from "./unlock.module.css";
 import unlockAndPaymentPortfolio from "../../../utils/DoctorAction/utils/unlock";
 import { getPatientUnlockTransactions, saveTransaction, updateTransaction, getTransactionsByAddress } from "../../../service/transactionService";
 import { getUserByWallet } from "../../../service/userService";
