@@ -24,13 +24,12 @@ import {
         const {scriptAddr, scriptCbor} = getScript(); 
         const utxoFetch = await blockchainProvider.fetchUTxOs(txHashLock);
         const plutusDataUtxo = utxoFetch.find(utxo => utxo.output.plutusData);
-        let index = 0;
-        if (plutusDataUtxo) {
-            index = plutusDataUtxo.input.outputIndex;
-        } else {
-            throw new Error("No Plutus data found in the UTXOs");
-        }
-        const utxo = utxoFetch[index];
+
+
+        
+
+
+
         const txBuilder = new MeshTxBuilder({
             fetcher: blockchainProvider,
             submitter: blockchainProvider

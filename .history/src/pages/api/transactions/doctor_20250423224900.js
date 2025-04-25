@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Missing doctor address' });
     }
 
-    // Updated query to match transactions with current_type 'lock' OR 'updated'
+    // Updated query to match transactions where the current address is in to_address
     const sql = `
       SELECT 
         id, 
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       FROM transactions 
       WHERE $1 = ANY(to_address)
       AND transaction_type = 'patient_lock'
-      AND current_type IN ('lock', 'updated')
+      AND current_type = 'lock'
       AND txHash IS NOT NULL
       ORDER BY create_at DESC
     `;

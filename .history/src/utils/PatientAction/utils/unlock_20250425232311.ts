@@ -26,11 +26,15 @@ import {
         const plutusDataUtxo = utxoFetch.find(utxo => utxo.output.plutusData);
         let index = 0;
         if (plutusDataUtxo) {
-            index = plutusDataUtxo.input.outputIndex;
+            index = utxoFetch.indexOf(plutusDataUtxo);
         } else {
             throw new Error("No Plutus data found in the UTXOs");
         }
-        const utxo = utxoFetch[index];
+
+        
+
+
+
         const txBuilder = new MeshTxBuilder({
             fetcher: blockchainProvider,
             submitter: blockchainProvider

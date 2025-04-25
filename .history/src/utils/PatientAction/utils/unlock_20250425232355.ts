@@ -31,6 +31,7 @@ import {
             throw new Error("No Plutus data found in the UTXOs");
         }
         const utxo = utxoFetch[index];
+
         const txBuilder = new MeshTxBuilder({
             fetcher: blockchainProvider,
             submitter: blockchainProvider
