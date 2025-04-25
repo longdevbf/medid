@@ -20,12 +20,12 @@ import {
        // console.log("utxo fetch : ", utxoFetch);
         let index = 0;
         const plutusDataUtxo = utxoFetch.find(utxo => utxo.output.plutusData);
-        if (plutusDataUtxo) {   
+        if (plutusDataUtxo) {
+            
               index = plutusDataUtxo.input.outputIndex;
           }
-        const utxo = utxoFetch[index];
-
-        //const utxo = utxoFetch[0];
+          
+        const utxo = utxoFetch[0];
         const doctorPubKeyHashes = doctorAddresses.map((address) => {
             const { pubKeyHash } = deserializeAddress(address);
             return pubKeyHash;

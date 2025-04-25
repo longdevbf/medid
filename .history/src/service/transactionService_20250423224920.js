@@ -89,7 +89,7 @@ export async function updateTransaction(id, currentType) {
  */
 export async function getUpdateEligibleTransactions(patientAddress) {
   try {
-    return await fetchAPI(`transactions/addresses?fromAddress=${encodeURIComponent(patientAddress)}&type=patient_lock&currentTypes=lock,updated`);
+    return await fetchAPI(`transactions/addresses?fromAddress=${encodeURIComponent(patientAddress)}&type=patient_lock&currentType=lock`);
   } catch (error) {
     console.error("Lỗi khi lấy danh sách giao dịch hợp lệ:", error);
     return [];
