@@ -22,7 +22,7 @@ Dịch vụ Y Tế: Ngưới dùng có thể tạo hồ sơ bệnh nhân bằng 
            
            
            
-           
+           .
            
            
            
@@ -33,6 +33,7 @@ next: npm i next <br>
 meshjs: npm install @meshsdk/core @meshsdk/react<br>
 pinata: npm i pinata<br>
 lodash
+.
 .
 .
 .
