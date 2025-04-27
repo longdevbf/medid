@@ -34,7 +34,8 @@ meshjs: npm install @meshsdk/core @meshsdk/react<br>
 pinata: npm i pinata<br>
 lodash
 .
-.
+
+..
 .
 .
 .
