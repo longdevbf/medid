@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test-db": "ts-node --esm src/pages/api/sql/test.ts",
-  "setup-db": "ts-node --esm src/pages/api/sql/schema.ts"
+    "setup-db": "ts-node --esm src/pages/api/sql/schema.ts"
   },
   "dependencies": {
     "@meshsdk/core": "^1.7.20",
@@ -29,6 +29,7 @@
     "https-browserify": "^1.0.0",
     "ipfs-http-client": "^60.0.1",
     "libsodium-wrappers": "^0.7.15",
+    "lucide-react": "^0.503.0",
     "medid": "file:",
     "next": "15.2.4",
     "nft.storage": "^3.4.0",

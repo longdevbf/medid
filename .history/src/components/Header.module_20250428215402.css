@@ -200,16 +200,10 @@
 
 /* Processing status */
 .processingStatus {
-  display: flex;
-  align-items: center;
   margin-right: 10px;
   color: #0088c2;
-}
-
-.spinner {
-  display: inline-block;
   animation: spin 1s linear infinite;
-  margin-right: 4px;
+  display: inline-block;
 }
 
 @keyframes spin {
