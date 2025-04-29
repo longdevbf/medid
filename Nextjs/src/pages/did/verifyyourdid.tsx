@@ -57,7 +57,7 @@ const Mint: React.FC = () => {
   "iOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5Ijo" +
   "iZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzN" +
   "lYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI" +
-  "0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
+  "4MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
   const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
   const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
 
@@ -312,12 +312,12 @@ const Mint: React.FC = () => {
   const showMintForm = verificationResult && !verificationResult.hasNft && didNumber;
 
   return (
-    <>
+    <div className={styles.web3Theme}>
       {/* Hero Section */}
       <div className={styles.hero}>
         <div className={styles.container}>
-          <h1>Xác thực danh tính sức khỏe trên Blockchain</h1>
-          <p>
+          <h1 className={styles.heroTitle}>Xác thực danh tính sức khỏe trên Blockchain</h1>
+          <p className={styles.heroSubtitle}>
             Kết hợp công nghệ tiên tiến với blockchain để mang lại dịch vụ chăm sóc sức khỏe
             thông minh và an toàn
           </p>
@@ -348,7 +348,11 @@ const Mint: React.FC = () => {
                     onClick={handleVerify}
                     disabled={isVerifying || !connected}
                   >
-                    {isVerifying ? 'Đang xác thực...' : 'Xác thực danh tính của tôi'}
+                    {isVerifying ? (
+                      <span className={styles.spinner}></span>
+                    ) : (
+                      'Xác thực danh tính của tôi'
+                    )}
                   </button>
                   {txStatus && <p className={styles.verifyNote}>{txStatus}</p>}
                 </div>
@@ -522,7 +526,11 @@ const Mint: React.FC = () => {
                       className={styles.btnPrimary}
                       disabled={isLoading || !connected}
                     >
-                      {isLoading ? 'Đang xử lý...' : 'Tạo NFT danh tính'}
+                      {isLoading ? (
+                        <span className={styles.spinner}></span>
+                      ) : (
+                        'Tạo NFT danh tính'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -553,7 +561,7 @@ const Mint: React.FC = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
