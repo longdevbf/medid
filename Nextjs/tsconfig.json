@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs", "db.js", "test.js", "src/Data/Postgresql/db.ts", "src/Data/Postgresql/schema.ts", "src/Data/Postgresql/test.ts", "src/Data/userService.ts", "src/pages/api/sql/db.js", "src/pages/api/users/check/route.js", "src/pages/api/users/save/route.js", "src/pages/api/userService.js", "src/pages/api/sql/schema.js", "src/pages/api/sql/test.js", "src/service/userService.js", "src/lib/utils.ts"],
+  "exclude": ["node_modules"]
+}
