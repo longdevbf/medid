@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useWallet } from '@meshsdk/react';
-import styles from '../../styles/unlock.module.css';
-import unlockPortfolio from '../../utils/PatientAction/unlock';
-import { getDoctorTransactions, saveTransaction, updateTransaction } from '../../service/transactionService';
-import { getUserByWallet } from '../../service/userService';
+import styles from './unlock.module.css';
+import unlockPortfolio from '../../../utils/PatientAction/unlock';
+import { getDoctorTransactions, saveTransaction, updateTransaction } from '../../../service/transactionService';
+import { getUserByWallet } from '../../../service/userService';
 interface Transaction {
   id: number;
   txHash: string;

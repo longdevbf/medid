@@ -2,7 +2,35 @@ import React from "react";
 import Link from 'next/link';
 import styles from '../../styles/adapter_doctor.module.css';
 
+import lockIcon from './images/lock.png';
+import unlockIcon from './images/unlock.png';
+import updateIcon from './images/update.png';
+
 const DoctorServices: React.FC = () => {
+  const services = [
+    {
+      title: 'Lock Patient Record',
+      desc: 'Securely lock patient medical records on the blockchain to ensure only authorized access.',
+      alt: 'Lock record',
+      link: '/service_doctor/doctor_lock',
+      icon: lockIcon,
+    },
+    {
+      title: 'Unlock Patient Record',
+      desc: 'Safely unlock patient records with blockchain verification for viewing or updating.',
+      alt: 'Unlock record',
+      link: '/service_doctor/doctor_update',
+      icon: unlockIcon,
+    },
+    {
+      title: 'Update Patient Record',
+      desc: 'Update patient medical history, diagnoses, or treatments with secure blockchain integration.',
+      alt: 'Update record',
+      link: '/service_doctor/doctor_unlock',
+      icon: updateIcon,
+    },
+  ];
+
   return (
     <>
       {/* Hero Section */}
@@ -37,30 +65,12 @@ const DoctorServices: React.FC = () => {
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Doctor Services</h2>
           <div className={styles.servicesGrid}>
-            {[
-              {
-                title: 'Lock Patient Record',
-                desc: 'Securely lock patient medical records on the blockchain to ensure only authorized access.',
-                alt: 'Lock record',
-                link: '/service_doctor/doctor_lock',
-              },
-              {
-                title: 'Unlock Patient Record',
-                desc: 'Safely unlock patient records with blockchain verification for viewing or updating.',
-                alt: 'Unlock record',
-                link: '/service_doctor/doctor_update',
-              },
-              {
-                title: 'Update Patient Record',
-                desc: 'Update patient medical history, diagnoses, or treatments with secure blockchain integration.',
-                alt: 'Update record',
-                link: '/service_doctor/doctor_unlock',
-              },
-            ].map((service, index) => (
+            {services.map((service, index) => (
               <Link key={index} href={service.link}>
                 <div className={styles.serviceCard}>
                   <div className={styles.serviceIcon}>
-                    <img src="/api/placeholder/100/80" alt={service.alt} />
+                    {}
+                    <img src={service.icon.src} alt={service.alt} />
                   </div>
                   <div className={styles.serviceContent}>
                     <h3 className={styles.sectionTitle}>{service.title}</h3>

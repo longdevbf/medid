@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useWallet } from '@meshsdk/react';
-import styles from '../../styles/doctor_lock.module.css';
-import sendPortfolio from '../../utils/DoctorAction/lock';
+
+import styles from './lock.module.css';
+import sendPortfolio from '../../../utils/DoctorAction/lock';
 import { Asset } from '@meshsdk/core';
-import { getUserByWallet } from '../../service/userService';
-import { saveTransaction } from '../../service/transactionService';
+import { getUserByWallet } from '../../../service/userService';
+import { saveTransaction } from '../../../service/transactionService';
 
 interface StatusMessage {
   title: string;

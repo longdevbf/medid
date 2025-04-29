@@ -1,9 +1,10 @@
 import React, { useState, useRef, ChangeEvent, DragEvent } from 'react';
-import styles from '../../styles/update.module.css';
+import styles from './update.module.css';
 import { useWallet } from '@meshsdk/react'; 
 import { deserializeAddress } from '@meshsdk/core';
-import { encryptData, decryptData } from '../../secret/encryptAndDecrypt';
-import updateTokens from '../../utils/DoctorAction/update';
+import { encryptData, decryptData } from '../../../secret/encryptAndDecrypt';
+import updateTokens from '../../../utils/DoctorAction/update';
+
 import { PinataSDK } from "pinata";
 import Image from 'next/image'; // Import Next.js Image component
 
