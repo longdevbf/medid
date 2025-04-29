@@ -16,7 +16,7 @@ import {
   BrowserWallet
 } from "@meshsdk/core";
 import { isNil } from "lodash";
-import plutus from '../../../../cardano_contract/script/plutus.json';
+import plutus from '../../../../cardan_contract/script/plutus.json';
 import { getWalletInfoForTx } from './common';
 
 // Platform constants - defined once for the whole application

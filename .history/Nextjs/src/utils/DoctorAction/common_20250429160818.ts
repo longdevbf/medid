@@ -1,13 +1,13 @@
 import {
     BlockfrostProvider,
     MeshTxBuilder,
-    BrowserWallet,
     serializePlutusScript,
-    UTxO
+    UTxO,
+    BrowserWallet
 
   } from "@meshsdk/core";
   import { applyParamsToScript } from "@meshsdk/core-csl";
-  import plutus from '../../../../cardano_contract//plutus.json';
+  import plutus from '../../../../carda/plutus.json';
 
    
   export const blockchainProvider = new BlockfrostProvider("preprod2DQWsQjqnzLW9swoBQujfKBIFyYILBiL");
@@ -17,18 +17,18 @@ import {
     return validator.compiledCode;
   }
   export function getScript() {
-    const patientActionCompiledCode = readValidator("patientaction.action1.spend");
-    const scriptCbor = applyParamsToScript(
-      patientActionCompiledCode,
-      []
-    );
-    const scriptAddr = serializePlutusScript(
-      { code: scriptCbor, version: "V3" },
-      undefined,
-      0,
-    ).address;
-    return { scriptCbor, scriptAddr };
-  }
+      const doctorActionCompiledCode = readValidator("doctor_action.action1.spend");
+      const scriptCbor = applyParamsToScript(
+        doctorActionCompiledCode,
+        []
+      );
+      const scriptAddr = serializePlutusScript(
+        { code: scriptCbor, version: "V3" },
+        undefined,
+        0,
+      ).address;
+      return { scriptCbor, scriptAddr };
+    }
   
   // reusable function to get a transaction builder
   export function getTxBuilder() {

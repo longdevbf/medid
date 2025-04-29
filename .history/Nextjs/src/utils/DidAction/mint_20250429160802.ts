@@ -13,7 +13,7 @@ import {
   scriptAddress,
   BrowserWallet
 } from "@meshsdk/core";
-import plutus from '../../../../cardano_contract/plutus.json';
+import plutus from '../../../../cardano_contract//plutus.json';
 import { getWalletInfoForTx, blockchainProvider } from '../DoctorAction/common';
 
 // Constants
