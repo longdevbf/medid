@@ -749,7 +749,7 @@ const DoctorUpdateRecord = () => {
 
           {activeTab === 'history' && (
             <div>
-              <h2>Update History</h2>
+              <h2 className={styles.history}>Update History</h2>
               <div className={styles.infoText}>
                 Connect your account to view your update history. This will show all your recent medical record updates on the blockchain.
               </div>
