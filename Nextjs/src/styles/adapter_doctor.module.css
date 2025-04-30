@@ -71,7 +71,6 @@
   font-weight: bold;
 }
 
-
 .arrow {
   margin: 0 0.5rem;
   font-weight: bold;
@@ -146,6 +145,11 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+}
+
+.servicesGrid a {
+  text-decoration: none;
+  color: inherit; /* Giữ nguyên màu chữ theo thẻ con, tránh xanh mặc định */
 }
 
 .serviceCard {
