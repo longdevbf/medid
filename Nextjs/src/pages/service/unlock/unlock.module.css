@@ -1,221 +1,81 @@
+/* unlock.module.css */
+
 .main-content {
-    padding: 60px 0;
+  padding: 40px 0;
+  background-color: #f8f9fa; /* Màu nền nhạt */
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .unlock-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    max-width: 600px;
-    margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin-bottom: 30px;
 }
 
 .unlock-card h2 {
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
 }
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #555;
-    font-weight: 500;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-}
-
-.form-group input:focus {
-    border-color: #09a4ab;
-    outline: none;
-}
-
-.error-message {
-    color: #e53935;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.success-message {
-    color: #43a047;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.unlock-btn {
-    background-color: #09a4ab;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    width: 100%;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.unlock-btn:hover {
-    background-color: #078e95;
-}
-
-/* -------- FEATURES CHỈNH GIỮA -------- */
-.features {
-    margin-top: 60px;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.features-title {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #333;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto;
-    justify-items: center;
-}
-
-.feature-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    text-align: center;
-}
-
-.feature-icon {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(9, 164, 171, 0.1);
-    border-radius: 50%;
-}
-
-.feature-icon i {
-    color: #09a4ab;
-    font-size: 24px;
-}
-
-.feature-card h3 {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.feature-card p {
-    color: #666;
-    line-height: 1.6;
-}
-
-.loading {
-    margin: 20px auto;
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(9, 164, 171, 0.3);
-    border-radius: 50%;
-    border-top-color: #09a4ab;
-    animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Thêm vào file Unlock.module.css */
 
 .wallet-warning {
+  background-color: #ffeeba;
+  color: #85640a;
+  border: 1px solid #ffeb3b;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
-  background-color: #fff3cd;
-  border-left: 4px solid #ffc107;
-  padding: 12px 16px;
-  margin-bottom: 20px;
-  border-radius: 4px;
+  gap: 10px;
 }
 
 .wallet-warning svg {
-  margin-right: 12px;
-  color: #ffc107;
+  fill: #85640a;
 }
 
 .wallet-warning p {
   margin: 0;
-  color: #856404;
 }
 
-.input-help {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin-top: 4px;
+.transactions-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
 }
 
-.error-message, .success-message {
-  display: flex;
-  align-items: flex-start;
-  margin-top: 12px;
-  padding: 10px 12px;
-  border-radius: 4px;
-}
-
-.error-message {
-  background-color: #ffebee;
-  color: #d32f2f;
-}
-
-.success-message {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-}
-
-.error-message svg, .success-message svg {
-  margin-right: 8px;
-  margin-top: 2px;
-  flex-shrink: 0;
+.transactions-section h3,
+.history-section h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
 }
 
 .loading {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: 20px 0;
+  gap: 10px;
+  color: #777;
+  font-style: italic;
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #3f51b5;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 10px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff; /* Màu xanh dương */
+  animation: spin 1s infinite linear;
 }
 
 @keyframes spin {
@@ -224,167 +84,62 @@
   }
 }
 
-.unlock-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  background-color: #3f51b5;
-  color: white;
-  padding: 12px 16px;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.unlock-btn:hover {
-  background-color: #303f9f;
-}
-
-.unlock-btn:disabled {
-  background-color: #bdbdbd;
-  cursor: not-allowed;
-}
-
-.unlock-btn svg {
-  margin-right: 8px;
-}
-
-.tx-link-container {
-  margin-top: 10px;
-}
-
-.txLink {
-  display: inline-flex;
-  align-items: center;
-  color: #3f51b5;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-family: monospace;
-  background-color: rgba(63, 81, 181, 0.08);
-  padding: 6px 10px;
-  border-radius: 4px;
-  word-break: break-all;
-}
-
-.txLink svg {
-  margin-left: 6px;
-  flex-shrink: 0;
-}
-
-/* How it Works section */
-.how-it-works {
-  margin-top: 60px;
-  padding: 30px 0;
-}
-
-.how-it-works h2 {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.steps-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.step {
-  background-color: white;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
-  position: relative;
-}
-
-.step-number {
-  background-color: #3f51b5;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.step h3 {
-  margin-top: 0;
-  margin-bottom: 12px;
-  color: #3f51b5;
-}
-
-.step p {
-  margin: 0;
-  color: #666;
-}
-
-/* Thêm vào file e:\medid\src\pages\service\unlock\Unlock.module.css */
-
-.transactions-section {
-  margin: 1.5rem 0;
-}
-
-.transactions-section h3 {
-  margin-bottom: 1rem;
-  font-size: 1.25rem;
-  color: #333;
-}
-
-.transactions-list {
+.transactions-list,
+.history-list {
   overflow-x: auto;
-  margin-bottom: 1.5rem;
 }
 
-.transactions-table {
+.transactions-table,
+.history-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  border-spacing: 0;
+  font-size: 0.95em;
 }
 
-.transactions-table th {
-  background-color: #f8f9fa;
+.transactions-table thead th,
+.history-table thead th {
+  background-color: #e9ecef;
   color: #495057;
-  padding: 12px;
+  padding: 12px 15px;
   text-align: left;
-  border-bottom: 2px solid #dee2e6;
-  font-weight: 600;
+  border-bottom: 2px solid #ddd;
 }
 
-.transactions-table td {
-  padding: 12px;
-  border-bottom: 1px solid #dee2e6;
+.transactions-table tbody td,
+.history-table tbody td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
 }
 
-.transaction-item:hover {
-  background-color: #f8f9fa;
+.transactions-table tbody tr:last-child td,
+.history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.transaction-item:hover,
+.history-item:hover {
+  background-color: #f5f5f5;
+}
+
+.address,
+.unitId {
+  font-family: monospace; /* Phông chữ đơn cách cho địa chỉ và ID */
 }
 
 .unlock-tx-btn {
-  padding: 8px 12px;
-  background-color: #0079a9;
+  background-color: #007bff; /* Màu xanh dương */
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  padding: 10px 15px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
 }
 
 .unlock-tx-btn:hover {
-  background-color: #005d83;
+  background-color: #0056b3;
 }
 
 .unlock-tx-btn:disabled {
@@ -392,21 +147,202 @@
   cursor: not-allowed;
 }
 
-.unlock-tx-btn svg {
-  margin-right: 6px;
-}
-
-.address, .unitId {
-  font-family: monospace;
-  font-size: 0.85rem;
-}
-
 .no-records {
-  padding: 2rem;
+  color: #777;
+  font-style: italic;
+  padding: 15px;
   text-align: center;
-  color: #6c757d;
-  border: 1px dashed #ced4da;
+}
+
+.history-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
   border-radius: 6px;
-  background-color: #f8f9fa;
-  margin-bottom: 1.5rem;
+  background-color: #f9f9f9;
+}
+
+.history-list {
+  /* Đã có ở trên */
+}
+
+.history-table {
+  /* Đã có ở trên */
+}
+
+.history-item {
+  /* Đã có ở trên */
+}
+
+.status-completed {
+  background-color: #28a745; /* Màu xanh lá cây cho trạng thái hoàn thành */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.error-message svg {
+  fill: #721c24;
+}
+
+.error-message span {
+  flex-grow: 1;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.success-message svg {
+  fill: #155724;
+}
+
+.success-message span {
+  flex-grow: 1;
+}
+
+.tx-link-container {
+  margin-top: 10px;
+}
+
+.tx-link {
+  color: #007bff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tx-link:hover {
+  text-decoration: underline;
+}
+
+.tx-link svg {
+  fill: #007bff;
+}
+
+/* --- Features Section --- */
+.features {
+  background-color: #fff;
+  padding: 40px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.features-title {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.feature-card {
+  background-color: #f9f9f9;
+  padding: 25px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.feature-icon {
+  background-color: #007bff;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  margin: 0 auto 15px;
+}
+
+.feature-card h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  color: #666;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+/* --- How It Works Section --- */
+.how-it-works {
+  background-color: #fff;
+  padding: 40px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.how-it-works h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.step {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.step-number {
+  background-color: #007bff;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  font-weight: bold;
+}
+
+.step h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.step p {
+  color: #666;
+  font-size: 0.9em;
+  line-height: 1.6;
 }

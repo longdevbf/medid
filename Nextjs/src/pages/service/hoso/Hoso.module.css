@@ -1,113 +1,284 @@
+/* Hoso.module.css */
+
 .content {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  
-  .section-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
-  
-  .section-header h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  .section-header p {
-    color: #666;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin-bottom: 2rem;
-  }
-  
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .form-section {
-    margin-bottom: 2rem;
-  }
-  
-  .form-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: #333;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 0.5rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #555;
-  }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 0.7rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .form-group textarea {
-    height: 100px;
-  }
-  
-  .btn-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-  }
-  
-  .btn-mint {
-    background-color: #0B9A95;
-    color: white;
-    border: none;
-    padding: 0.8rem 2rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.2s;
-  }
-  
-  .btn-mint:hover {
-    background-color: #098580;
-  }
-  
-  .feature-list {
-    margin-top: 1.5rem;
-  }
-  
-  .feature-item {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-  
-  .feature-item::before {
-    content: "•";
-    color: #0B9A95;
-    font-weight: bold;
-    margin-right: 0.5rem;
-  }
-  
+  max-width: 960px; /* Giới hạn chiều rộng nội dung để dễ đọc trên màn hình lớn */
+  margin: 20px auto; /* Căn giữa nội dung và tạo khoảng trắng xung quanh */
+  padding: 20px;
+  background-color: #f9f9f9; /* Màu nền nhạt để tạo sự tương phản */
+  border-radius: 8px; /* Bo tròn góc để giao diện mềm mại hơn */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ nhẹ */
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-header h2 {
+  color: #333; /* Màu tiêu đề đậm */
+  margin-bottom: 10px;
+}
+
+.section-header p {
+  color: #666; /* Màu mô tả nhạt hơn */
+  font-size: 0.9em;
+}
+
+.card {
+  background-color: #fff; /* Màu nền trắng cho các thẻ chứa form */
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee; /* Đường viền nhẹ */
+}
+
+.form-section {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee; /* Đường kẻ phân cách giữa các section */
+}
+
+.form-section:last-child {
+  border-bottom: none; /* Loại bỏ đường kẻ ở section cuối cùng */
+}
+
+.form-section h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.sectionDesc {
+  color: #777;
+  font-size: 0.85em;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Tạo layout responsive cho các trường form */
+  gap: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 0.95em;
+  font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="date"],
+.form-group input[type="datetime-local"],
+.form-group select,
+.form-group textarea,
+.dropArea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box; /* Đảm bảo padding và border không làm tăng kích thước phần tử */
+}
+
+.form-group textarea {
+  min-height: 80px;
+}
+
+.form-group select {
+  appearance: none; /* Loại bỏ kiểu mặc định của select */
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23333" viewBox="0 0 4 5"><path d="M2 0L0 2h4L2 0z"/></svg>'); /* Thêm icon mũi tên cho select */
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 8px;
+  padding-right: 30px;
+}
+
+.formHelp {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+  font-size: 0.8em;
+}
+
+/* Drop Area Styles */
+.dropArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  color: #777;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.dropArea.dragActive {
+  border-color: #007bff; /* Màu khi kéo thả vào */
+  background-color: #f0f8ff; /* Nền khi kéo thả vào */
+}
+
+.dropArea p {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.btnOutline {
+  background: none;
+  color: #007bff;
+  border: 1px solid #007bff;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btnOutline:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.hiddenFileInput {
+  display: none;
+}
+
+/* Image Preview */
+.imagePreview {
+  width: 100%;
+  max-height: 200px;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.imagePreview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Medical Images Grid */
+.medicalImagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.medicalImageItem {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.medicalImageItem img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1 / 1; /* Giữ tỷ lệ khung hình vuông */
+}
+
+.removeImageBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.imageCounter {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.75em;
+}
+
+/* Button Container */
+.btn-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn-mint {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+.btn-mint:hover {
+  background-color: #0056b3;
+}
+
+.btn-mint:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Transaction Status */
+.tx-status-container {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.tx-status-container p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.tx-status-container strong {
+  font-weight: bold;
+  color: #333;
+}
+
+.tx-hash-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.tx-hash-link:hover {
+  text-decoration: underline;
+}
+
+/* Processing Step */
+.processing-step {
+  margin-top: 15px;
+  color: #007bff;
+  font-style: italic;
+  text-align: center;
+}
