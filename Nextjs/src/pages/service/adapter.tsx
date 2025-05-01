@@ -6,7 +6,6 @@ import Link from "next/link"
 import { ArrowRight, FileText, Unlock, RefreshCw, LockKeyhole } from "lucide-react"
 import styles from "./adaapter.module.css"
 
-// Define service type
 interface Service {
   title: string
   desc: string
@@ -19,7 +18,6 @@ interface Service {
   }[]
 }
 
-// Define slideshow images
 const slideshowImages = [
   {
     src: "/b1.png",
@@ -37,140 +35,139 @@ const slideshowImages = [
 
 const services: Service[] = [
   {
-    title: "Hồ Sơ",
-    desc: "Số hóa hồ sơ y tế dưới dạng NFT, tạo quyền sở hữu duy nhất và lưu trữ vĩnh viễn trên blockchain.",
-    alt: "Hồ sơ",
+    title: "Medical Records",
+    desc: "Digitize medical records as NFTs, enabling unique ownership and permanent storage on the blockchain.",
+    alt: "Medical Records",
     link: "/service/hoso",
     icon: <FileText className={styles.serviceIcon} />,
     details: [
       {
-        title: "Tính năng chính",
+        title: "Key Features",
         points: [
-          "Lưu trữ vĩnh viễn trên blockchain",
-          "Bảo mật thông tin cá nhân",
-          "Truy cập dễ dàng từ mọi thiết bị",
-          "Chia sẻ có kiểm soát với bác sĩ",
+          "Permanently stored on blockchain",
+          "Personal information security",
+          "Easy access from any device",
+          "Controlled sharing with doctors",
         ],
       },
       {
-        title: "Lợi ích",
+        title: "Benefits",
         points: [
-          "Giảm thiểu thủ tục giấy tờ",
-          "Tránh mất mát hồ sơ y tế",
-          "Theo dõi lịch sử y tế dễ dàng",
-          "Tiết kiệm thời gian khi khám bệnh",
+          "Reduces paperwork",
+          "Prevents record loss",
+          "Easy tracking of medical history",
+          "Saves time during check-ups",
         ],
       },
     ],
   },
   {
-    title: "Lock Hồ Sơ",
-    desc: "Bảo mật hồ sơ y tế của bạn trên công nghệ blockchain, đảm bảo an toàn thông tin tối đa.",
-    alt: "Lock hồ sơ",
+    title: "Lock Medical Records",
+    desc: "Secure your medical records with blockchain technology to ensure maximum information safety.",
+    alt: "Lock medical record",
     link: "/service/lockhoso",
     icon: <LockKeyhole className={styles.serviceIcon} />,
     details: [
       {
-        title: "Tính năng bảo mật",
-        points: ["Mã hóa end-to-end", "Xác thực đa yếu tố", "Kiểm soát quyền truy cập", "Lưu trữ phi tập trung"],
+        title: "Security Features",
+        points: ["End-to-end encryption", "Multi-factor authentication", "Access control", "Decentralized storage"],
       },
       {
-        title: "Ứng dụng",
+        title: "Use Cases",
         points: [
-          "Bảo vệ thông tin nhạy cảm",
-          "Ngăn chặn truy cập trái phép",
-          "Tuân thủ quy định bảo mật y tế",
-          "Bảo vệ quyền riêng tư cá nhân",
+          "Protect sensitive information",
+          "Prevent unauthorized access",
+          "Comply with healthcare regulations",
+          "Safeguard personal privacy",
         ],
       },
     ],
   },
   {
-    title: "Unlock 1 Hồ Sơ",
-    desc: "Mở khóa hồ sơ y tế an toàn khi cần thiết, với xác thực đa lớp đảm bảo thông tin chỉ được truy cập bởi người có quyền.",
-    alt: "Unlock hồ sơ",
+    title: "Unlock 1 Medical Record",
+    desc: "Securely unlock medical records when needed, ensuring only authorized access through multi-layer authentication.",
+    alt: "Unlock record",
     link: "/service/unlock",
     icon: <Unlock className={styles.serviceIcon} />,
     details: [
       {
-        title: "Quy trình mở khóa",
+        title: "Unlock Process",
         points: [
-          "Xác thực danh tính người dùng",
-          "Kiểm tra quyền truy cập",
-          "Ghi lại nhật ký truy cập",
-          "Giới hạn thời gian truy cập",
+          "User identity verification",
+          "Access permission check",
+          "Access logs tracking",
+          "Time-limited access",
         ],
       },
       {
-        title: "Đối tượng sử dụng",
-        points: ["Bệnh nhân cần chia sẻ hồ sơ", "Bác sĩ được ủy quyền", "Cơ sở y tế đối tác", "Dịch vụ cấp cứu y tế"],
+        title: "Target Users",
+        points: ["Patients sharing records", "Authorized doctors", "Partner medical facilities", "Emergency services"],
       },
     ],
   },
   {
-    title: "Unlock 2 Hồ Sơ",
-    desc: "Mở khóa hồ sơ y tế an toàn khi cần thiết, với xác thực đa lớp đảm bảo thông tin chỉ được truy cập bởi người có quyền.",
-    alt: "Unlock hồ sơ",
+    title: "Unlock 2 Medical Records",
+    desc: "Securely unlock multiple records with detailed permission control and session-based access expiration.",
+    alt: "Unlock record",
     link: "/service/unlock2-hoso",
     icon: <Unlock className={styles.serviceIcon} />,
     details: [
       {
-        title: "Tính năng nâng cao",
+        title: "Advanced Features",
         points: [
-          "Mở khóa nhiều hồ sơ cùng lúc",
-          "Phân quyền chi tiết theo mục",
-          "Theo dõi lịch sử truy cập",
-          "Tự động khóa sau thời gian quy định",
+          "Unlock multiple records at once",
+          "Granular section-level access control",
+          "Access history tracking",
+          "Auto-lock after defined duration",
         ],
       },
       {
-        title: "Ứng dụng thực tế",
+        title: "Real-world Applications",
         points: [
-          "Nghiên cứu y khoa (ẩn danh)",
-          "Điều trị liên chuyên khoa",
-          "Tham vấn ý kiến chuyên gia",
-          "Chuyển viện điều trị",
+          "Anonymous medical research",
+          "Interdisciplinary treatments",
+          "Expert consultations",
+          "Hospital transfers",
         ],
       },
     ],
   },
   {
-    title: "Update Hồ Sơ",
-    desc: "Cập nhật thông tin sức khỏe liên tục, đảm bảo hồ sơ y tế luôn chính xác và cập nhật nhất.",
-    alt: "Update hồ sơ",
+    title: "Update Medical Records",
+    desc: "Continuously update health data to ensure the most accurate and current medical records.",
+    alt: "Update record",
     link: "/service/update",
     icon: <RefreshCw className={styles.serviceIcon} />,
     details: [
       {
-        title: "Loại thông tin cập nhật",
+        title: "Types of Updates",
         points: [
-          "Kết quả xét nghiệm mới",
-          "Đơn thuốc và liệu trình điều trị",
-          "Chỉ số sức khỏe theo dõi",
-          "Lịch hẹn và tái khám",
+          "Latest test results",
+          "Prescriptions and treatment plans",
+          "Health tracking indicators",
+          "Appointments and follow-ups",
         ],
       },
       {
-        title: "Quy trình cập nhật",
+        title: "Update Process",
         points: [
-          "Xác minh nguồn thông tin",
-          "Kiểm tra tính chính xác",
-          "Lưu trữ phiên bản cũ để tham chiếu",
-          "Thông báo cho các bên liên quan",
+          "Verify data source",
+          "Ensure data accuracy",
+          "Store older versions for reference",
+          "Notify relevant stakeholders",
         ],
       },
     ],
   },
 ]
 
-// Image Slideshow Component
 const ImageSlideshow = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % slideshowImages.length)
-    }, 5000) // Change image every 5 seconds
+    }, 5000)
 
     return () => clearInterval(interval)
   }, [])
@@ -198,7 +195,7 @@ const ImageSlideshow = () => {
 }
 
 const ServicesSection: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
     <section className={styles.servicesSection}>
@@ -206,48 +203,34 @@ const ServicesSection: React.FC = () => {
         <h2 className={styles.sectionTitle}>Doctor Services</h2>
 
         <div className={styles.servicesGrid}>
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className={styles.serviceWrapper}
-              onMouseEnter={() => setActiveIndex(index)}
-              onMouseLeave={() => setActiveIndex(null)}
-            >
-              <Link href={service.link} className={styles.serviceLink}>
-                <div className={`${styles.serviceCard} ${activeIndex === index ? styles.serviceCardActive : ""}`}>
-                  <div className={styles.serviceContent}>
-                    <div className={styles.serviceHeader}>
-                      <div className={styles.serviceIconWrapper}>{service.icon}</div>
-                      <h3 className={styles.serviceTitle}>{service.title}</h3>
-                    </div>
-                    <p className={styles.serviceDescription}>{service.desc}</p>
-
-                    {activeIndex === index && (
-                      <div className={styles.serviceDetails}>
-                        {service.details.map((detail, detailIndex) => (
-                          <div key={detailIndex} className={styles.detailSection}>
-                            <h4 className={styles.detailTitle}>{detail.title}</h4>
-                            <ul className={styles.detailList}>
-                              {detail.points.map((point, pointIndex) => (
-                                <li key={pointIndex} className={styles.detailPoint}>
-                                  {point}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+          {services.map((service, index) => {
+            const isHovered = hoveredIndex === index
+            return (
+              <div
+                key={index}
+                className={`${styles.serviceWrapper}`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <Link href={service.link} className={styles.serviceLink}>
+                  <div className={styles.serviceCard}>
+                    <div className={styles.serviceContent}>
+                      <div className={styles.serviceHeader}>
+                        <div className={styles.serviceIconWrapper}>{service.icon}</div>
+                        <h3 className={styles.serviceTitle}>{service.title}</h3>
                       </div>
-                    )}
+                      <p className={styles.serviceDescription}>{service.desc}</p>
 
-                    <div className={styles.viewDetails}>
-                      <span>Xem chi tiết</span>
-                      <ArrowRight className={styles.arrowIcon} />
+                      <div className={styles.viewDetails}>
+                        <span>View Details</span>
+                        <ArrowRight className={styles.arrowIcon} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </div>
-          ))}
+                </Link>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -270,15 +253,13 @@ const MedID: React.FC = () => {
 
           <div className={styles.heroGrid}>
             <div className={styles.heroCard}>
-              {/* Replace static image with slideshow */}
               <ImageSlideshow />
               <h2 className={styles.heroCardTitle}>Secure Medical Records</h2>
               <p className={styles.heroCardDescription}>
-                Bảo vệ thông tin y tế của bạn với công nghệ blockchain tiên tiến, đảm bảo tính riêng tư và an toàn tuyệt
-                đối.
+                Protect your health information with advanced blockchain technology, ensuring complete privacy and security.
               </p>
               <Link href="/learn-more" className={styles.heroButton}>
-                Tìm hiểu thêm
+                Learn more
                 <ArrowRight className={styles.buttonIcon} />
               </Link>
             </div>

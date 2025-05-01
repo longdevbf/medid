@@ -13,6 +13,7 @@
 .section-header h2 {
   color: #333;
   margin-bottom: 10px;
+  font-size: 50px;
 }
 
 .section-header p {
@@ -284,6 +285,7 @@
 .history-section h2 {
   color: #333;
   margin-bottom: 15px;
+  font-size: 50px;
 }
 
 .loading {
