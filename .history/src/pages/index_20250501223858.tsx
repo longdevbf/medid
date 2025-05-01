@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/index.module.css';
 
-const Home= () => {
+const Hero= () => {
   return (
     <>
       {/* Hero Section */}
