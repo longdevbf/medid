@@ -1,59 +1,25 @@
-/* DoctorAssetLock.module.css */
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #07a396;
-}
-
-.navList {
-  display: flex;
-  list-style: none;
-}
-
-.navItem {
-  margin-left: 30px;
-}
-
-.navLink {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-.navLinkActive {
-  color: #07a396;
-  border-bottom: 2px solid #07a396;
-  padding-bottom: 5px;
-}
-
-.connectBtn {
-  background-color: #07a396;
-  color: white;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 5px;
-  font-weight: 500;
-  cursor: pointer;
-}
 
 .hero {
-  background-color: #0077b6;
-  color: white;
-  padding: 40px 0;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #0077b6 0%, #0a9396 100%);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+
+.connectionWarning{
+  color:#e0e0e0;
 }
 
 .heroTitle {
   font-size: 32px;
   margin-bottom: 15px;
+  background: linear-gradient(90deg, #ffffff, #00f2fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
 
 .heroText {
   font-size: 16px;
@@ -63,6 +29,9 @@
 
 .mainContent {
   padding: 60px 0;
+  background: linear-gradient(135deg, #0077b6 0%, #0a2a4a 100%);
+  
+
 }
 
 .assetLockContainer {
@@ -85,7 +54,7 @@
 }
 
 .assetLockForm {
-  background-color: white;
+  background: linear-gradient(45deg, rgba(0, 242, 254, 0.2), rgba(0, 288, 252, 0.2));
   border-radius: 10px;
   padding: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
@@ -106,7 +75,7 @@
 .formLabel {
   display: block;
   margin-bottom: 8px;
-  color: #555;
+  color: #191818;
   font-weight: 500;
 }
 
@@ -126,14 +95,14 @@
 
 .formHelp {
   font-size: 14px;
-  color: #777;
+  color: #171616;
   margin-top: 6px;
 }
 
 .submitBtn {
-  background-color: #07a396;
+  background: #269cb9;
   color: white;
-  border: none;
+  border: 2px solid #00f2fe;
   padding: 14px 25px;
   border-radius: 5px;
   font-weight: 500;
@@ -141,10 +110,13 @@
   font-size: 16px;
   width: 100%;
   transition: background-color 0.3s;
+
+  
+  
 }
 
 .submitBtn:hover {
-  background-color: #058b7e;
+  background-color: #2ec5b6;
 }
 
 .processSteps {
@@ -253,3 +225,4 @@
   background-color: #e3f1fd;
   color: #2b6cb0;
 }
+

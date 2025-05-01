@@ -1,7 +1,110 @@
+/* Header structure - FIXED */
+.header {
+  padding: 1rem 0;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Logo */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0a9396;
+  margin-right: auto; /* Push everything else to the right */
+}
+
+/* Navigation - FIXED */
+.navigation {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navLinks li {
+  margin: 0 15px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLinks a:hover {
+  color: #0a9396;
+}
+
+/* Wallet Container - FIXED */
+.walletContainer {
+  display: flex;
+  align-items: center;
+}
+
+/* Rest of wallet styles remain the same */
+.connectWalletButton,
+.walletButton {
+  /* Remove the negative margin */
+  margin-right: 0;
+}
+
+/* Add some media queries for responsiveness */
+@media (max-width: 900px) {
+  .headerContent {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .navigation {
+    position: relative;
+    left: 0;
+    transform: none;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .logo {
+    margin-right: 0;
+  }
+  
+  .walletContainer {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .navLinks li {
+    margin: 0 8px;
+  }
+  
+  .navLinks {
+    font-size: 14px;
+  }
 }
 
 .headerContent {
@@ -167,7 +270,6 @@ border: 1px solid #0088c2;
 color: #0088c2;
 border-radius: 6px;
 font-size: 14px;
-margin-right: -50px;
 cursor: pointer;
 transition: all 0.2s ease;
 }

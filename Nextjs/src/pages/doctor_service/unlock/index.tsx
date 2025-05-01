@@ -148,7 +148,7 @@ const DoctorUnlock = () => {
           Securely unlock patient medical records with blockchain verification
         </p>
       </section>
-
+      <div className={styles.Container}>
       <div className={styles.unlockContainer}>
         <h2>Unlock Patient Records</h2>
 
@@ -276,6 +276,7 @@ const DoctorUnlock = () => {
             <p>Data is securely stored and centrally accessible</p>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

@@ -35,14 +35,11 @@ const DoctorServices: React.FC = () => {
     <>
       {/* Hero Section */}
       <section className={styles.hero}>
-        <div className={styles.container}>
+        
           <h1>Doctor Services Portal</h1>
           <p>Access all your medical practice tools securely on blockchain for enhanced patient care and efficient healthcare management</p>
-        </div>
-      </section>
-
-      {/* Blockchain Visual */}
-      <div className={styles.container}>
+        
+        <div className={styles.container}>
         <div className={styles.blockchainVisual}>
           <div className={styles.blockchainBlocks}>
             <div className={styles.block}>Block #1</div>
@@ -59,10 +56,14 @@ const DoctorServices: React.FC = () => {
           </div>
         </div>
       </div>
+      </section>
+
+      {/* Blockchain Visual */}
+      
 
       {/* Services Section */}
       <section className={styles.services}>
-        <div className={styles.container}>
+        
           <h2 className={styles.sectionTitle}>Doctor Services</h2>
           <div className={styles.servicesGrid}>
             {services.map((service, index) => (
@@ -80,7 +81,6 @@ const DoctorServices: React.FC = () => {
               </Link>
             ))}
           </div>
-        </div>
       </section>
     </>
   );

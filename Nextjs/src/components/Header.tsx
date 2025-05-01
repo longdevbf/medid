@@ -264,120 +264,111 @@ const Header: React.FC = () => {
         <div className={styles.navigation}>
           <ul className={styles.navLinks}>
             <li>
-              <Link href="/" className={styles.navLink}>
-                Home
-              </Link>
+              <Link href="/" className={styles.navLink}>Home</Link>
             </li>
             <li>
-              <Link href="/service/adapter" className={styles.navLink}>
-                Services
-              </Link>
+              <Link href="/service/adapter" className={styles.navLink}>Services</Link>
             </li>
             <li>
-              <Link href="/blockchain-health" className={styles.navLink}>
-                Blockchain Health
-              </Link>
+              <Link href="/blockchain-health" className={styles.navLink}>Blockchain Health</Link>
             </li>
             <li>
-              <Link href="/doctor_service" className={styles.navLink}>
-                Doctor Services
-              </Link>
+              <Link href="/doctor_service" className={styles.navLink}>Doctor Services</Link>
             </li>
           </ul>
-
-          <div className={styles.walletContainer}>
-            {connected && isAuthenticated ? (
-              <div className={styles.walletDetails} ref={walletDetailsRef}>
-                <button 
-                  className={styles.walletButton} 
-                  onClick={() => setWalletDetailsOpen(!walletDetailsOpen)}
-                >
-                  <div className={styles.walletIndicator}></div>
-                  <span className={styles.walletAddressShort}>
-                    {walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}` : name}
-                  </span>
-                  <ChevronDown className={styles.walletIcon} />
-                </button>
-                
-                {walletDetailsOpen && (
-                  <div className={styles.walletDropdown}>
-                    <div className={styles.walletHeader}>
-                      <div className={styles.walletHeaderTitle}>Your Wallet</div>
-                      <div className={styles.walletType}>{name}</div>
+        </div>
+        <div className={styles.walletContainer}>
+          {connected && isAuthenticated ? (
+            <div className={styles.walletDetails} ref={walletDetailsRef}>
+              <button 
+                className={styles.walletButton} 
+                onClick={() => setWalletDetailsOpen(!walletDetailsOpen)}
+              >
+                <div className={styles.walletIndicator}></div>
+                <span className={styles.walletAddressShort}>
+                  {walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}` : name}
+                </span>
+                <ChevronDown className={styles.walletIcon} />
+              </button>
+              
+              {walletDetailsOpen && (
+                <div className={styles.walletDropdown}>
+                  <div className={styles.walletHeader}>
+                    <div className={styles.walletHeaderTitle}>Your Wallet</div>
+                    <div className={styles.walletType}>{name}</div>
+                  </div>
+                  
+                  <div className={styles.walletBalance}>
+                    <span>{walletBalance} ₳</span>
+                  </div>
+                  
+                  <div className={styles.walletContent}>
+                    <div className={styles.walletAddressSection}>
+                      <div className={styles.sectionTitle}>Wallet Address</div>
+                      <div className={styles.addressContainer}>
+                        <div className={styles.address}>{walletAddress}</div>
+                        <button 
+                          onClick={copyAddressToClipboard}
+                          className={styles.addressButton}
+                          title="Copy address"
+                        >
+                          <Copy className={styles.buttonIcon} />
+                        </button>
+                        <button 
+                          onClick={viewInExplorer}
+                          className={styles.addressButton}
+                          title="View in explorer"
+                        >
+                          <ExternalLink className={styles.buttonIcon} />
+                        </button>
+                      </div>
                     </div>
                     
-                    <div className={styles.walletBalance}>
-                      <span>{walletBalance} ₳</span>
-                    </div>
-                    
-                    <div className={styles.walletContent}>
-                      <div className={styles.walletAddressSection}>
-                        <div className={styles.sectionTitle}>Wallet Address</div>
-                        <div className={styles.addressContainer}>
-                          <div className={styles.address}>{walletAddress}</div>
-                          <button 
-                            onClick={copyAddressToClipboard}
-                            className={styles.addressButton}
-                            title="Copy address"
-                          >
-                            <Copy className={styles.buttonIcon} />
-                          </button>
-                          <button 
-                            onClick={viewInExplorer}
-                            className={styles.addressButton}
-                            title="View in explorer"
-                          >
-                            <ExternalLink className={styles.buttonIcon} />
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <button className={styles.disconnectButton} onClick={handleDisconnect}>
-                        <LogOut className={styles.buttonIcon} />
-                        <span>Disconnect Wallet</span>
-                      </button>
-                    </div>
+                    <button className={styles.disconnectButton} onClick={handleDisconnect}>
+                      <LogOut className={styles.buttonIcon} />
+                      <span>Disconnect Wallet</span>
+                    </button>
                   </div>
-                )}
-              </div>
-            ) : (
-              <div className={styles.connectWalletContainer} ref={walletDropdownRef}>
-                {isProcessing && (
-                  <span className={styles.processingStatus}>⟳ Processing...</span>
-                )}
-                
-                <button 
-                  className={styles.connectWalletButton} 
-                  onClick={handleConnectWallet}
-                  disabled={isProcessing}
-                >
-                  Connect Wallet
-                </button>
-                
-                {walletDropdownOpen && (
-                  <div className={styles.walletListDropdown}>
-                    {wallets.map((wallet, index) => (
-                      <div
-                        key={index}
-                        className={styles.walletOption}
-                        onClick={async () => {
-                          await connect(wallet.name);
-                          setWalletDropdownOpen(false);
-                        }}
-                      >
-                        <img
-                          src={wallet.icon}
-                          alt={wallet.name}
-                          className={styles.walletIcon}
-                        />
-                        <span>{wallet.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className={styles.connectWalletContainer} ref={walletDropdownRef}>
+              {isProcessing && (
+                <span className={styles.processingStatus}>⟳ Processing...</span>
+              )}
+              
+              <button 
+                className={styles.connectWalletButton} 
+                onClick={handleConnectWallet}
+                disabled={isProcessing}
+              >
+                Connect Wallet
+              </button>
+              
+              {walletDropdownOpen && (
+                <div className={styles.walletListDropdown}>
+                  {wallets.map((wallet, index) => (
+                    <div
+                      key={index}
+                      className={styles.walletOption}
+                      onClick={async () => {
+                        await connect(wallet.name);
+                        setWalletDropdownOpen(false);
+                      }}
+                    >
+                      <img
+                        src={wallet.icon}
+                        alt={wallet.name}
+                        className={styles.walletIcon}
+                      />
+                      <span>{wallet.name}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </header>
