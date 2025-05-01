@@ -1,0 +1,416 @@
+/* Các giá trị trực tiếp thay cho biến CSS */
+
+  
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #005aa9;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .logo svg {
+    font-size: 2rem;
+  }
+  
+  .nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+  }
+  
+  .nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  
+  .nav a:hover, .nav a.active {
+    color: #14b1ab;
+  }
+  
+  .pageTitle {
+    padding: 3.5rem 0;
+    background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add this overlay effect for more depth */
+  .pageTitle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef') no-repeat center center;
+    background-size: cover;
+    opacity: 0.05;
+    z-index: 0;
+  }
+  
+  /* Make sure text stays on top of the overlay */
+  .pageTitle h1,
+  .pageTitle p {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .pageTitle h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  
+  .pageTitle p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .mainContent {
+    padding: 3rem 0;
+  }
+  
+  .filters {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filterRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .filterGroup {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .filterGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #6c757d;
+  }
+  
+  .filterGroup select, .filterGroup input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    background-color: #ffffff;
+  }
+  
+  .searchBtn {
+    background-color: #005aa9;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .searchBtn:hover {
+    background-color: #004a8c;
+  }
+  
+  .doctorGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .doctorCard {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+  
+  .doctorCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  .doctorImg {
+    height: 250px;
+    overflow: hidden;
+  }
+  
+  .doctorImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+  
+  .doctorCard:hover .doctorImg img {
+    transform: scale(1.05);
+  }
+  
+  .doctorInfo {
+    padding: 1.5rem;
+  }
+  
+  .doctorName {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #005aa9;
+  }
+  
+  .doctorSpecialty {
+    color: #14b1ab;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  
+  .doctorStats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .stat {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+  
+  .statNumber {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #005aa9;
+  }
+  
+  .statLabel {
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+  
+  .doctorDesc {
+    margin-bottom: 1rem;
+    color: #6c757d;
+    height: 80px;
+    overflow: hidden;
+  }
+  
+  .walletAddress {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .walletText {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #6c757d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 80%;
+  }
+  
+  .copyBtn {
+    background-color: #14b1ab;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  .copyBtn:hover {
+    background-color: #0e8c87;
+  }
+  
+  .doctorActions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .actionBtn {
+    flex: 1;
+    padding: 0.75rem;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .viewProfile {
+    background-color: #005aa9;
+    color: #ffffff;
+  }
+  
+  .viewProfile:hover {
+    background-color: #004a8c;
+  }
+  
+  .bookAppointment {
+    background-color: #14b1ab;
+    color: #ffffff;
+  }
+  
+  .bookAppointment:hover {
+    background-color: #0e8c87;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    gap: 0.5rem;
+  }
+  
+  .pageItem {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .pageItem.active {
+    background-color: #005aa9;
+    color: #ffffff;
+    border-color: #005aa9;
+  }
+  
+  .pageItem:hover:not(.active) {
+    background-color: #f8f9fa;
+  }
+  
+  .footer {
+    background-color: #2c3e50;
+    color: #ffffff;
+    padding: 3rem 0;
+  }
+  
+  .footerContent {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .footerCol h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  .footerCol h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: #14b1ab;
+  }
+  
+  .footerCol ul {
+    list-style: none;
+  }
+  
+  .footerCol li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .footerCol a {
+    color: #b3b3b3;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footerCol a:hover {
+    color: #ffffff;
+    padding-left: 5px;
+  }
+  
+  .socialLinks {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .socialIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #3a506b;
+    border-radius: 50%;
+    color: #ffffff;
+    transition: background-color 0.3s;
+  }
+  
+  .socialIcon:hover {
+    background-color: #14b1ab;
+  }
+  
+  .copyright {
+    margin-top: 2rem;
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #3a506b;
+    color: #b3b3b3;
+  }
+  
+  @media (max-width: 768px) {
+    .doctorGrid {
+      grid-template-columns: 1fr;
+    }
+    
+    .nav ul {
+      gap: 1rem;
+    }
+    
+    .filterRow {
+      flex-direction: column;
+    }
+  }

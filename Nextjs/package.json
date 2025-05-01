@@ -12,6 +12,9 @@
     "setup-db": "ts-node --esm src/pages/api/sql/schema.ts"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@meshsdk/core": "^1.7.20",
     "@meshsdk/core-csl": "^1.9.0-beta.35",
     "@meshsdk/react": "^1.7.20",

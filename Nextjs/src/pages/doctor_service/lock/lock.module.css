@@ -1,37 +1,87 @@
-
+/* Phần hero - Thay đổi màu nền gradient từ xanh lè sang xanh dương chuyên nghiệp */
 .hero {
-  padding: 4rem 0;
-  background: linear-gradient(135deg, #0077b6 0%, #0a9396 100%);
+  padding: 3.5rem 0;
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
   color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+/* Tạo hiệu ứng overlay cho hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef') no-repeat center center;
+  background-size: cover;
+  opacity: 0.05;
+  z-index: 0;
 }
 
-.connectionWarning{
-  color:#e0e0e0;
+.connectionWarning {
+  color: #f1f5f9;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ecef44;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
 }
 
+.registrationWarning {
+  background-color: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid #7da70a;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.registerLink {
+  display: inline-block;
+  margin-top: 8px;
+  color: #3b82f6;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+/* Tiêu đề hero - Thay đổi gradient text */
 .heroTitle {
   font-size: 32px;
   margin-bottom: 15px;
-  background: linear-gradient(90deg, #ffffff, #00f2fe);
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffffff, #bfdbfe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
 }
-
 
 .heroText {
   font-size: 16px;
   max-width: 700px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
+/* Phần nội dung chính - Đổi từ xanh lè sang nền sáng chuyên nghiệp */
 .mainContent {
   padding: 60px 0;
-  background: linear-gradient(135deg, #0077b6 0%, #0a2a4a 100%);
-  
+  background: #f8fafc;
+}
 
+.container {
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
 }
 
 .assetLockContainer {
@@ -43,28 +93,30 @@
   text-align: center;
   font-size: 28px;
   margin-bottom: 15px;
-  color: #333;
+  color: #1e293b;
 }
 
 .sectionSubtitle {
   text-align: center;
-  color: #666;
+  color: #64748b;
   max-width: 700px;
   margin: 0 auto 40px;
 }
 
+/* Form - Loại bỏ gradient xanh lè */
 .assetLockForm {
-  background: linear-gradient(45deg, rgba(0, 242, 254, 0.2), rgba(0, 288, 252, 0.2));
-  border-radius: 10px;
+  background: #ffffff;
+  border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
 }
 
 .formTitle {
   font-size: 22px;
   margin-bottom: 25px;
-  color: #333;
-  border-bottom: 1px solid #e0e0e0;
+  color: #1e293b;
+  border-bottom: 1px solid #e2e8f0;
   padding-bottom: 15px;
 }
 
@@ -75,50 +127,109 @@
 .formLabel {
   display: block;
   margin-bottom: 8px;
-  color: #191818;
+  color: #334155;
   font-weight: 500;
 }
 
 .formInput {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
   font-size: 16px;
-  transition: border-color 0.3s;
+  transition: all 0.3s;
+  background: #f8fafc;
 }
 
 .formInput:focus {
   outline: none;
-  border-color: #07a396;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: #fff;
 }
 
 .formHelp {
-  font-size: 14px;
-  color: #171616;
+  font-size: 13px;
+  color: #64748b;
   margin-top: 6px;
 }
 
+/* Nút submit - Thay đổi màu */
 .submitBtn {
-  background: #269cb9;
+  background: linear-gradient(to right, #2563eb, #3b82f6);
   color: white;
-  border: 2px solid #00f2fe;
+  border: none;
   padding: 14px 25px;
-  border-radius: 5px;
+  border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
   font-size: 16px;
   width: 100%;
-  transition: background-color 0.3s;
-
-  
-  
+  transition: all 0.3s;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
 }
 
 .submitBtn:hover {
-  background-color: #2ec5b6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(59, 130, 246, 0.3);
 }
 
+.submitBtn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Thông báo trạng thái */
+.statusMessage {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success {
+  background-color: #f0fdf4;
+  border-left: 4px solid #10b981;
+  color: #166534;
+}
+
+.error {
+  background-color: #fef2f2;
+  border-left: 4px solid #dbef44;
+  color: #82991b;
+  
+}
+
+.txDetails {
+  margin-top: 12px;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.txLink {
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  margin-top: 6px;
+}
+
+.txLink:hover {
+  text-decoration: underline;
+}
+
+/* Process Steps - Thiết kế tinh tế hơn */
 .processSteps {
   margin-top: 50px;
 }
@@ -126,7 +237,9 @@
 .stepsTitle {
   font-size: 20px;
   margin-bottom: 20px;
-  color: #333;
+  color: #1e293b;
+  text-align: center;
+  font-weight: 600;
 }
 
 .stepsContainer {
@@ -148,14 +261,15 @@
   right: -40%;
   width: 80%;
   height: 2px;
-  background-color: #ddd;
+  background-color: #e2e8f0;
+  z-index: 0;
 }
 
 .stepNumber {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background-color: #07a396;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   display: flex;
   align-items: center;
@@ -163,21 +277,31 @@
   font-size: 24px;
   font-weight: bold;
   margin: 0 auto 15px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.step:hover .stepNumber {
+  transform: scale(1.05);
 }
 
 .stepTitle {
   font-weight: 600;
   margin-bottom: 10px;
-  color: #333;
+  color: #1e293b;
 }
 
 .stepDescription {
   font-size: 14px;
-  color: #666;
+  color: #64748b;
   max-width: 200px;
   margin: 0 auto;
+  line-height: 1.5;
 }
 
+/* Transaction History */
 .transactionHistory {
   margin-top: 60px;
 }
@@ -185,44 +309,80 @@
 .historyTitle {
   font-size: 22px;
   margin-bottom: 20px;
-  color: #333;
+  color: #1e293b;
+  font-weight: 600;
 }
 
 .historyTable {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .historyTable th,
 .historyTable td {
   padding: 15px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e2e8f0;
   text-align: left;
 }
 
 .historyTable th {
   font-weight: 600;
-  color: #555;
+  color: #475569;
+  background-color: #f8fafc;
+}
+
+.historyTable tr:last-child td {
+  border-bottom: none;
 }
 
 .historyTableRow:hover {
-  background-color: #f9f9f9;
+  background-color: #f1f5f9;
 }
 
 .status {
   padding: 5px 10px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
+  display: inline-block;
 }
 
 .statusActive {
-  background-color: #e3fcf7;
-  color: #07a396;
+  background-color: #ecfdf5;
+  color: #059669;
 }
 
 .statusCompleted {
-  background-color: #e3f1fd;
-  color: #2b6cb0;
+  background-color: #eff6ff;
+  color: #2563eb;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .stepsContainer {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .step:not(:last-child)::after {
+    top: auto;
+    bottom: -25px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg);
+    width: 30px;
+  }
+  
+  .historyTable {
+    font-size: 14px;
+  }
+  
+  .historyTable th,
+  .historyTable td {
+    padding: 12px 8px;
+  }
+}

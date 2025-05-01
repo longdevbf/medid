@@ -270,7 +270,7 @@ const Header: React.FC = () => {
               <Link href="/service/adapter" className={styles.navLink}>Services</Link>
             </li>
             <li>
-              <Link href="/blockchain-health" className={styles.navLink}>Blockchain Health</Link>
+              <Link href="/blockchainHealth" className={styles.navLink}>Blockchain Health</Link>
             </li>
             <li>
               <Link href="/doctor_service" className={styles.navLink}>Doctor Services</Link>

@@ -1,61 +1,102 @@
-/* Hero Section */
+/* Hero Section - Thay đổi gradient chuyên nghiệp */
 .hero {
-  padding: 4rem 0;
-  background: linear-gradient(135deg, #0077b6 0%, #0a9396 100%);
+  padding: 3.5rem 0;
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
   color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Thêm overlay cho hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1563213126-a4273aed2016?ixlib=rb-4.0.3') center/cover no-repeat;
+  opacity: 0.08;
+  z-index: 0;
 }
 
 .hero h1 {
-  font-size: 32px;
-  margin-bottom: 15px;
-  background: linear-gradient(90deg, #ffffff, #00f2fe);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .hero p {
-  font-size: 18px;
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
   margin-bottom: 30px;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
 }
 
-/* Main Container */
+/* Main Container - Thay đổi nền sang trọng */
 .Container {
-  background: linear-gradient(135deg, #0077b6 0%, #0a9396 100%); /* Updated to match edited image */
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
   padding: 60px 0;
 }
 
 /* Unlock Container */
 .unlockContainer {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
-  background: linear-gradient(45deg, rgba(0, 242, 254, 0.3), rgba(0, 188, 252, 0.3)); /* Slightly lighter opacity */
-  backdrop-filter: blur(15px);
+  background: #ffffff;
   border-radius: 16px;
   padding: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Softer shadow */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.unlockContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
 }
 
 .unlockContainer h2 {
-  color: #ffffff;
-  margin-bottom: 20px;
+  color: #1e293b;
+  margin-bottom: 24px;
   text-align: center;
-  font-size: 30px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .unlockDescription {
-  color: #e5f3ff;
+  color: #64748b;
   margin-bottom: 30px;
-  line-height: 1.6;
+  line-height: 1.7;
   text-align: center;
+  font-size: 1.05rem;
+}
+
+/* Thông báo kết nối ví */
+.walletWarning {
+  background-color: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  color: #92400e;
 }
 
 /* Form */
@@ -68,124 +109,165 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
 .formGroup label {
-  font-weight: bold;
-  color: #ffffff;
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
 }
 
 .formGroup input {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 16px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #f8fafc;
+  transition: all 0.2s ease-in-out;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: #fff;
 }
 
 .formInfo {
   font-size: 14px;
-  color: #e5f3ff;
-  margin-top: 5px;
+  color: #64748b;
+  margin-top: 6px;
 }
 
 .unlockBtn {
-  background: linear-gradient(45deg, #0097b2, #00c4e0);
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 5px;
+  padding: 15px 20px;
+  border-radius: 8px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
 .unlockBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 151, 178, 0.4);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+}
+
+.unlockBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+.unlockBtn:active {
+  transform: translateY(0);
 }
 
 /* Security Info */
 .securityInfo {
-  margin-top: 30px;
-  background: rgba(255, 255, 255, 0.05); /* Even lighter for harmony */
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 10px;
-  border-left: 4px solid #00c4e0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  background: #f8fafc;
+  padding: 24px;
+  border-radius: 12px;
+  border-left: 4px solid #4f46e5;
 }
 
 .securityInfo h3 {
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   font-size: 20px;
+  color: #1e293b;
+  font-weight: 600;
 }
 
 .securityInfo p {
-  color: #e5f3ff;
-  line-height: 1.5;
+  color: #64748b;
+  line-height: 1.6;
+  font-size: 0.95rem;
 }
 
-/* Blockchain Visualization */
+/* Blockchain Visualization - Thiết kế sang trọng */
 .blockVisualization {
-  margin-top: 40px;
+  margin-top: 50px;
   text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid #e2e8f0;
 }
 
 .blockChain {
   display: flex;
   justify-content: center;
-  align-items: center; /* Vertically center the blocks and arrows */
+  align-items: center;
   gap: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 24px;
 }
 
 .block {
-  background: rgba(255, 255, 255, 0.1); /* Slightly more opaque for visibility */
-  backdrop-filter: blur(15px);
-  color: white;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  color: #1e293b;
   padding: 15px 20px;
   border-radius: 10px;
   min-width: 80px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease;
-  font-size: 14px; /* Slightly smaller font for better fit */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
 }
 
+.block:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
 
 .arrow {
-  margin: 0 0.5rem;
-  font-weight: bold;
-  font-size: 1.2rem; /* Slightly smaller for better proportion */
-  color: #ffffff;
-  line-height: 1; /* Ensure the arrow is vertically centered */
+  color: #94a3b8;
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 
 .blockInfo {
   text-align: center;
-  color: #e5f3ff;
-  max-width: 400px;
+  color: #64748b;
+  max-width: 500px;
   margin: 0 auto;
-  font-size: 14px; /* Match the edited image's smaller text */
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 /* Records List */
 .recordsList {
-  margin: 1.5rem 0;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.95); /* Slightly more opaque */
-  padding: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
 }
 
 .recordsList h3 {
   margin-top: 0;
-  margin-bottom: 1rem;
-  color: #333;
-  font-size: 18px;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.recordsList h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  border-radius: 2px;
 }
 
 .recordsTable {
@@ -195,46 +277,61 @@
 
 .recordsTable table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .recordsTable th,
 .recordsTable td {
-  padding: 12px;
+  padding: 16px;
   text-align: left;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .recordsTable th {
   font-weight: 600;
-  color: #4a5568;
-  background-color: #edf2f7;
+  color: #1e293b;
+  background-color: #f8fafc;
+  position: sticky;
+  top: 0;
+}
+
+.recordsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.recordItem {
+  transition: all 0.2s ease;
 }
 
 .recordItem:hover {
-  background-color: #f7fafc;
+  background-color: #f8fafc;
 }
 
 .address,
-.unitId {
-  font-family: monospace;
-  font-size: 0.9rem;
+.unitId,
+.txHash {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.85rem;
+  color: #64748b;
 }
 
 .unlockItemBtn {
-  padding: 8px 12px;
-  background: linear-gradient(45deg, #4299e1, #63b3ed);
+  padding: 10px 16px;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.2s, transform 0.2s ease;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
 }
 
 .unlockItemBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(66, 153, 225, 0.4);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .unlockItemBtn:disabled {
@@ -247,52 +344,134 @@
 .noRecords,
 .loading {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100px;
-  color: #718096;
+  height: 150px;
+  color: #94a3b8;
   text-align: center;
-  background: rgba(255, 255, 255, 0.1); /* Match the edited image's background */
-  backdrop-filter: blur(5px);
+  background: #f8fafc;
   border: 1px dashed #e2e8f0;
-  border-radius: 4px;
-  font-size: 14px;
-  line-height: 1.5;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.loading svg {
+  margin-bottom: 16px;
+  color: #3b82f6;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Thông báo lỗi & thành công */
+.errorMessage,
+.successMessage {
+  margin: 24px 0;
+  padding: 20px;
+  border-radius: 12px;
+  color: #1e293b;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.errorMessage {
+  background-color: #fef2f2;
+  border-left: 4px solid #ef4444;
+}
+
+.successMessage {
+  background-color: #f0fdf4;
+  border-left: 4px solid #10b981;
+}
+
+.errorMessage h3,
+.successMessage h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.errorHint {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  font-size: 0.95rem;
+}
+
+.errorHint ol {
+  margin-left: 24px;
+  margin-bottom: 16px;
+}
+
+.errorHint li {
+  margin-bottom: 6px;
+}
+
+.registerBtn {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.registerBtn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .Container {
-    padding: 40px 0;
+    padding: 40px 20px;
   }
 
   .unlockContainer {
-    padding: 20px;
+    padding: 30px 20px;
+  }
+
+  .hero {
+    padding: 3.5rem 20px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .blockChain {
+    flex-wrap: wrap;
+    gap: 15px 10px;
   }
 
   .unlockContainer h2 {
     font-size: 24px;
   }
 
-  .unlockDescription {
-    font-size: 16px;
+  .recordsTable th,
+  .recordsTable td {
+    padding: 12px 10px;
+    font-size: 0.9rem;
   }
 
-  .blockChain {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .block {
-    padding: 10px 15px;
-    min-width: 70px;
-  }
-
-  .arrow {
-    font-size: 1rem; /* Even smaller for mobile */
-  }
-
-  .blockInfo {
-    font-size: 13px;
+  .unlockItemBtn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
 }

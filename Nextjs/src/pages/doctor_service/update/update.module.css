@@ -1,144 +1,166 @@
-
-.doctorContainer {
-  padding: 60px 0;
-  background: linear-gradient(135deg, #0077b6 0%, #0a2a4a 100%);
-
-}
+/* Banner Section - Thay thế nền xanh lè bằng gradient thanh lịch */
 .banner {
-  padding: 4rem 0;
-  background: linear-gradient(135deg, #0077b6 0%, #0a9396 100%);
+  padding: 3.5rem 0;
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
   color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 0;
 }
 
 .banner h1 {
-  
-  font-size: 32px;
-  margin-bottom: 15px;
-  background: linear-gradient(90deg, #ffffff, #00f2fe);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
 }
 
 .banner p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   max-width: 700px;
-  margin: 0 auto 30px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
+/* Main Container - Thay thế nền xanh lè */
+.doctorContainer {
+  padding: 60px 0;
+  background: #f8fafc;
+  min-height: 80vh;
+}
+
+/* Card design */
 .card {
-  background: linear-gradient(45deg, rgba(0, 242, 254, 0.2), rgba(0, 288, 252, 0.2));
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  max-width: 800px;
-  margin:auto;
-
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid #edf2f7;
 }
 
-
+/* Info text styling */
 .infoText {
-  background-color: #e8f4f8;
-  padding: 15px;
-  border-radius: 4px;
-  margin-bottom: 25px;
-  font-size: 14px;
+  background-color: #ebf8ff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #2d3748;
+  border-left: 4px solid #3182ce;
 }
 
+/* Form group styling */
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .formGroup label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   font-weight: 500;
+  color: #2d3748;
 }
 
 .formGroup input,
 .formGroup textarea,
 .formGroup select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
 }
 
 .formGroup textarea {
-  min-height: 100px;
+  min-height: 120px;
   resize: vertical;
 }
 
+.formHelp {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+/* Button styling - Thay thế màu xanh lè */
 .btn {
-  background-color: #0a9396;
+  background-color: #3182ce;
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 4px;
-  font-size: 16px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  display: inline-block;
+  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  background-color: #2b6cb0;
+  transform: translateY(-1px);
 }
 
 .btnSecondary {
-  padding: 12px 24px;
-  background: #269cb9;
-  color: white;
-  border: 2px solid #00f2fe;
-  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  background: #e2e8f0;
+  color: #2d3748;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  width: 40%;
-  transition: background-color 0.3s;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
 }
-.btnSecondary:hover{
-  background: #2ec5b6;
+
+.btnSecondary:hover {
+  background: #edf2f7;
+  color: #1a202c;
 }
 
 .btnGroup {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
-.checkboxGroup {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.checkboxGroup input {
-  width: auto;
-}
-
-.actionResult {
-  text-align: center;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 4px;
-  display: none;
-}
-
-.actionResult.success {
-  background-color: #e8f8e8;
-  color: #2c762c;
-  display: block;
-}
-
-.actionResult.error {
-  background-color: #f8e8e8;
-  color: #762c2c;
-  display: block;
-}
-
+/* Tab styling */
 .tabContainer {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 30px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 2rem;
 }
 
 .tabs {
@@ -149,46 +171,211 @@
 }
 
 .tabs li {
-  padding: 12px 24px;
+  padding: 1rem 1.5rem;
   cursor: pointer;
   border-bottom: 3px solid transparent;
+  color: #718096;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tabs li:hover {
+  color: #3182ce;
 }
 
 .activeTab {
-  border-bottom: 3px solid #0a9396;
-  color: #04c08a;
+  border-bottom: 3px solid #3182ce !important;
+  color: #3182ce !important;
 }
 
+/* Two columns layout */
 .twoColumns {
   display: flex;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
 .twoColumns > div {
   flex: 1;
 }
 
+/* History table */
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.historyTable th, 
+.historyTable td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.historyTable th {
+  background-color: #f7fafc;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.historyTable tr:hover {
+  background-color: #f7fafc;
+}
+
+/* Action result messages */
+.actionResult {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.actionResult.success {
+  background-color: #c6f6d5;
+  color: #2f855a;
+  display: block;
+  border: 1px solid #9ae6b4;
+}
+
+.actionResult.error {
+  background-color: #fed7d7;
+  color: #c53030;
+  display: block;
+  border: 1px solid #feb2b2;
+}
+
+.actionResult.info {
+  background-color: #bee3f8;
+  color: #2b6cb0;
+  display: block;
+  border: 1px solid #90cdf4;
+}
+
+.actionResult.warning {
+  background-color: #feebc8;
+  color: #c05621;
+  display: block;
+  border: 1px solid #fbd38d;
+}
+
+/* Processing indicators */
+.processingStepContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f7fafc;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 0.75rem;
+}
+
+.spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 3px solid #e2e8f0;
+  border-top-color: #3182ce;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Drag and drop area */
+.dropArea {
+  border: 2px dashed #cbd5e0 !important;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dropArea:hover {
+  border-color: #3182ce !important;
+  background-color: #f7fafc;
+}
+
+.dragActive {
+  border-color: #3182ce !important;
+  background-color: #ebf8ff !important;
+}
+
+/* Code display block */
+.codeBlock {
+  background-color: #f7fafc;
+  padding: 1rem;
+  overflow: auto;
+  max-height: 400px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: monospace;
+  line-height: 1.6;
+  border: 1px solid #e2e8f0;
+}
+
+/* Media queries */
 @media (max-width: 768px) {
   .twoColumns {
     flex-direction: column;
   }
+  
+  .banner h1 {
+    font-size: 1.75rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .history {
+    font-size: 1.5rem;
+  }
 }
 
-.priceInput {
+/* Transaction hash container */
+.txHashContainer {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f7fafc;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.txHashContainer a {
+  color: #3182ce;
+  text-decoration: none;
+}
+
+.txHashContainer a:hover {
+  text-decoration: underline;
+}
+
+/* Medical images grid */
+.medicalImagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.medicalImageItem {
   position: relative;
+  height: 120px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.2s;
 }
 
-.priceInput input {
-  padding-left: 30px;
-}
-
-.priceInput::before {
-  content: "$";
-  position: absolute;
-  left: 12px;
-  top: 13px;
-  font-weight: bold;
-}
-.history{
-  font-size: 30px;
+.medicalImageItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
