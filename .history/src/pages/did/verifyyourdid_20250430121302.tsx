@@ -374,7 +374,7 @@ const Mint: React.FC = () => {
                   <p>NFT danh tính hợp lệ đã được tìm thấy trong ví của bạn.</p>
                   <p>Bạn đã có thể truy cập đầy đủ vào các dịch vụ chăm sóc sức khỏe trên blockchain.</p>
                   <div className={styles.nextSteps}>
-                    <Link href="/service">
+                    <Link href="/service/adapter">
                       <button className={styles.btnPrimary}>Truy cập dịch vụ</button>
                     </Link>
                   </div>
