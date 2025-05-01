@@ -26,7 +26,7 @@ const DoctorServices: React.FC = () => {
       title: 'Update Patient Record',
       desc: 'Update patient medical history, diagnoses, or treatments with secure blockchain integration.',
       alt: 'Update record',
-      link: '/doctor_service/update',
+      link: '/doctor_service/unl',
       icon: updateIcon,
     },
   ];
