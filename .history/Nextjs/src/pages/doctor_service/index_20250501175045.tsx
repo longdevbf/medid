@@ -1,58 +1,58 @@
-"use client"
-
 import React from "react";
-import Link from "next/link"
-import { ShieldIcon, LockIcon, UnlockIcon, FileTextIcon, DatabaseIcon, KeyIcon } from "lucide-react"
-import styles from "../../styles/adapter_doctor.module.css"
+import Link from 'next/link';
+import styles from '../../styles/adapter_doctor.module.css';
 
-export default function DoctorServices() {
+import lockIcon from './images/lock.png';
+import unlockIcon from './images/unlock.png';
+import updateIcon from './images/update.png';
+
+const DoctorServices: React.FC = () => {
   const services = [
     {
-      title: "Update Medical Records",
-      desc: "Digitize medical records as NFTs, creating unique ownership and permanent storage.",
-      alt: "Update Medical records",
-      link: "/doctor_service/update",
-      icon: <FileTextIcon className={styles.serviceIcon} />,
+      title: 'Lock Patient Record',
+      desc: 'Securely lock patient medical records on the blockchain to ensure only authorized access.',
+      alt: 'Lock record',
+      link: '/doctor_service/lock',
+      icon: lockIcon,
     },
     {
-      title: "Lock Patient Record",
-      desc: "Securely lock patient medical records on the blockchain to ensure only authorized access.",
-      alt: "Lock record",
-      link: "/doctor_service/lock",
-      icon: <LockIcon className={styles.serviceIcon} />,
+      title: 'Unlock Patient Record',
+      desc: 'Safely unlock patient records with blockchain verification for viewing or updating.',
+      alt: 'Unlock record',
+      link: '/doctor_service/unlock',
+      icon: unlockIcon,
     },
     {
-      title: "Unlock Patient Record",
-      desc: "Safely unlock patient records with blockchain verification for viewing or updating when needed.",
-      alt: "Unlock record",
-      link: "/doctor_service/unlock",
-      icon: <UnlockIcon className={styles.serviceIcon} />,
+      title: 'Update Patient Record',
+      desc: 'Update patient medical history, diagnoses, or treatments with secure blockchain integration.',
+      alt: 'Update record',
+      link: '/doctor_service/update',
+      icon: updateIcon,
     },
   ]
 
   return (
-    <div className={styles.container}>
+    <>
       {/* Hero Section */}
-      <section className={styles.heroSection}>
-        <div className={styles.heroContent}>
-          <div className={styles.heroGrid}>
-            <div className={styles.heroText}>
-              <span className={styles.badge}>Blockchain Powered</span>
-              <h1 className={styles.heroTitle}>
-                Secure Medical <span className={styles.gradientText}>Records</span> Management
-              </h1>
-              <p className={styles.heroDescription}>
-                Access all your medical practice tools securely on blockchain for enhanced patient care and efficient
-                healthcare management.
-              </p>
-              <div className={styles.buttonGroup}>
-                <button className={styles.primaryButton}>Get Started</button>
-                <button className={styles.outlineButton}>Learn More</button>
-              </div>
-            </div>
-            <div className={styles.heroVisual}>
-              {/* Ảnh medical records sẽ hiển thị trực tiếp ở đây từ CSS */}
-            </div>
+      <section className={styles.hero}>
+        
+          <h1>Doctor Services Portal</h1>
+          <p>Access all your medical practice tools securely on blockchain for enhanced patient care and efficient healthcare management</p>
+        
+        <div className={styles.container}>
+        <div className={styles.blockchainVisual}>
+          <div className={styles.blockchainBlocks}>
+            <div className={styles.block}>Block #1</div>
+            <div className={styles.arrow}>→</div>
+            <div className={styles.block}>Block #2</div>
+            <div className={styles.arrow}>→</div>
+            <div className={styles.block}>Block #3</div>
+            <div className={styles.arrow}>→</div>
+            <div className={styles.block}>Block #n</div>
+          </div>
+          <div className={styles.blockchainInfo}>
+            <p>Medical records are encrypted</p>
+            <p>Data is securely stored and centrally accessible</p>
           </div>
         </div>
 
@@ -167,6 +167,8 @@ export default function DoctorServices() {
           </div>
         </div>
       </section>
-    </div>
-  )
-}
+    </>
+  );
+};
+
+export default DoctorServices;
