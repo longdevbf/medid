@@ -1,12 +1,8 @@
 /* lockhoso.module.css */
-
 .container {
-  max-width: 960px;
-  margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .section-header {
@@ -20,214 +16,93 @@
 }
 
 .section-header p {
-  color: #666;
+  color: #777;
   font-size: 0.9em;
 }
 
 .card {
   background-color: #fff;
   padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  border: 1px solid #eee;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Khoảng cách giữa các section form */
+  gap: 20px;
 }
 
 .form-section {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.form-section:last-child {
-  border-bottom: none;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
 .form-section h3 {
-  color: #333;
+  margin-top: 0;
   margin-bottom: 15px;
+  color: #333;
 }
 
 .form-group {
+  display: flex;
+  flex-direction: column; /* Đảm bảo label và input trên một dòng */
   margin-bottom: 15px;
 }
 
 .form-group label {
-  display: block;
   margin-bottom: 5px;
   color: #555;
   font-size: 0.95em;
   font-weight: bold;
 }
 
-.form-group input[type="text"] {
-  width: 100%;
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="datetime-local"],
+.form-group input[type="password"],
+.form-group select,
+.form-group textarea {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1em;
+  color: #333;
   box-sizing: border-box;
 }
 
-/* Info Box */
-.info-box {
-  background-color: #e9ecef;
-  color: #495057;
-  padding: 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  border-left: 5px solid #007bff; /* Màu nhấn mạnh */
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="datetime-local"]:focus,
+.form-group input[type="password"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0a9396;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.info-box h3 {
-  margin-top: 0;
-  color: #007bff;
-  font-size: 1.1em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.info-box svg {
-  fill: #007bff;
-}
-
-.info-box p {
-  margin-bottom: 0;
-  font-size: 0.9em;
-  line-height: 1.6;
-}
-
-/* Doctor Form */
-.doctor-form {
-  display: flex;
-  flex-direction: column; /* Xếp các phần tử theo chiều dọc */
-  gap: 15px; /* Khoảng cách giữa các phần tử */
-  margin-bottom: 20px;
-}
-
-.doctor-form .form-group {
-  margin-bottom: 10px; /* Thêm lại margin bottom cho các input */
-}
-
-.add-doctor-btn {
-  background-color: #007bff; /* Màu xanh dương */
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-  align-self: flex-start; /* Căn nút về phía bên trái */
-}
-
-.add-doctor-btn:hover {
-  background-color: #0056b3; /* Màu xanh dương đậm hơn khi hover */
-}
-
-.add-doctor-btn svg {
-  margin-right: 5px;
-  fill: white;
-}
-
-/* Doctor List */
-.doctor-list-container h4 {
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.doctor-list {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-}
-
-.doctor-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.doctor-item:last-child {
-  border-bottom: none;
-}
-
-.doctor-info {
-  flex-grow: 1;
-  margin-right: 10px;
-}
-
-.doctor-info .doctor-name {
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-.doctor-info .doctor-address {
-  color: #777;
-  font-size: 0.9em;
-}
-
-.remove-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-size: 0.8em;
-  transition: background-color 0.3s ease;
-}
-
-.remove-btn:hover {
-  background-color: #c82333;
-}
-
-.remove-btn svg {
-  fill: white;
-}
-
-.empty-list {
-  color: #777;
-  font-style: italic;
-}
-
-/* Button Container */
 .btn-container {
+  margin-top: 20px;
   text-align: center;
-  margin-top: 30px;
 }
 
 .btn-lock {
-  background-color: #007bff;
+  background-color: #0a9396;
   color: white;
-  padding: 12px 25px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 1.1em;
   transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
 }
 
 .btn-lock:hover {
-  background-color: #0056b3;
+  background-color: #065456;
 }
 
 .btn-lock:disabled {
@@ -235,48 +110,27 @@
   cursor: not-allowed;
 }
 
-/* Spinner */
+/* Thêm style cho spinner */
 .spinner {
+  display: inline-block;
   width: 20px;
   height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
   border-radius: 50%;
-  border: 3px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #fff;
-  animation: spin 1s infinite linear;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.path {
-  stroke: #fff;
-  stroke-linecap: round;
-  animation: dash 1.5s ease-in-out infinite;
-}
-
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 150;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -124;
-  }
-}
-
-/* Status Bar */
 .status-bar {
-  padding: 15px;
   margin-top: 20px;
-  border-radius: 4px;
+  padding: 15px;
+  border-radius: 5px;
   color: white;
 }
 
@@ -301,40 +155,135 @@
   font-size: 0.9em;
 }
 
-.tx-details p {
-  margin-bottom: 5px;
-}
-
 .tx-link {
-  color: #fff;
+  color: #0a9396;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
 }
 
 .tx-link:hover {
   text-decoration: underline;
 }
 
-.tx-link svg {
-  fill: white;
+/* Style cho phần thêm bác sĩ (đảm bảo mỗi input một dòng) */
+.doctor-form {
+  display: flex;
+  flex-direction: column; /* Sắp xếp các form-group theo chiều dọc */
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-/* History Section */
+.doctor-form .form-group {
+  display: flex;
+  flex-direction: column; /* Label và input trên cùng một dòng */
+  margin-bottom: 10px;
+}
+
+.doctor-form .form-group label {
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 0.95em;
+  font-weight: bold;
+}
+
+.doctor-form .form-group input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.add-doctor-btn {
+  background-color: #0a9396;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.add-doctor-btn:hover {
+  background-color: #065456;
+}
+
+.doctor-list-container h4 {
+  margin-top: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.doctor-list {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.doctor-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.doctor-item:last-child {
+  border-bottom: none;
+}
+
+.doctor-info {
+  flex-grow: 1;
+}
+
+.doctor-info .doctor-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 3px;
+}
+
+.doctor-info .doctor-address {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.remove-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+  background-color: #c82333;
+}
+
+.empty-list {
+  color: #777;
+  font-style: italic;
+}
+
+/* Style cho phần lịch sử giao dịch */
 .history-section {
-  margin-top: 40px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  border: 1px solid #eee;
+  margin-top: 30px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
 .history-section h2 {
   color: #333;
-  margin-bottom: 20px;
-  text-align: center;
+  margin-bottom: 15px;
 }
 
 .loading {
@@ -347,35 +296,35 @@
 }
 
 .history-list {
-  overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá rộng */
+  overflow-x: auto;
 }
 
 .history-table {
   width: 100%;
   border-collapse: collapse;
-  border-spacing: 0;
-  font-size: 0.9em;
+  margin-top: 10px;
+  border: 1px solid #eee;
 }
 
-.history-table thead th {
-  background-color: #f2f2f2;
-  color: #333;
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 2px solid #ddd;
-}
-
-.history-table tbody td {
+.history-table th,
+.history-table td {
   padding: 10px 15px;
+  text-align: left;
   border-bottom: 1px solid #eee;
 }
 
-.history-table tbody tr:last-child td {
+.history-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  color: #555;
+}
+
+.history-item:last-child td {
   border-bottom: none;
 }
 
 .tx-hash-link {
-  color: #007bff;
+  color: #0a9396;
   text-decoration: none;
 }
 
@@ -387,13 +336,39 @@
   background-color: #ffc107;
   color: #212529;
   padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 0.8em;
+  border-radius: 5px;
+  font-size: 0.9em;
 }
 
 .empty-history {
   color: #777;
   font-style: italic;
-  text-align: center;
-  padding: 20px;
+}
+
+.info-box {
+  background-color: #e0f7fa;
+  border: 1px solid #0a9396;
+  color: #0a9396;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.info-box h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0a9396;
+  font-size: 1.1em;
+}
+
+.info-box svg {
+  fill: #0a9396;
+}
+
+.info-box p {
+  font-size: 0.95em;
+  line-height: 1.6;
 }

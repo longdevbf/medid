@@ -2,11 +2,11 @@
 
 .main-content {
   padding: 40px 0;
-  background-color: #f8f9fa; /* Màu nền nhạt */
+  background-color: #f8f9fa;
 }
 
 .container {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -17,18 +17,21 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 30px;
   margin-bottom: 30px;
+  border: 1px solid #ddd;
 }
 
 .unlock-card h2 {
-  color: #333;
-  text-align: center;
+  color: #0a9396;
+  text-align: left;
   margin-bottom: 25px;
+  font-size: 1.8rem;
+  font-weight: 500;
 }
 
 .wallet-warning {
-  background-color: #ffeeba;
-  color: #85640a;
-  border: 1px solid #ffeb3b;
+  background-color: #f0f7ff;
+  color: #0a9396;
+  border: 1px solid #d1e5ff;
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 20px;
@@ -38,7 +41,7 @@
 }
 
 .wallet-warning svg {
-  fill: #85640a;
+  fill: #0a9396;
 }
 
 .wallet-warning p {
@@ -55,9 +58,13 @@
 
 .transactions-section h3,
 .history-section h3 {
-  color: #333;
+  color: #0a9396;
   margin-top: 0;
   margin-bottom: 20px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
 }
 
 .loading {
@@ -74,7 +81,7 @@
   height: 30px;
   border-radius: 50%;
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #007bff; /* Màu xanh dương */
+  border-left-color: #007bff;
   animation: spin 1s infinite linear;
 }
 
@@ -95,15 +102,21 @@
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 0.95em;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #ddd;
 }
 
 .transactions-table thead th,
 .history-table thead th {
-  background-color: #e9ecef;
-  color: #495057;
+  background-color: #f0f7ff;
+  color: #0a9396;
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #d1e5ff;
+  font-weight: 500;
 }
 
 .transactions-table tbody td,
@@ -119,16 +132,16 @@
 
 .transaction-item:hover,
 .history-item:hover {
-  background-color: #f5f5f5;
+  background-color: #f0f7ff;
 }
 
 .address,
 .unitId {
-  font-family: monospace; /* Phông chữ đơn cách cho địa chỉ và ID */
+  font-family: monospace;
 }
 
 .unlock-tx-btn {
-  background-color: #007bff; /* Màu xanh dương */
+  background-color: #0a9396;
   color: white;
   border: none;
   border-radius: 6px;
@@ -136,15 +149,19 @@
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .unlock-tx-btn:hover {
-  background-color: #0056b3;
+  background-color: #003871;
 }
 
 .unlock-tx-btn:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
 }
 
 .no-records {
@@ -152,6 +169,9 @@
   font-style: italic;
   padding: 15px;
   text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #ddd;
 }
 
 .history-section {
@@ -175,17 +195,18 @@
 }
 
 .status-completed {
-  background-color: #28a745; /* Màu xanh lá cây cho trạng thái hoàn thành */
+  background-color: #198754;
   color: white;
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 0.9em;
+  font-weight: 500;
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: #fef0f0;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 20px;
@@ -195,7 +216,7 @@
 }
 
 .error-message svg {
-  fill: #721c24;
+  fill: #b91c1c;
 }
 
 .error-message span {
@@ -203,9 +224,9 @@
 }
 
 .success-message {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #d1f2e5;
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 20px;
@@ -215,7 +236,7 @@
 }
 
 .success-message svg {
-  fill: #155724;
+  fill: #15803d;
 }
 
 .success-message span {
@@ -232,29 +253,33 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  font-weight: 500;
 }
 
 .tx-link:hover {
   text-decoration: underline;
+  color: #0056b3;
 }
 
 .tx-link svg {
   fill: #007bff;
 }
 
-/* --- Features Section --- */
 .features {
-  background-color: #fff;
+  background-color: #f0f7ff;
   padding: 40px 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
+  border: 1px solid #d1e5ff;
 }
 
 .features-title {
-  color: #333;
+  color: #0a9396;
   text-align: center;
   margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 500;
 }
 
 .features-grid {
@@ -264,15 +289,22 @@
 }
 
 .feature-card {
-  background-color: #f9f9f9;
+  background-color: #fff;
   padding: 25px;
   border-radius: 6px;
   text-align: center;
-  border: 1px solid #eee;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .feature-icon {
-  background-color: #007bff;
+  background-color: #0a9396;
   color: white;
   width: 50px;
   height: 50px;
@@ -285,8 +317,10 @@
 }
 
 .feature-card h3 {
-  color: #333;
+  color: #0a9396;
   margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .feature-card p {
@@ -295,18 +329,20 @@
   line-height: 1.6;
 }
 
-/* --- How It Works Section --- */
 .how-it-works {
-  background-color: #fff;
+  background-color: #f0f7ff;
   padding: 40px 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d1e5ff;
 }
 
 .how-it-works h2 {
-  color: #333;
+  color: #0a9396;
   text-align: center;
   margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 500;
 }
 
 .steps-container {
@@ -316,15 +352,22 @@
 }
 
 .step {
-  background-color: #f9f9f9;
+  background-color: #fff;
   padding: 20px;
   border-radius: 6px;
   text-align: center;
-  border: 1px solid #eee;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .step-number {
-  background-color: #007bff;
+  background-color: #0a9396;
   color: white;
   width: 30px;
   height: 30px;
@@ -337,12 +380,40 @@
 }
 
 .step h3 {
-  color: #333;
+  color: #0a9396;
   margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .step p {
   color: #666;
   font-size: 0.9em;
   line-height: 1.6;
+}
+
+/* --- Responsive adjustments (optional) --- */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .unlock-card {
+    padding: 20px;
+  }
+
+  .transactions-table thead th,
+  .transactions-table tbody td,
+  .history-table thead th,
+  .history-table tbody td {
+    padding: 8px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+  }
 }
