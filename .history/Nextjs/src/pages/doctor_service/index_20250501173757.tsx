@@ -8,9 +8,9 @@ import styles from "../../styles/adapter_doctor.module.css"
 export default function DoctorServices() {
   const services = [
     {
-      title: "Update Medical Records",
+      title: "Medical Records",
       desc: "Digitize medical records as NFTs, creating unique ownership and permanent storage.",
-      alt: "Update Medical records",
+      alt: "Medical records",
       link: "/doctor_service/update",
       icon: <FileTextIcon className={styles.serviceIcon} />,
     },

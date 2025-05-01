@@ -1,6 +1,5 @@
 "use client"
 
-import React from "react";
 import Link from "next/link"
 import { ShieldIcon, LockIcon, UnlockIcon, FileTextIcon, DatabaseIcon, KeyIcon } from "lucide-react"
 import styles from "../../styles/adapter_doctor.module.css"
@@ -8,13 +7,14 @@ import styles from "../../styles/adapter_doctor.module.css"
 export default function DoctorServices() {
   const services = [
     {
-      title: "Update Medical Records",
+      title: "Medical Records",
       desc: "Digitize medical records as NFTs, creating unique ownership and permanent storage.",
-      alt: "Update Medical records",
-      link: "/doctor_service/update",
+      alt: "Medical records",
+      link: "/doctor_service/records",
       icon: <FileTextIcon className={styles.serviceIcon} />,
     },
     {
+<<<<<<< HEAD
       title: "Lock Patient Record",
       desc: "Securely lock patient medical records on the blockchain to ensure only authorized access.",
       alt: "Lock record",
@@ -33,6 +33,8 @@ export default function DoctorServices() {
 
   return (
     <div className={styles.container}>
+
+
       {/* Hero Section */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
@@ -52,7 +54,56 @@ export default function DoctorServices() {
               </div>
             </div>
             <div className={styles.heroVisual}>
-              {/* Ảnh medical records sẽ hiển thị trực tiếp ở đây từ CSS */}
+              {/* Abstract Blockchain Visualization */}
+              <div className={styles.blockchainCard}>
+                <div className={styles.circleDecorTop}></div>
+                <div className={styles.circleDecorBottom}></div>
+
+                <h3 className={styles.blockchainTitle}>Blockchain Security</h3>
+
+                {/* New Blockchain Visualization */}
+                <div className={styles.blockchainVisual}>
+                  <div className={styles.blockchainBlocks}>
+                    {[1, 2, 3].map((num) => (
+                      <div key={num} className={styles.blockRow}>
+                        <div className={styles.blockNumber}>{num}</div>
+                        <div className={styles.blockContent}>
+                          <div className={styles.blockInfo}>
+                            <div className={styles.hashContainer}>
+                              <KeyIcon className={styles.keyIcon} />
+                              <span className={styles.hashText}>
+                                Hash: 0x{Math.random().toString(16).substring(2, 10)}
+                              </span>
+                            </div>
+                            <span className={styles.verifiedBadge}>Verified</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className={styles.blockRow}>
+                    <div className={styles.blockNumber}>+</div>
+                    <div className={styles.newBlockContent}>
+                      <span className={styles.newBlockText}>New blocks added securely</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.securityFeatures}>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureDot} style={{ backgroundColor: "var(--teal-500)" }}></div>
+                    <p className={styles.featureText}>End-to-end encryption</p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureDot} style={{ backgroundColor: "var(--cyan-500)" }}></div>
+                    <p className={styles.featureText}>Immutable record keeping</p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureDot} style={{ backgroundColor: "var(--emerald-500)" }}></div>
+                    <p className={styles.featureText}>Decentralized storage</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

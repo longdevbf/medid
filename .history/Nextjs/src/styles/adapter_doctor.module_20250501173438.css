@@ -126,7 +126,6 @@
   position: relative;
   transform: translateY(0);
   animation: floatImage 5s ease-in-out infinite;
-  min-height: 400px; 
 }
 
 /* Add the medical records image */
@@ -143,7 +142,7 @@
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   z-index: 1;
-  opacity: 1;
+  opacity: 0.9;
 }
 
 /* Blockchain Card (displayed on top of the image) */
