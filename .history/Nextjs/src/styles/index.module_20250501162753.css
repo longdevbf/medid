@@ -50,7 +50,6 @@
 .heroContent {
   max-width: 600px;
   padding: 20px;
-  margin-left: -35px;
 }
 
 /* Updated heading styles with gradient text */ 
@@ -90,7 +89,6 @@
   display: flex;
   gap: 20px;
   margin-top: 20px;
-  margin-left: 180px;
 }
 
 .primaryBtn {

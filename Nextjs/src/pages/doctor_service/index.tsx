@@ -14,6 +14,7 @@ export default function DoctorServices() {
       icon: <FileTextIcon className={styles.serviceIcon} />,
     },
     {
+<<<<<<< HEAD
       title: "Lock Patient Record",
       desc: "Securely lock patient medical records on the blockchain to ensure only authorized access.",
       alt: "Lock record",
@@ -26,6 +27,20 @@ export default function DoctorServices() {
       alt: "Unlock record",
       link: "/doctor_service/unlock",
       icon: <UnlockIcon className={styles.serviceIcon} />,
+=======
+      title: 'Unlock Patient Record',
+      desc: 'Safely unlock patient records with blockchain verification for viewing or updating.',
+      alt: 'Unlock record',
+      link: '/doctor_service/unlock',
+      icon: unlockIcon,
+    },
+    {
+      title: 'Update Patient Record',
+      desc: 'Update patient medical history, diagnoses, or treatments with secure blockchain integration.',
+      alt: 'Update record',
+      link: '/doctor_service/update',
+      icon: updateIcon,
+>>>>>>> a7bce92898d7651c70743807b60b1d1004598c91
     },
   ]
 

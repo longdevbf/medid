@@ -17,7 +17,6 @@
 .headerContent {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   position: relative;
 }
 
@@ -31,9 +30,11 @@
 
 /* Navigation - FIXED */
 .navigation {
-  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
 .navLinks {
@@ -60,8 +61,7 @@
 
 /* Wallet Container - FIXED */
 .walletContainer {
-  display: flex;
-  align-items: center;
+  margin-left: auto; /* Push to the right edge */
 }
 
 /* Rest of wallet styles remain the same */

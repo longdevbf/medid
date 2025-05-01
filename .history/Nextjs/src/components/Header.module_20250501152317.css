@@ -1,4 +1,4 @@
-/* Header structure - FIXED */
+/* Header structure */
 .header {
   padding: 1rem 0;
   background-color: white;
@@ -16,9 +16,9 @@
 
 .headerContent {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  position: relative;
+  align-items: center;
+  position: relative; /* Add position relative to create context for absolute positioning */
 }
 
 /* Logo */
@@ -26,21 +26,26 @@
   font-size: 24px;
   font-weight: bold;
   color: #0a9396;
-  margin-right: auto; /* Push everything else to the right */
 }
 
-/* Navigation - FIXED */
+/* Navigation - UPDATED */
 .navigation {
-  flex: 1;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-grow: 1; /* Allow navigation to take available space */
+  justify-content: center; /* Center the navigation area */
+  position: relative; /* For positioning the wallet container */
 }
 
 .navLinks {
   display: flex;
   list-style: none;
+  justify-content: center;
   padding: 0;
   margin: 0;
+  position: absolute; /* Position in the center of the header */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .navLinks li {
@@ -58,10 +63,10 @@
   color: #0a9396;
 }
 
-/* Wallet Container - FIXED */
+/* Wallet Container - UPDATED */
 .walletContainer {
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 0;
 }
 
 /* Rest of wallet styles remain the same */
@@ -73,27 +78,34 @@
 
 /* Add some media queries for responsiveness */
 @media (max-width: 900px) {
-  .headerContent {
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .navigation {
-    position: relative;
-    left: 0;
+  .navLinks {
+    position: static;
     transform: none;
-    order: 3;
-    width: 100%;
     justify-content: center;
-    margin-top: 1rem;
-  }
-  
-  .logo {
-    margin-right: 0;
+    margin: 0 auto;
   }
   
   .walletContainer {
-    margin-left: 0;
+    position: static;
+    margin-left: 20px;
+  }
+  
+  .headerContent {
+    flex-wrap: wrap;
+  }
+  
+  .navigation {
+    order: 3;
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .logo {
+    order: 1;
+  }
+  
+  .walletContainer {
+    order: 2;
   }
 }
 
