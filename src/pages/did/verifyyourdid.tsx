@@ -57,7 +57,7 @@ const Mint: React.FC = () => {
   "iOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5Ijo" +
   "iZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzN" +
   "lYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI" +
-  "4MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
+  "0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
   const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
   const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
 
@@ -374,7 +374,7 @@ const Mint: React.FC = () => {
                   <p>NFT danh tính hợp lệ đã được tìm thấy trong ví của bạn.</p>
                   <p>Bạn đã có thể truy cập đầy đủ vào các dịch vụ chăm sóc sức khỏe trên blockchain.</p>
                   <div className={styles.nextSteps}>
-                    <Link href="/service">
+                    <Link href="/service/adapter">
                       <button className={styles.btnPrimary}>Truy cập dịch vụ</button>
                     </Link>
                   </div>
