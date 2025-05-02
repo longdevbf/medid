@@ -199,7 +199,6 @@ const Hoso: React.FC = () => {
     }
   };
   // Upload cover image to Pinata and return the ipfs:// format
-  // Hàm này giữ nguyên vì đã gọi đến uploadToPinata đã được cập nhật
 const uploadCoverToPinata = async (): Promise<string> => {
   if (!coverFile) throw new Error("No cover image selected.");
 

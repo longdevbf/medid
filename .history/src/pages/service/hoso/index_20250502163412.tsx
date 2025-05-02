@@ -65,14 +65,7 @@ const Hoso: React.FC = () => {
   // Process states
   const [processingStep, setProcessingStep] = useState<string>('');
   
-  const JWT =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzdiZC1kMWY2LTQyMWUtOGY2MC01OTgwZTMyOTdhOTEiLCJlbWFpbCI6Imxvbmd0ZC5hNWs0OGd0YkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzNlYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
-  const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
-  const pinata = new PinataSDK({
-    pinataJwt: JWT,
-    pinataGateway: pinataGateway,
-  });
-  console.log("1");
+  
   // Handle cover image upload
   const handleCoverFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -180,26 +173,36 @@ const Hoso: React.FC = () => {
     if (!file) throw new Error("No file selected");
   
     try {
-      console.log(`Uploading file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
+      // Create FormData
+      const formData = new FormData();
+      formData.append('file', file);
       
-      // Upload trực tiếp bằng Pinata SDK thay vì gọi API route
-      const uploadResult = await pinata.upload.public.file(file);
+      console.log(`Uploading file: ${file.name}, size: ${file.size} bytes`);
       
-      if (!uploadResult || !uploadResult.cid) {
-        throw new Error("Upload failed");
+      // Call API route
+      const response = await fetch('/api/pinata-upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      // Parse response
+      const responseData = await response.json();
+      
+      if (!response.ok) {
+        console.error("Server error response:", responseData);
+        throw new Error(responseData.error || responseData.details || "Upload failed");
       }
       
-      console.log("Upload successful:", uploadResult);
+      console.log("Upload successful:", responseData);
       
       // Return in ipfs:// format for NFT metadata
-      return `ipfs://${uploadResult.cid}`;
+      return `ipfs://${responseData.cid}`;
     } catch (error) {
       console.error("Error uploading to Pinata:", error);
       throw new Error("Failed to upload file to IPFS");
     }
   };
   // Upload cover image to Pinata and return the ipfs:// format
-  // Hàm này giữ nguyên vì đã gọi đến uploadToPinata đã được cập nhật
 const uploadCoverToPinata = async (): Promise<string> => {
   if (!coverFile) throw new Error("No cover image selected.");
 

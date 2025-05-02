@@ -1,7 +1,7 @@
 "use client";
 
 // 1. Remove unused imports
-import React, { useState, DragEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, DragEvent, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../../styles/verify_did.module.css';
 import { useWallet } from '@meshsdk/react';
@@ -48,15 +48,11 @@ const Mint: React.FC = () => {
   const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
   const [didNumber, setDidNumber] = useState<string | null>(null);
 
-// Cập nhật Pinata configuration theo code mẫu
-const JWT =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzdiZC1kMWY2LTQyMWUtOGY2MC01OTgwZTMyOTdhOTEiLCJlbWFpbCI6Imxvbmd0ZC5hNWs0OGd0YkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzNlYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
-const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
-const pinata = new PinataSDK({
-  pinataJwt: JWT,
-  pinataGateway: pinataGateway,
-});
-  console.log("1");
+  // Pinata configuration
+  const JWT = process
+  const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
+  const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
+
   // Key để mã hóa DID là cố định
   const DID_ENCRYPTION_KEY = "00000000";
 
@@ -134,44 +130,20 @@ const pinata = new PinataSDK({
     }
   };
 
-// Hàm xử lý file change
-const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files[0]) {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    
-    // Tạo preview cho file
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      if (event.target && typeof event.target.result === 'string') {
-        setImageUrl(event.target.result);  // Hiển thị preview
-      }
-    };
-    reader.readAsDataURL(selectedFile);
-  }
-};
-
-
-// Hàm xử lý drop file
-const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-  e.preventDefault();
-  e.stopPropagation();
-  setIsDragging(false);
-  
-  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-    const droppedFile = e.dataTransfer.files[0];
-    setFile(droppedFile);
-    
-    // Tạo preview cho file
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      if (event.target && typeof event.target.result === 'string') {
-        setImageUrl(event.target.result);  // Hiển thị preview
-      }
-    };
-    reader.readAsDataURL(droppedFile);
-  }
-};
+  // Handle file upload
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && typeof event.target.result === 'string') {
+          setImageUrl(event.target.result);
+        }
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
 
   const handleDrag = (e: DragEvent<HTMLDivElement>, isDragging: boolean) => {
     e.preventDefault();
@@ -179,27 +151,38 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     setIsDragging(isDragging);
   };
 
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      setFile(droppedFile);
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && typeof event.target.result === 'string') {
+          setImageUrl(event.target.result);
+        }
+      };
+      reader.readAsDataURL(droppedFile);
+    }
+  };
+
+  // Upload image to Pinata using PinataSDK
   const uploadToPinata = async (): Promise<{ ipfsUrl: string, fileType: string }> => {
     if (!file) throw new Error("Không có file được chọn");
-  
+
     try {
-      console.log(`Uploading file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
-      
-      // Upload trực tiếp với Pinata SDK
       const uploadResult = await pinata.upload.public.file(file);
-      
       if (!uploadResult || !uploadResult.cid) {
-        throw new Error("Upload failed");
+        throw new Error("Upload thất bại");
       }
-      
-      console.log("Upload successful:", uploadResult);
-      
-      // Trả về ipfs URL và loại file
       const ipfsUrl = `ipfs://${uploadResult.cid}`;
-      return { 
-        ipfsUrl, 
-        fileType: file.type 
-      };
+      const fileType = file.type; // Get the file's MIME type
+
+      return { ipfsUrl, fileType };
     } catch (error) {
       console.error("Lỗi khi upload lên Pinata:", error);
       throw new Error("Không thể tải ảnh lên IPFS");

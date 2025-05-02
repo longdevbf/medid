@@ -65,14 +65,12 @@ const Hoso: React.FC = () => {
   // Process states
   const [processingStep, setProcessingStep] = useState<string>('');
   
-  const JWT =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MzdkNzdiZC1kMWY2LTQyMWUtOGY2MC01OTgwZTMyOTdhOTEiLCJlbWFpbCI6Imxvbmd0ZC5hNWs0OGd0YkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZGNjYmY4MTA2ZDg1NjQzM2I1YWUiLCJzY29wZWRLZXlTZWNyZXQiOiIxZWM0YmE5YjQ3ZjllMjA1MzNlYTFiYmM5MjZkODIzOTJjZTcxODYyOWZjMmMwZWZjOTBjMWRiYjAxYTljN2IzIiwiZXhwIjoxNzc0NTI0MTMyfQ.IokET3UfMOUUe9EQaZ6y7iNOnJdKdu0rbzxeO0PKTSc";
-  const pinataGateway = "emerald-managing-koala-687.mypinata.cloud";
-  const pinata = new PinataSDK({
-    pinataJwt: JWT,
-    pinataGateway: pinataGateway,
-  });
-  console.log("1");
+  // Pinata configuration
+  const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmY2IwNjMyNS00MWQ1LTQyNmUtYjdlYS1lOTdhY2ZlNTJjYTciLCJlbWFpbCI6ImxvbmdzcGVlZDAwMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiOGVkZDI0MGY5N2U5NTQ4OGM1NmUiLCJzY29wZWRLZXlTZWNyZXQiOiIwN2FmZGFlYTg4ODYzZmU1NjU0NTA3MzE2ZDM2YTFjMDU5ODU5OWYxY2QwMTFiNmY3MDQ5M2JjOTBmNzE5NGY2IiwiZXhwIjoxNzc3Njk1MjE3fQ.b63z7hPnKwoapT";
+
+  const pinataGateway = "lime-voluntary-hawk-180.mypinata.cloud";
+  const pinata = new PinataSDK({ pinataJwt: JWT, pinataGateway: pinataGateway });
+  
   // Handle cover image upload
   const handleCoverFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -176,41 +174,36 @@ const Hoso: React.FC = () => {
     setMedicalImageUrls(updatedUrls);
   };
   
-  const uploadToPinata = async (file: File): Promise<string> => {
-    if (!file) throw new Error("No file selected");
-  
+  // Upload cover image to Pinata
+  const uploadCoverToPinata = async (): Promise<string> => {
+    if (!coverFile) throw new Error("No cover image selected.");
+
     try {
-      console.log(`Uploading file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
+      // Tạo FormData để gửi file
+      const formData = new FormData();
+      formData.append('file', coverFile);
       
-      // Upload trực tiếp bằng Pinata SDK thay vì gọi API route
-      const uploadResult = await pinata.upload.public.file(file);
+      // Gọi API route thay vì gọi Pinata trực tiếp
+      const response = await fetch('/api/pinata-upload', {
+        method: 'POST',
+        body: formData
+      });
       
-      if (!uploadResult || !uploadResult.cid) {
-        throw new Error("Upload failed");
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Upload response error:", errorData);
+        throw new Error(errorData.error || "Cover image upload failed");
       }
       
-      console.log("Upload successful:", uploadResult);
+      const data = await response.json();
       
-      // Return in ipfs:// format for NFT metadata
-      return `ipfs://${uploadResult.cid}`;
+      // Trả về dạng ipfs:// để dùng trong metadata
+      return `ipfs://${data.cid}`;
     } catch (error) {
-      console.error("Error uploading to Pinata:", error);
-      throw new Error("Failed to upload file to IPFS");
+      console.error("Error uploading cover to Pinata:", error);
+      throw new Error("Failed to upload cover image.");
     }
   };
-  // Upload cover image to Pinata and return the ipfs:// format
-  // Hàm này giữ nguyên vì đã gọi đến uploadToPinata đã được cập nhật
-const uploadCoverToPinata = async (): Promise<string> => {
-  if (!coverFile) throw new Error("No cover image selected.");
-
-  try {
-    // Call the generic upload function with the cover file
-    return await uploadToPinata(coverFile);
-  } catch (error) {
-    console.error("Error uploading cover to Pinata:", error);
-    throw new Error("Failed to upload cover image to IPFS");
-  }
-};
   
   // Sửa hàm uploadMedicalFilesToPinata để trả về URL gateway thay vì ipfs://CID
 const uploadMedicalFilesToPinata = async (): Promise<string[]> => {
@@ -862,3 +855,102 @@ const uploadEncryptedDataToPinata = async (encryptedData: string): Promise<strin
 };
 
 export default Hoso;
+
+import { NextApiRequest, NextApiResponse } from 'next';
+import formidable from 'formidable';
+import fs from 'fs';
+import { PinataSDK } from 'pinata';
+
+export const config = {
+  api: {
+    bodyParser: false, // Disabling body parser for file uploads
+  },
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const form = new formidable.IncomingForm();
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        return res.status(500).json({ error: 'Error parsing form' });
+      }
+
+      const file = files.file;
+      if (!file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+
+      // Pinata configuration
+      const JWT = process.env.PINATA_JWT;
+      const pinataGateway = process.env.PINATA_GATEWAY || "lime-voluntary-hawk-180.mypinata.cloud";
+      
+      const pinata = new PinataSDK({ 
+        pinataJwt: JWT, 
+        pinataGateway: pinataGateway 
+      });
+
+      try {
+        // Read file from temporary location
+        const fileData = fs.readFileSync(file.filepath);
+        
+        // Create a file object that Pinata can use
+        const pinataFile = {
+          data: fileData,
+          name: file.originalFilename || 'file'
+        };
+        
+        // Upload to Pinata
+        const uploadResult = await pinata.upload.public.file(pinataFile);
+        
+        return res.status(200).json({
+          success: true,
+          cid: uploadResult.cid,
+          url: `https://${pinataGateway}/ipfs/${uploadResult.cid}`
+        });
+      } catch (pinataError) {
+        console.error("Pinata error:", pinataError);
+        return res.status(500).json({ 
+          error: 'Pinata upload failed', 
+          details: pinataError.message 
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Server error:", error);
+    return res.status(500).json({ error: 'Server error' });
+  }
+}
+
+// In src/pages/did/verifyyourdid.tsx
+const uploadToPinata = async (file: File): Promise<string> => {
+  if (!file) throw new Error("No file selected.");
+
+  try {
+    // Create form data
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    // Call our API route
+    const response = await fetch('/api/pinata-upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Upload failed");
+    }
+    
+    const data = await response.json();
+    
+    // Return in ipfs:// format for NFT metadata
+    return `ipfs://${data.cid}`;
+  } catch (error) {
+    console.error("Error uploading to Pinata:", error);
+    throw new Error("Failed to upload file to IPFS");
+  }
+};

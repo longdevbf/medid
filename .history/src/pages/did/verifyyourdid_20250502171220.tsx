@@ -206,6 +206,8 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     }
   };
 
+// Bổ sung thêm hàm uploadEncryptedDataToPinata để upload dữ liệu mã hóa nếu cần
+
   // Handle NFT minting
   const handleMint = async (e: React.FormEvent) => {
     e.preventDefault();

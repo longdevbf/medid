@@ -176,30 +176,8 @@ const Hoso: React.FC = () => {
     setMedicalImageUrls(updatedUrls);
   };
   
-  const uploadToPinata = async (file: File): Promise<string> => {
-    if (!file) throw new Error("No file selected");
   
-    try {
-      console.log(`Uploading file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
-      
-      // Upload trực tiếp bằng Pinata SDK thay vì gọi API route
-      const uploadResult = await pinata.upload.public.file(file);
-      
-      if (!uploadResult || !uploadResult.cid) {
-        throw new Error("Upload failed");
-      }
-      
-      console.log("Upload successful:", uploadResult);
-      
-      // Return in ipfs:// format for NFT metadata
-      return `ipfs://${uploadResult.cid}`;
-    } catch (error) {
-      console.error("Error uploading to Pinata:", error);
-      throw new Error("Failed to upload file to IPFS");
-    }
-  };
   // Upload cover image to Pinata and return the ipfs:// format
-  // Hàm này giữ nguyên vì đã gọi đến uploadToPinata đã được cập nhật
 const uploadCoverToPinata = async (): Promise<string> => {
   if (!coverFile) throw new Error("No cover image selected.");
 

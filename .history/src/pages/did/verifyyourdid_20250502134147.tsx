@@ -1,7 +1,7 @@
 "use client";
 
 // 1. Remove unused imports
-import React, { useState, DragEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, DragEvent, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../../styles/verify_did.module.css';
 import { useWallet } from '@meshsdk/react';
@@ -56,7 +56,7 @@ const pinata = new PinataSDK({
   pinataJwt: JWT,
   pinataGateway: pinataGateway,
 });
-  console.log("1");
+  cosole.log("1")
   // Key để mã hóa DID là cố định
   const DID_ENCRYPTION_KEY = "00000000";
 
@@ -205,6 +205,28 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
       throw new Error("Không thể tải ảnh lên IPFS");
     }
   };
+
+// Bổ sung thêm hàm uploadEncryptedDataToPinata để upload dữ liệu mã hóa nếu cần
+const uploadEncryptedDataToPinata = async (encryptedData: string): Promise<string> => {
+  try {
+    // Tạo blob từ dữ liệu mã hóa
+    const encryptedBlob = new Blob([encryptedData], { type: 'application/json' });
+    const encryptedFile = new File([encryptedBlob], 'encrypted_data.json', { type: 'application/json' });
+    
+    // Upload file lên Pinata
+    const uploadResult = await pinata.upload.public.file(encryptedFile);
+    
+    if (!uploadResult || !uploadResult.cid) {
+      throw new Error("Encrypted data upload failed");
+    }
+    
+    // Trả về URL định dạng ipfs://
+    return `ipfs://${uploadResult.cid}`;
+  } catch (error) {
+    console.error("Error uploading encrypted data:", error);
+    throw new Error("Failed to upload encrypted data");
+  }
+};
 
   // Handle NFT minting
   const handleMint = async (e: React.FormEvent) => {

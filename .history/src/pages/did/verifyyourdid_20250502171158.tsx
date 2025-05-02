@@ -206,6 +206,28 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     }
   };
 
+// Bổ sung thêm hàm uploadEncryptedDataToPinata để upload dữ liệu mã hóa nếu cần
+const uploadEncryptedDataToPinata = async (encryptedData: string): Promise<string> => {
+  try {
+    // Tạo blob từ dữ liệu mã hóa
+    const encryptedBlob = new Blob([encryptedData], { type: 'application/json' });
+    const encryptedFile = new File([encryptedBlob], 'encrypted_data.json', { type: 'application/json' });
+    
+    // Upload file lên Pinata
+    const uploadResult = await pinata.upload.public.file(encryptedFile);
+    
+    if (!uploadResult || !uploadResult.cid) {
+      throw new Error("Encrypted data upload failed");
+    }
+    
+    // Trả về URL định dạng ipfs://
+    return `ipfs://${uploadResult.cid}`;
+  } catch (error) {
+    console.error("Error uploading encrypted data:", error);
+    throw new Error("Failed to upload encrypted data");
+  }
+};
+
   // Handle NFT minting
   const handleMint = async (e: React.FormEvent) => {
     e.preventDefault();

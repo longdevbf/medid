@@ -199,18 +199,7 @@ const Hoso: React.FC = () => {
     }
   };
   // Upload cover image to Pinata and return the ipfs:// format
-  // Hàm này giữ nguyên vì đã gọi đến uploadToPinata đã được cập nhật
-const uploadCoverToPinata = async (): Promise<string> => {
-  if (!coverFile) throw new Error("No cover image selected.");
-
-  try {
-    // Call the generic upload function with the cover file
-    return await uploadToPinata(coverFile);
-  } catch (error) {
-    console.error("Error uploading cover to Pinata:", error);
-    throw new Error("Failed to upload cover image to IPFS");
-  }
-};
+  
   
   // Sửa hàm uploadMedicalFilesToPinata để trả về URL gateway thay vì ipfs://CID
 const uploadMedicalFilesToPinata = async (): Promise<string[]> => {

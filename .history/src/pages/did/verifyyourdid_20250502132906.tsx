@@ -1,7 +1,7 @@
 "use client";
 
 // 1. Remove unused imports
-import React, { useState, DragEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, DragEvent, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../../styles/verify_did.module.css';
 import { useWallet } from '@meshsdk/react';
@@ -56,7 +56,7 @@ const pinata = new PinataSDK({
   pinataJwt: JWT,
   pinataGateway: pinataGateway,
 });
-  console.log("1");
+
   // Key để mã hóa DID là cố định
   const DID_ENCRYPTION_KEY = "00000000";
 
@@ -134,49 +134,44 @@ const pinata = new PinataSDK({
     }
   };
 
-// Hàm xử lý file change
-const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files[0]) {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    
-    // Tạo preview cho file
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      if (event.target && typeof event.target.result === 'string') {
-        setImageUrl(event.target.result);  // Hiển thị preview
-      }
-    };
-    reader.readAsDataURL(selectedFile);
-  }
-};
-
-
-// Hàm xử lý drop file
-const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-  e.preventDefault();
-  e.stopPropagation();
-  setIsDragging(false);
-  
-  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-    const droppedFile = e.dataTransfer.files[0];
-    setFile(droppedFile);
-    
-    // Tạo preview cho file
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      if (event.target && typeof event.target.result === 'string') {
-        setImageUrl(event.target.result);  // Hiển thị preview
-      }
-    };
-    reader.readAsDataURL(droppedFile);
-  }
-};
+  // Handle file upload
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && typeof event.target.result === 'string') {
+          setImageUrl(event.target.result);
+        }
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
 
   const handleDrag = (e: DragEvent<HTMLDivElement>, isDragging: boolean) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(isDragging);
+  };
+
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      setFile(droppedFile);
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && typeof event.target.result === 'string') {
+          setImageUrl(event.target.result);
+        }
+      };
+      reader.readAsDataURL(droppedFile);
+    }
   };
 
   const uploadToPinata = async (): Promise<{ ipfsUrl: string, fileType: string }> => {
@@ -205,6 +200,28 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
       throw new Error("Không thể tải ảnh lên IPFS");
     }
   };
+
+// Bổ sung thêm hàm uploadEncryptedDataToPinata để upload dữ liệu mã hóa nếu cần
+const uploadEncryptedDataToPinata = async (encryptedData: string): Promise<string> => {
+  try {
+    // Tạo blob từ dữ liệu mã hóa
+    const encryptedBlob = new Blob([encryptedData], { type: 'application/json' });
+    const encryptedFile = new File([encryptedBlob], 'encrypted_data.json', { type: 'application/json' });
+    
+    // Upload file lên Pinata
+    const uploadResult = await pinata.upload.public.file(encryptedFile);
+    
+    if (!uploadResult || !uploadResult.cid) {
+      throw new Error("Encrypted data upload failed");
+    }
+    
+    // Trả về URL định dạng ipfs://
+    return `ipfs://${uploadResult.cid}`;
+  } catch (error) {
+    console.error("Error uploading encrypted data:", error);
+    throw new Error("Failed to upload encrypted data");
+  }
+};
 
   // Handle NFT minting
   const handleMint = async (e: React.FormEvent) => {
