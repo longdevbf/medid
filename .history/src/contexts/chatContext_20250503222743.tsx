@@ -237,7 +237,7 @@ export const ChatProvider = ({children, walletAddress} : {
         // Lắng nghe khi có lỗi gửi tin nhắn
         socket.on('message_error', (data : {
             error: string,
-            originalMessage: unknown
+            originalMessage: any
         }) => {
             console.error('Message error:', data);
             alert(`Không thể gửi tin nhắn: ${data.error}`);
@@ -312,17 +312,17 @@ export const ChatProvider = ({children, walletAddress} : {
         });
 
         // Thêm event listener cho contacts_loaded
-socket.on('contacts_loaded', (contacts: string[]) => {
-  console.log('Contacts loaded from server:', contacts);
-  if (contacts && contacts.length > 0) {
-      setAllContacts(contacts);
+        socket.on('contacts_loaded', (contacts) => {
+            console.log('Contacts loaded from server:', contacts);
+            if (contacts && contacts.length > 0) {
+                setAllContacts(contacts);
 
-      // Tải lịch sử chat cho mỗi liên hệ
-      contacts.forEach(contact => {
-          loadChatHistory(contact);
-      });
-  }
-});
+                // Tải lịch sử chat cho mỗi liên hệ
+                contacts.forEach(contact => {
+                    loadChatHistory(contact);
+                });
+            }
+        });
 
         return () => {
             socket.off('receive_message');

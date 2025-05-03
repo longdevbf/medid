@@ -21,7 +21,7 @@ const ChatWidget: React.FC = () => {
   } = useChat();
   console.log('ChatWidget rendered', recipientAddress);
   console.log('ChatWidget messages', setRecipientAddress);
-
+  
   
   const [showNewChatForm, setShowNewChatForm] = useState(false);
   const [newChatAddress, setNewChatAddress] = useState('');
@@ -60,7 +60,6 @@ const ChatWidget: React.FC = () => {
       const date = new Date(timestamp);
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     } catch (e) {
-      console.error('Error formatting time:', e);
       return '';
     }
   };

@@ -312,17 +312,17 @@ export const ChatProvider = ({children, walletAddress} : {
         });
 
         // Thêm event listener cho contacts_loaded
-socket.on('contacts_loaded', (contacts: string[]) => {
-  console.log('Contacts loaded from server:', contacts);
-  if (contacts && contacts.length > 0) {
-      setAllContacts(contacts);
+        socket.on('contacts_loaded', (contacts) => {
+            console.log('Contacts loaded from server:', contacts);
+            if (contacts && contacts.length > 0) {
+                setAllContacts(contacts);
 
-      // Tải lịch sử chat cho mỗi liên hệ
-      contacts.forEach(contact => {
-          loadChatHistory(contact);
-      });
-  }
-});
+                // Tải lịch sử chat cho mỗi liên hệ
+                contacts.forEach(contact => {
+                    loadChatHistory(contact);
+                });
+            }
+        });
 
         return () => {
             socket.off('receive_message');

@@ -60,7 +60,7 @@ const ChatWidget: React.FC = () => {
       const date = new Date(timestamp);
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     } catch (e) {
-      console.error('Error formatting time:', e);
+      conso
       return '';
     }
   };
