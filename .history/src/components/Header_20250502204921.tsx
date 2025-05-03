@@ -9,8 +9,6 @@ import { generateNonce, checkSignature, deserializeAddress } from '@meshsdk/core
 import { encryptData } from '../secret/encryptAndDecrypt';
 import { checkUserInDatabase, saveUserToDatabase } from '../service/userService';
 import { Copy, ExternalLink, LogOut, ChevronDown } from "lucide-react";
-import Image from 'next/image';
-import defaultAvatar from '../assets/default-avatar.jpg'; // Cần tạo file này
 
 const Header: React.FC = () => {
   // MeshSDK wallet states
@@ -25,9 +23,8 @@ const Header: React.FC = () => {
   const [walletDetailsOpen, setWalletDetailsOpen] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
   const [walletBalance, setWalletBalance] = useState('0');
-  const [userAvatar, setUserAvatar] = useState(defaultAvatar);
-  console.log("User avatar:", setUserAvatar);
-  // Refs for clickaway detection 
+  
+  // Refs for clickaway detection
   const walletDropdownRef = useRef<HTMLDivElement>(null);
   const walletDetailsRef = useRef<HTMLDivElement>(null);
   
@@ -72,8 +69,9 @@ const Header: React.FC = () => {
     async function fetchWalletBalance() {
       if (wallet && connected) {
         try {
+          const a = await wallet.get
           const lovelace = await wallet.getLovelace();
-          // Convert lovelace (mill.nths of ADA) to ADA
+          // Convert lovelace (millionths of ADA) to ADA
           const adaBalance = (parseInt(lovelace) / 1000000).toFixed(2);
           setWalletBalance(adaBalance);
         } catch (error) {
@@ -186,8 +184,6 @@ const Header: React.FC = () => {
             // Save authentication state and wallet address
             sessionStorage.setItem('medid_authenticated', 'true');
             sessionStorage.setItem('medid_wallet_address', addr);
-            // Thêm dòng này để thông báo thay đổi
-            window.dispatchEvent(new Event('storage'));
             
             setIsAuthenticated(true);
             console.log('Wallet connected and authenticated successfully!');
@@ -258,7 +254,6 @@ const Header: React.FC = () => {
     sessionStorage.removeItem('medid_authenticated');
     sessionStorage.removeItem('medid_wallet_address');
     sessionStorage.removeItem('medid_did_number');
-      window.dispatchEvent(new Event('storage'));
     setWalletAddress('');
     setWalletDetailsOpen(false);
   };
@@ -286,20 +281,6 @@ const Header: React.FC = () => {
         <div className={styles.walletContainer}>
           {connected && isAuthenticated ? (
             <div className={styles.walletDetails} ref={walletDetailsRef}>
-              {/* Thêm ảnh đại diện */}
-              <div 
-                className={styles.avatarContainer} 
-                onClick={() => router.push('/user')}
-                title="View Profile"
-              >
-                <Image 
-                  src={userAvatar} 
-                  alt="User Avatar" 
-                  width={32} 
-                  height={32} 
-                  className={styles.avatarImage} 
-                />
-              </div>
               <button 
                 className={styles.walletButton} 
                 onClick={() => setWalletDetailsOpen(!walletDetailsOpen)}

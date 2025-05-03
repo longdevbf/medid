@@ -1,0 +1,738 @@
+.userProfileContainer {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    font-family: 'Inter', 'Arial', sans-serif;
+  }
+  
+  /* Sidebar styles */
+  .sidebar {
+    width: 280px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .profileSummary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .profileSummary h2 {
+    margin: 1rem 0 0.25rem;
+    font-size: 1.2rem;
+  }
+  
+  .userId {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  .avatarWrapper {
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+  
+  .profileAvatar {
+    border-radius: 50%;
+    border: 3px solid #4a90e2;
+    object-fit: cover;
+  }
+  
+  .avatarUpload {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  
+  .uploadButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+    border: 2px solid white;
+  }
+  
+  .uploadButton:hover {
+    background-color: #3a7bc8;
+  }
+  
+  .fileInput {
+    display: none;
+  }
+  
+  .sidebarNav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .navLink {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: #4b5563;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .navLink:hover {
+    background-color: #f3f4f6;
+    color: #4a90e2;
+  }
+  
+  .navLink svg {
+    margin-right: 10px;
+    font-size: 1.1rem;
+  }
+  
+  /* Main content styles */
+  .mainContent {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    overflow-y: auto;
+  }
+  
+  .welcomeBanner {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .welcomeBanner h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.8rem;
+    color: #111827;
+  }
+  
+  .welcomeBanner p {
+    margin: 0;
+    color: #6b7280;
+  }
+  
+  .walletInfo {
+    text-align: right;
+  }
+  
+  .walletBalance {
+    font-size: 1.5rem;
+    color: #10b981;
+    font-weight: 600;
+  }
+  
+  .walletBalance span {
+    font-size: 1rem;
+    color: #6b7280;
+  }
+  
+  .walletAddress {
+    display: flex;
+    align-items: center;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+  
+  .copyButton {
+    background: none;
+    border: none;
+    color: #4a90e2;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    padding: 0;
+  }
+  
+  .copyButton:hover {
+    color: #3a7bc8;
+  }
+  
+  .reminderBanner {
+    display: flex;
+    align-items: center;
+    background-color: #feefb3;
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #9f6000;
+  }
+  
+  .reminderBanner svg {
+    margin-right: 10px;
+  }
+  
+  .medicationReminder {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .medicationReminder h3 {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    color: #4a5568;
+    font-size: 1.2rem;
+  }
+  
+  .medicationReminder h3 svg {
+    margin-right: 0.5rem;
+    color: #4a90e2;
+  }
+  
+  .medicationList {
+    margin-top: 1rem;
+  }
+  
+  .medicationItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .medicationItem:last-child {
+    border-bottom: none;
+  }
+  
+  .medicationItem p {
+    margin: 0.3rem 0 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+  
+  .medicationTimes {
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  
+  .timeTaken {
+    color: #10b981;
+  }
+  
+  /* Section styles */
+  .section {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .section h2 {
+    margin-top: 0;
+    color: #111827;
+    font-size: 1.4rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .sectionHeader h2 {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  
+  /* Button styles */
+  .primaryButton {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .primaryButton:hover {
+    background-color: #3a7bc8;
+  }
+  
+  .secondaryButton {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .secondaryButton:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .actionButton {
+    background-color: white;
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .actionButton:hover {
+    background-color: #4a90e2;
+    color: white;
+  }
+  
+  .viewButton {
+    background-color: white;
+    color: #4a90e2;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .viewButton:hover {
+    background-color: #f9fafb;
+    border-color: #4a90e2;
+  }
+  
+  .refillButton {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0.8rem;
+    width: 100%;
+  }
+  
+  .refillButton:hover {
+    background-color: #059669;
+  }
+  
+  .viewMoreButton {
+    background-color: white;
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .viewMoreButton:hover {
+    background-color: #f3f9ff;
+  }
+  
+  .smallButton {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: none;
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  
+  .smallButton:hover {
+    background-color: #e5e7eb;
+  }
+  
+  /* Appointment styles */
+  .appointmentList {
+    margin-top: 1rem;
+  }
+  
+  .appointmentCard {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .appointmentCard:last-child {
+    border-bottom: none;
+  }
+  
+  .appointmentDate {
+    margin-right: 1.5rem;
+  }
+  
+  .dateCircle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #f3f9ff;
+    border: 2px solid #4a90e2;
+  }
+  
+  .day {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4a90e2;
+  }
+  
+  .month {
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+  
+  .appointmentDetails {
+    flex: 1;
+  }
+  
+  .appointmentDetails h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1.1rem;
+    color: #111827;
+  }
+  
+  .appointmentDetails p {
+    margin: 0 0 0.5rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+  
+  .status {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+  }
+  
+  .scheduled {
+    background-color: #d1fae5;
+    color: #059669;
+  }
+  
+  .pending {
+    background-color: #feecdc;
+    color: #d97706;
+  }
+  
+  .appointmentActions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  /* Table styles */
+  .tableContainer {
+    overflow-x: auto;
+    margin-top: 1rem;
+  }
+  
+  .dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  
+  .dataTable th {
+    text-align: left;
+    padding: 0.8rem 1rem;
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    color: #4b5563;
+    font-weight: 600;
+  }
+  
+  .dataTable td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+  }
+  
+  /* Column layout */
+  .columnLayout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  /* Prescription styles */
+  .prescriptionCard {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #4a90e2;
+  }
+  
+  .prescriptionCard h3 {
+    margin: 0 0 0.8rem;
+    color: #111827;
+  }
+  
+  .prescriptionDetails p {
+    margin: 0.4rem 0;
+    font-size: 0.95rem;
+    color: #4b5563;
+  }
+  
+  /* Lab results styles */
+  .labResultCard {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .resultHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .resultHeader h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #111827;
+  }
+  
+  .resultStatus {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    background-color: #feecdc;
+    color: #d97706;
+  }
+  
+  .normalResult {
+    background-color: #d1fae5;
+    color: #059669;
+  }
+  
+  /* Asset styles */
+  .assetGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .assetCard {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .assetCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .assetIcon {
+    font-size: 1.8rem;
+    margin-right: 1rem;
+  }
+  
+  .assetInfo {
+    flex: 1;
+  }
+  
+  .assetInfo h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1rem;
+  }
+  
+  .assetId {
+    color: #6b7280;
+    font-size: 0.8rem;
+    margin: 0 0 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .assetMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .assetQuantity {
+    font-size: 0.85rem;
+    color: #4b5563;
+  }
+  
+  .noAssets {
+    color: #6b7280;
+    text-align: center;
+    padding: 2rem 0;
+  }
+  
+  .viewMoreContainer {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* Chat styles */
+  .chatContainer {
+    background-color: #f9fafb;
+    border-radius: 10px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  
+  .chatMessages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  
+  .chatBubble {
+    max-width: 80%;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+  }
+  
+  .chatHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+    font-size: 0.8rem;
+  }
+  
+  .chatSender {
+    font-weight: 600;
+  }
+  
+  .chatTime {
+    color: #6b7280;
+  }
+  
+  .chatBubble p {
+    margin: 0;
+  }
+  
+  .userBubble {
+    background-color: #e9f3ff;
+    color: #3a7bc8;
+    align-self: flex-end;
+    margin-left: auto;
+  }
+  
+  .doctorBubble {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    margin-right: auto;
+  }
+  
+  .chatForm {
+    display: flex;
+    border-top: 1px solid #e5e7eb;
+    padding: 0.8rem;
+  }
+  
+  .chatInput {
+    flex: 1;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin-right: 0.5rem;
+  }
+  
+  .chatSubmit {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  /* Loading spinner */
+  .loadingContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #4a90e2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 1024px) {
+    .columnLayout {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .userProfileContainer {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+      padding: 1rem;
+    }
+    
+    .sidebarNav {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+    
+    .navLink {
+      white-space: nowrap;
+    }
+  }

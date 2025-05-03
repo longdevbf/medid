@@ -1,0 +1,159 @@
+.userProfileContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .profileHeader {
+    margin-bottom: 2rem;
+  }
+  
+  .profileHeader h1 {
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  .profileContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .profileSection {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .avatarSection {
+    flex: 0 0 auto;
+  }
+  
+  .avatarWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .profileAvatar {
+    border-radius: 50%;
+    border: 3px solid #4a90e2;
+    object-fit: cover;
+  }
+  
+  .avatarUpload {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .uploadButton {
+    padding: 0.5rem 1rem;
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+  }
+  
+  .uploadButton:hover {
+    background-color: #3a7bc8;
+  }
+  
+  .fileInput {
+    display: none;
+  }
+  
+  .userInfo {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .infoCard {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .infoCard h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .infoItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .infoLabel {
+    font-weight: bold;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .infoValue {
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    word-break: break-all;
+  }
+  
+  .assetsSection {
+    margin-top: 1rem;
+  }
+  
+  .assetsSection h2 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .assetGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .assetCard {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .assetCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  .assetCard h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  @media (max-width: 768px) {
+    .profileSection {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .userInfo {
+      width: 100%;
+    }
+  }

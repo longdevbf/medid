@@ -3,8 +3,8 @@ import type { AppProps } from "next/app";
 import { MeshProvider } from "@meshsdk/react";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import ChatWidget from '../components/chatWidget';
-import { ChatProvider } from '../contexts/chatContext';
+import ChatWidget from '../components/ChatWidget';
+import { ChatProvider } from '../contexts/ChatContext';
 import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {

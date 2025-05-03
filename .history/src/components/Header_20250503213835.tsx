@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const [walletBalance, setWalletBalance] = useState('0');
   const [userAvatar, setUserAvatar] = useState(defaultAvatar);
-  console.log("User avatar:", setUserAvatar);
+  
   // Refs for clickaway detection 
   const walletDropdownRef = useRef<HTMLDivElement>(null);
   const walletDetailsRef = useRef<HTMLDivElement>(null);
@@ -268,7 +268,7 @@ const Header: React.FC = () => {
       <div className={`${styles.container} ${styles.headerContent}`}>
         <div className={styles.logo}>MedID</div>
         <div className={styles.navigation}>
-          <ul className={styles.navLinks}>
+          <ul class={styles.navLinks}>
             <li>
               <Link href="/" className={styles.navLink}>Home</Link>
             </li>

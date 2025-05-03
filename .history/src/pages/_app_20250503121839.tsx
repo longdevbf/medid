@@ -4,7 +4,7 @@ import { MeshProvider } from "@meshsdk/react";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ChatWidget from '../components/chatWidget';
-import { ChatProvider } from '../contexts/chatContext';
+import { ChatProvider } from '../api';
 import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
