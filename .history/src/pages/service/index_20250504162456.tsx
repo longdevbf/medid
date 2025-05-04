@@ -105,7 +105,33 @@ const services: Service[] = [
       },
     ],
   },
- 
+  {
+    title: "Unlock 2 Medical Records",
+    desc: "Securely unlock multiple records with detailed permission control and session-based access expiration.",
+    alt: "Unlock record",
+    link: "/service/unlock2-hoso",
+    icon: <Unlock className={styles.serviceIcon} />,
+    details: [
+      {
+        title: "Advanced Features",
+        points: [
+          "Unlock multiple records at once",
+          "Granular section-level access control",
+          "Access history tracking",
+          "Auto-lock after defined duration",
+        ],
+      },
+      {
+        title: "Real-world Applications",
+        points: [
+          "Anonymous medical research",
+          "Interdisciplinary treatments",
+          "Expert consultations",
+          "Hospital transfers",
+        ],
+      },
+    ],
+  },
   {
     title: "Update Medical Records",
     desc: "Continuously update health data to ensure the most accurate and current medical records.",

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { pusherClient } from '../lib/pusher';
+import { pusherClient } from '../lib/';
 
 type Message = {
   _id?: string;
