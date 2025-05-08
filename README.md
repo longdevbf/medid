@@ -1,87 +1,91 @@
-  __  __ _____ ____ ___ ____  
- |  \/  | ____|  _ \_ _|  _ \ 
- | |\/| |  _| | | | | || | | |
- | |  | | |___| |_| | || |_| |
- |_|  |_|_____|____/___|____/ 
-<br>
-Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
-Ngôn ngữ sử dụng : Typescript, Javascript<br>
-FrameWork: Nextjs, React, Meshjs<br>
-DataBase: Porsgresql <br>
-Ứng dụng định danh phi tập trung vào quản lí hồ sơ y tế được xây dựng trên chain Cardano<br>
-Ngôn ngữ sử dụng : Typescript, Javascript<br>
-SmartContract: Aiken<br>x.
-FrameWork: Nextjs, React, Meshjs, Pinata<br>
-DataBase: Postgresql<br>
-SmartContract: Aiken, 3 smartcontract <=> 3 plutus tương tác<br>
-Cách dùng: Người dùng phải sign Data khi kết nối ví để chứng minh quyền sở hữu ví để tiếp tục sử dụng dịch vụ<br>
-           Người dùng kết nối ví xong phải xác thực DID mới có quyền sử dụng các dịch vụ liên quan đến y tế nếu fail thì phải<br>
-           mint NFT định danh để xác minh lại.<br>
-Dịch vụ Y Tế: Ngưới dùng có thể tạo hồ sơ bệnh nhân bằng cách mint NFT hồ sơ (theo chuẩn CIP68 của Cardano), với những thông tin và <br>
-           dữ liệu được mã hóa AES được lưu trữ trong metadata.<br>
-           Người dùng còn có thể đặt lịch hẹn với những bác sĩ được đề xuất trên app và có thể ủy quyền những bác sĩ có thể truy cập vào được <br>
-           NFT hồ sơ của bệnh nhân và có thể update dữ liệu NFT.<br>
-           Người dùng còn có thể update dữ liệu (bác sĩ ủy quyền truy cập NFT của mình) - update trực tiếp vào datum smartcontract<br>
-           Bác sĩ sau khi update xong dữ liệu mới có thể chuyển NFT tới bệnh nhân với số tiền được setup -> Người bệnh nhân chỉ có thể <br>
-           unlock được tài sản khi có đủ tiền trong ví <br>
-           .
-           .
-           ,
-           .
-           
-           
-           
-Dowload :<br>
-pinata<br>
-pinata<br>
-next: npm i next <br>
-meshjs: npm install @meshsdk/core @meshsdk/react<br>
-pinata: npm i pinata<br>
-lodash
-.
+MEDID: Ứng dụng định danh phi tập trung cho quản lý hồ sơ y tế
 
-..
-.
-.
-.
-.
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+ __  __ _____ ____ ___ ____  
+|  \/  | ____|  _ \_ _|  _ \
+| |\/| |  _| | | | | || | | |
+| |  | | |___| |_| | || |_| |
+|_|  |_|_____|____/___|____/  
 
-## Getting Started
+Giới thiệu
 
-First, run the development server:
+MEDID là một giải pháp định danh phi tập trung (Decentralized Identity) được xây dựng trên blockchain, nhằm đảm bảo an toàn, minh bạch và bảo mật cho hồ sơ y tế cá nhân. Người dùng sẽ sở hữu hoàn toàn quyền kiểm soát dữ liệu của mình thông qua việc cấp phép truy cập cho các cơ sở y tế hoặc các bên thứ ba theo từng giao dịch riêng biệt.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Tính năng chính
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Quản lý danh tính phi tập trung: Người dùng có thể tự tạo và quản lý DID (Decentralized Identifier).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Lưu trữ hồ sơ y tế an toàn: Mỗi bản ghi y tế được mã hóa và lưu trữ phân tán trên mạng blockchain.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Cấp phép linh hoạt: Cho phép hoặc thu hồi quyền truy cập hồ sơ chi tiết theo thời gian và mục đích cụ thể.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Minh bạch và đáng tin cậy: Toàn bộ lịch sử truy cập và giao dịch được ghi lại công khai, không thể sửa đổi.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tương tác qua ví điện tử: Kết nối ví blockchain để ký giao dịch, đảm bảo tính xác thực của mỗi thao tác.
 
-## Learn More
+Kiến trúc
 
-To learn more about Next.js, take a look at the following resources:
+Front-end: Ứng dụng web ReactJS kết nối với WalletProvider để ký giao dịch.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+Back-end: Node.js / Spring Boot xử lý các request, tích hợp Mesh SDK và Lucid để tương tác với blockchain Cardano.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Smart Contract: Hợp đồng Aiken trên Cardano xác thực DID và lưu trữ đã được mã hóa.
 
-## Deploy on Vercel
+Lưu trữ phi tập trung: IPFS hoặc các giải pháp lưu trữ phi tập trung khác cho dữ liệu y tế.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Cài đặt
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Clone repository:
+
+git clone https://github.com/yourorg/medid.git
+cd medid
+
+Cài đặt dependencies Front-end:
+
+cd frontend
+npm install
+
+Cài đặt dependencies Back-end:
+
+cd ../backend
+npm install    # hoặc mvn install cho Spring Boot
+
+Cấu hình environment variables:
+
+BLOCKFROST_PROJECT_ID
+
+DATABASE_URL
+
+JWT_SECRET
+
+Sử dụng
+
+Chạy Front-end:
+
+cd frontend
+npm start
+
+Chạy Back-end:
+
+cd backend
+npm run dev   # hoặc mvn spring-boot:run
+
+Mở trình duyệt và truy cập http://localhost:3000 để tương tác với MEDID.
+
+Đóng góp
+
+Chúng tôi hoan nghênh mọi đóng góp! Vui lòng thực hiện theo các bước:
+
+Fork repository
+
+Tạo branch feature hoặc fix: git checkout -b feature/tên-chi-tiet
+
+Commit thay đổi: `git commit -m "Mô tả thay đổi"
+
+Push lên fork: git push origin feature/tên-chi-tiet
+
+Mở Pull Request
+
+Giấy phép
+
+MEDID được cấp phép theo MIT License.
+
