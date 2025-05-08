@@ -62,7 +62,7 @@
 <body>
     <div class="container">
         <h1>M E D I D</h1>
-        <img src="https://img.icons8.com/color/100/000000/medical-record.png" alt="MEDID Icon">
+        <img src="./th">
         <p>
             <strong>MEDID</strong> là một dự án ứng dụng <em>định danh phi tập trung</em> (Decentralized Identity) trong lĩnh vực quản lý hồ sơ y tế. 
             Dự án hướng tới việc cung cấp một giải pháp <strong>an toàn</strong>, <strong>bảo mật</strong> và <strong>minh bạch</strong> 
