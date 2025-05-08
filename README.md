@@ -1,91 +1,87 @@
-MEDID: Ứng dụng định danh phi tập trung cho quản lý hồ sơ y tế
-
- __  __ _____ ____ ___ ____  
-|  \/  | ____|  _ \_ _|  _ \
-| |\/| |  _| | | | | || | | |
-| |  | | |___| |_| | || |_| |
-|_|  |_|_____|____/___|____/  
-
-Giới thiệu
-
-MEDID là một giải pháp định danh phi tập trung (Decentralized Identity) được xây dựng trên blockchain, nhằm đảm bảo an toàn, minh bạch và bảo mật cho hồ sơ y tế cá nhân. Người dùng sẽ sở hữu hoàn toàn quyền kiểm soát dữ liệu của mình thông qua việc cấp phép truy cập cho các cơ sở y tế hoặc các bên thứ ba theo từng giao dịch riêng biệt.
-
-Tính năng chính
-
-Quản lý danh tính phi tập trung: Người dùng có thể tự tạo và quản lý DID (Decentralized Identifier).
-
-Lưu trữ hồ sơ y tế an toàn: Mỗi bản ghi y tế được mã hóa và lưu trữ phân tán trên mạng blockchain.
-
-Cấp phép linh hoạt: Cho phép hoặc thu hồi quyền truy cập hồ sơ chi tiết theo thời gian và mục đích cụ thể.
-
-Minh bạch và đáng tin cậy: Toàn bộ lịch sử truy cập và giao dịch được ghi lại công khai, không thể sửa đổi.
-
-Tương tác qua ví điện tử: Kết nối ví blockchain để ký giao dịch, đảm bảo tính xác thực của mỗi thao tác.
-
-Kiến trúc
-
-Front-end: Ứng dụng web ReactJS kết nối với WalletProvider để ký giao dịch.
-
-Back-end: Node.js / Spring Boot xử lý các request, tích hợp Mesh SDK và Lucid để tương tác với blockchain Cardano.
-
-Smart Contract: Hợp đồng Aiken trên Cardano xác thực DID và lưu trữ đã được mã hóa.
-
-Lưu trữ phi tập trung: IPFS hoặc các giải pháp lưu trữ phi tập trung khác cho dữ liệu y tế.
-
-Cài đặt
-
-Clone repository:
-
-git clone https://github.com/yourorg/medid.git
-cd medid
-
-Cài đặt dependencies Front-end:
-
-cd frontend
-npm install
-
-Cài đặt dependencies Back-end:
-
-cd ../backend
-npm install    # hoặc mvn install cho Spring Boot
-
-Cấu hình environment variables:
-
-BLOCKFROST_PROJECT_ID
-
-DATABASE_URL
-
-JWT_SECRET
-
-Sử dụng
-
-Chạy Front-end:
-
-cd frontend
-npm start
-
-Chạy Back-end:
-
-cd backend
-npm run dev   # hoặc mvn spring-boot:run
-
-Mở trình duyệt và truy cập http://localhost:3000 để tương tác với MEDID.
-
-Đóng góp
-
-Chúng tôi hoan nghênh mọi đóng góp! Vui lòng thực hiện theo các bước:
-
-Fork repository
-
-Tạo branch feature hoặc fix: git checkout -b feature/tên-chi-tiet
-
-Commit thay đổi: `git commit -m "Mô tả thay đổi"
-
-Push lên fork: git push origin feature/tên-chi-tiet
-
-Mở Pull Request
-
-Giấy phép
-
-MEDID được cấp phép theo MIT License.
-
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDID - Quản lý hồ sơ y tế phi tập trung</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #007bff;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+        h1:hover {
+            color: #0056b3;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        .icon {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .icon img {
+            width: 50px;
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+        .icon img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>M E D I D</h1>
+        <img src="https://img.icons8.com/color/100/000000/medical-record.png" alt="MEDID Icon">
+        <p>
+            <strong>MEDID</strong> là một dự án ứng dụng <em>định danh phi tập trung</em> (Decentralized Identity) trong lĩnh vực quản lý hồ sơ y tế. 
+            Dự án hướng tới việc cung cấp một giải pháp <strong>an toàn</strong>, <strong>bảo mật</strong> và <strong>minh bạch</strong> 
+            để quản lý và chia sẻ dữ liệu y tế giữa bệnh nhân, bác sĩ và các cơ sở y tế.
+        </p>
+        <p>
+            MEDID tận dụng công nghệ <strong>blockchain</strong> để xây dựng một hệ thống định danh phi tập trung, 
+            trao quyền kiểm soát hoàn toàn dữ liệu y tế cho bệnh nhân. Dự án giúp:
+        </p>
+        <ul>
+            <li><strong>Lưu trữ an toàn</strong>: Hồ sơ y tế được mã hóa và lưu trữ trên blockchain.</li>
+            <li><strong>Chia sẻ dễ dàng</strong>: Bệnh nhân có thể cấp quyền truy cập cho bác sĩ hoặc tổ chức y tế.</li>
+            <li><strong>Tính minh bạch</strong>: Mọi thay đổi đều được ghi nhận, không thể xóa sửa.</li>
+        </ul>
+        <div class="icon">
+            <img src="https://img.icons8.com/color/50/000000/security-checked.png" alt="Security">
+            <img src="https://img.icons8.com/color/50/000000/share.png" alt="Share">
+            <img src="https://img.icons8.com/color/50/000000/blockchain-technology.png" alt="Blockchain">
+        </div>
+    </div>
+</body>
+</html>
