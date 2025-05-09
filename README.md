@@ -33,7 +33,7 @@ MEDID sử dụng công nghệ blockchain để tạo ra một hệ thống đ�
 
 1. Clone repository: `git clone https://github.com/your-repo/medid.git`
 2. Cài đặt dependencies: `npm install`
-3. Chạy ứng dụng: `npm start`
+3. Chạy ứng dụng: `npm start.`
 
 ## Liên kết
 
