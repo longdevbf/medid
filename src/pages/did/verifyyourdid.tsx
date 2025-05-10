@@ -87,7 +87,7 @@ const pinata = new PinataSDK({
         
         // Sử dụng hàm verify_did để kiểm tra NFT trong ví
         const nftVerified = await verify_did(wallet, DID_ENCRYPTION_KEY, storedDid);
-        
+        console.log(storedDid);
         if (nftVerified) {
           // NFT tồn tại và DID khớp với database
           setVerificationResult({
@@ -95,7 +95,7 @@ const pinata = new PinataSDK({
             didNumber: storedDid,
             hasNft: true
           });
-          setTxStatus(`Xác thực thành công! NFT danh tính hợp lệ. DID: ${storedDid}`);
+          setTxStatus(`Xác thực thành công! NFT danh tính hợp lệ.`);
         } else {
           // DID tồn tại trong database nhưng không có NFT hoặc NFT không khớp
           setVerificationResult({
